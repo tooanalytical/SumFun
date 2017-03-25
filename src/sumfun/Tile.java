@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Tile extends JButton implements Serializable {
 
-    private int value;                                                          // must contain value, between 0-9
+    private int value;                                                          // must contain value, between 0 - 9
     private boolean isEmpty;                                                    // true if tile is empty
 
     public Tile(boolean isEmpty) {
