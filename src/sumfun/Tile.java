@@ -4,74 +4,45 @@ import java.awt.*;
 import java.io.*;
 import javax.swing.*;
 
-/**
- * @param Class declaration that takes the class name Tile and extends JButton to it, followed by making the class serializable.
- */
 public class Tile extends JButton implements Serializable {
 
-    private String label;
-    private Color foregroundColor;
-    private Color backgroundColor;
-    private Boolean isClicked = false;
-    private int counter = 0;
-    /**
-     * @param Constructor method used to construct Tile objects
-     */
-    public Tile(String label, Color foregroundColor, Color backgroundColor) {
-        this.label = label;
-        this.foregroundColor = foregroundColor;
-        this.backgroundColor = backgroundColor;
-        this.setForeground(getForegroundColor());
-        this.setBackground(getBackgroundColor());
-        this.setOpaque(true);
-        this.setBorderPainted(false);
-        this.setText(this.label);
+    private int value;                                                          // must contain value, between 0-9
+    private boolean isEmpty;                                                    // true if tile is empty
+
+    public Tile(boolean isEmpty) {
+        setFont(new Font("Arial", Font.PLAIN, 24));
+        setContentAreaFilled(false);
+        setOpaque(true);
+        // sets action listener
+        this.isEmpty = isEmpty;
+        if(isEmpty){
+            value = 0;
+            setText("");
+        }
+        else{
+            value = (int) (Math.random() * 10);
+            setText(Integer.toString(value));
+        }
     }
-    /**
-     * @param Getter and setter for the 'X' and 'O' in each tile
-     */
-    public String getLabel() {
-        return label;
+
+    public boolean isEmpty(){
+        return isEmpty;
     }
-    public void setLabel(String label) {
-        this.label = label;
-        this.setText(label);
+
+    public int value(){
+        return value;
     }
-    /**
-     * @ param Getter and setter for the foreground color
-     */
-    public Color getForegroundColor() {
-        return foregroundColor;
+
+    // fills tile w/ supplied value & sets empty status to false
+    public void fill(int value){
+        this.value = value;
+        isEmpty = false;
     }
-    public void setForegroundColor(Color foregroundColor) {
-        this.foregroundColor = foregroundColor;
-        this.setForeground(foregroundColor);
-    }
-    /**
-     * @param Getter and setter for the background color
-     */
-    public Color getBackgroundColor() {
-        return backgroundColor;
-    }
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-        this.setBackground(backgroundColor);
-    }
-    /**
-     *
-     * @return Returns a boolean whether a tile is clicked or not
-     */
-    public Boolean getIsClicked() {
-        return isClicked;
-    }
-    /**
-     * @param Getter and setter for the counter, which is used to help indicate if the tile object should show and X, O or blank.
-     */
-    public int getCounter() {
-        return counter;
-    }
-    public void setCounter(int counter) {
-        this.counter = counter;
+
+    // clears tile value & sets empty status to true
+    public void clear(){
+        value = 0;
+        isEmpty = true;
     }
 
 }
