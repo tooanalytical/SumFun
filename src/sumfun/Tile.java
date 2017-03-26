@@ -37,12 +37,14 @@ public class Tile extends JButton implements Serializable {
     public void fill(int value){
         this.value = value;
         isEmpty = false;
+        setText(Integer.toString(value));
     }
 
     // clears tile value & sets empty status to true
     public void clear(){
         value = 0;
         isEmpty = true;
+        setText("");
     }
 
 }
