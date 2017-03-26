@@ -1,4 +1,61 @@
 package sumfun;
 
 public class Queue {
+
+    private int[] queue;
+    private int position;
+
+    public Queue(){
+        queue = new int[5];
+        position = 0;
+
+        newQueue();
+    }
+
+    // updates existing queue w/ new values & returns copy of updated queue
+    public int[] newQueue(){
+        int[] copy = new int[5];
+        position = 0;
+
+        for(int i = 0; i < 5; i++){
+            queue[i] = (int) (Math.random() * 10);
+            copy[i] = queue[i];
+        }
+
+        return copy;
+    }
+
+    // returns a copy of the existing queue
+    public int[] getQueue(){
+        int[] copy = new int[5];
+        int temp = position;
+        int count = 0;
+
+        while(temp < 5){
+            copy[count] = queue[temp];
+            temp++;
+            count++;
+        }
+
+        temp = 0;
+        while(count < 5){
+            copy[count] = queue[temp];
+            temp++;
+            count++;
+        }
+
+        return copy;
+    }
+
+    // adds new value to queue, updates position
+    public void incrementQueue(){
+        queue[position] = (int) (Math.random() * 10);
+
+        if(position >= 4){
+            position = 0;
+        }
+        else{
+            position++;
+        }
+    }
 }
