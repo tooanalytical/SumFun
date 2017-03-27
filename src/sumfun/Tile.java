@@ -1,8 +1,8 @@
 package sumfun;
 
 import java.awt.*;
-import java.io.*;
 import javax.swing.*;
+import java.io.Serializable;
 
 public class Tile extends JButton implements Serializable {
 

@@ -1,6 +1,8 @@
 package sumfun;
 
-public class Queue {
+import java.io.Serializable;
+
+public class Queue implements Serializable {
 
     private int[] queue;
     private int position;
@@ -57,6 +59,10 @@ public class Queue {
         else{
             position++;
         }
+    }
+
+    public int getTop(){
+        return queue[position];
     }
 
 
