@@ -1,4 +1,7 @@
-package sumfun;
+package Control;
+
+import Model.Queue;
+import Model.Tile;
 
 import java.io.Serializable;
 
@@ -9,8 +12,8 @@ public class Game implements Serializable {
     private final int numRows;
     private final int numColumns;
 
-    protected Queue queue;
-    protected Tile[][] tiles;
+    public Queue queue;
+    public Tile[][] tiles;
 
     public Game(int numRows, int numColumns){
         this.numRows = numRows;

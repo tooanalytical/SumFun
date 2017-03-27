@@ -1,4 +1,4 @@
-package sumfun;
+package Model;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package sumfun;
+import View.Board;
 
 public class Application {
 

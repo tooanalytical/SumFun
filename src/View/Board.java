@@ -1,4 +1,7 @@
-package sumfun;
+package View;
+
+import Control.Game;
+import Model.Tile;
 
 import java.awt.*;
 import javax.swing.*;
