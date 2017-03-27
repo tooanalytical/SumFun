@@ -1,8 +1,9 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.Observable;
 
-public class Queue implements Serializable {
+public class Queue extends Observable implements Serializable {
 
     private int[] queue;
     private int position;
@@ -23,6 +24,9 @@ public class Queue implements Serializable {
             queue[i] = (int) (Math.random() * 10);
             copy[i] = queue[i];
         }
+
+        setChanged();
+        notifyObservers();
 
         return copy;
     }
@@ -59,6 +63,9 @@ public class Queue implements Serializable {
         else{
             position++;
         }
+
+        setChanged();
+        notifyObservers();
     }
 
     public int getTop(){
