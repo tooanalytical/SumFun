@@ -7,8 +7,8 @@ import javax.swing.*;
 import Model.*;
 import Control.*;
 
-// queue takes up too much of the window
-// need to add score, moves left, and other components
+// update method needs finished
+// board design needs cleaned up & made "prettier"
 public class UntimedBoard extends JFrame implements Observer {
 
     private final int WINDOW_WIDTH = 1200;
@@ -100,17 +100,18 @@ public class UntimedBoard extends JFrame implements Observer {
         pnlInfo = new JPanel();
         pnlInfo.setLayout(new GridLayout(1, 2));
         queueLabels = new JLabel[5];
-        // instead of setting score to 0, use method from score object
-        lblScore = new JLabel("0", SwingConstants.CENTER);
+        lblScore = new JLabel(Integer.toString(score.getScore()), SwingConstants.CENTER);
         lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
-        // instead of setting moves left to 50, use method from movesLeft object
-        lblMovesLeft = new JLabel(Integer.toString(50), SwingConstants.CENTER);
+        lblMovesLeft = new JLabel(Integer.toString(movesLeft.getMovesLeft()), SwingConstants.CENTER);
         lblMovesLeft.setFont(new Font("Arial", Font.PLAIN, 20));
 
         // creates queue panel & adds panel to info panel
         // instantiates array of queue labels & adds queue labels to queue panel
         JPanel pnlQueue = new JPanel();
-        pnlQueue.setLayout(new GridLayout(5, 1));
+        pnlQueue.setLayout(new GridLayout(6, 1));
+        JLabel lblQueue = new JLabel("QUEUE:", SwingConstants.CENTER);
+        lblQueue.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlQueue.add(lblQueue);
         int[] temp = queue.getQueue();
         for(int i = 0; i < 5; i++){
             queueLabels[i] = new JLabel(Integer.toString(temp[i]), SwingConstants.CENTER);

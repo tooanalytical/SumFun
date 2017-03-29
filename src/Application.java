@@ -11,7 +11,7 @@ public class Application {
         Tile[][] tiles = new Tile[numRows][numColumns];
         Queue queue = new Queue();
         Score score = new Score();
-        MovesLeft movesLeft = new MovesLeft();
+        MovesLeft movesLeft = new MovesLeft(50);
 
         // instantiates two-dimensional tiles array
         for(int r = 0; r < numRows; r++){

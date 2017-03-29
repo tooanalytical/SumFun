@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import Model.*;
 
+// actionPerformed method needs finished
 public class TileListener implements ActionListener {
 
     private Tile[][] tiles;
