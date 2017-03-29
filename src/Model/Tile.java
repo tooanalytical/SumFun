@@ -33,12 +33,12 @@ public class Tile extends Observable implements Serializable {
     }
 
     // accessor method for value
-    public int value(){
+    public int getValue(){
         return value;
     }
 
     // mutator method for value
-    public void fill(int value){
+    public void setValue(int value){
         this.value = value;
         isEmpty = false;
 

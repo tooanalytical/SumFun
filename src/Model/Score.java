@@ -11,6 +11,7 @@ public class Score extends Observable implements Serializable {
         score = 0;
     }
 
+    // mutator method for score
     public void updateScore(int addition){
         score += addition;
 
@@ -18,7 +19,7 @@ public class Score extends Observable implements Serializable {
         notifyObservers();
     }
 
-
+    // accessor method for score
     public int getScore(){
         return score;
     }

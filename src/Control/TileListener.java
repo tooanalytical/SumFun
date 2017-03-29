@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 import Model.*;
 
-// actionPerformed method needs finished
+// actionPerformed & isHit methods need finished
+// need method for determining neighbors
 public class TileListener implements ActionListener {
 
     private Tile[][] tiles;
@@ -31,5 +32,17 @@ public class TileListener implements ActionListener {
             // only update model(s) which changed; view should be updated automatically
         }
     }
+
+    // determines if move results in eliminated tiles/is a hit
+    private boolean isHit(Tile selectedTile){
+        boolean flag = false;
+
+        // determines if selectedTile is hit
+        // updates flag
+
+        return flag;
+    }
+
+    // some method for determining neighbors
 
 }

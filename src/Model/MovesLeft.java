@@ -16,6 +16,7 @@ public class MovesLeft extends Observable implements Serializable {
         }
     }
 
+    // mutator method for movesLeft
     public void updateMovesLeft(){
         movesLeft--;
 
@@ -23,6 +24,7 @@ public class MovesLeft extends Observable implements Serializable {
         notifyObservers();
     }
 
+    // accessor method for movesLeft
     public int getMovesLeft(){
         return movesLeft;
     }
