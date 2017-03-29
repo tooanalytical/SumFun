@@ -87,7 +87,7 @@ public class UntimedBoard extends JFrame implements Observer {
                     btn.setText("");
                 }
                 else{
-                    btn.setText(Integer.toString(tiles[r][c].value()));
+                    btn.setText(Integer.toString(tiles[r][c].getValue()));
                 }
 
                 pnlGame.add(btn);
