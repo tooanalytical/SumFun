@@ -7,10 +7,14 @@ import Model.*;
 
 public class TileListener implements ActionListener {
 
-    Score score;
-    MovesLeft movesLeft;
+    private Tile[][] tiles;
+    private Queue queue;
+    private Score score;
+    private MovesLeft movesLeft;
 
-    public TileListener(Score score, MovesLeft movesLeft){
+    public TileListener(Tile[][] tiles, Queue queue, Score score, MovesLeft movesLeft){
+        this.tiles = tiles;
+        this.queue = queue;
         this.score = score;
         this.movesLeft = movesLeft;
     }
@@ -23,7 +27,7 @@ public class TileListener implements ActionListener {
         // checks if selected tile is empty & there are moves left
         if(btn.getText().equals("") && movesLeft.getMovesLeft() > 0){
             // checks if move is hit
-            // updates selected JButton and accompanying tile
+            // only update model(s) which changed; view should be updated automatically
         }
     }
 

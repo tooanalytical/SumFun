@@ -5,6 +5,7 @@ import java.util.Observer;
 import java.awt.*;
 import javax.swing.*;
 import Model.*;
+import Control.*;
 
 // queue takes up too much of the window
 // need to add score, moves left, and other components
@@ -81,7 +82,7 @@ public class UntimedBoard extends JFrame implements Observer {
                 btn.setOpaque(true);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                // sets action listener
+                btn.addActionListener(new TileListener(tiles, queue, score, movesLeft));
                 if(tiles[r][c].isEmpty()){
                     btn.setText("");
                 }
@@ -141,6 +142,7 @@ public class UntimedBoard extends JFrame implements Observer {
 
     }
 
+    // automatically updates view components after model(s) have changed
     public void update(Observable o, Object arg){
         if(o instanceof Tile){
 
