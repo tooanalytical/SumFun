@@ -38,7 +38,7 @@ public class UntimedBoard extends JFrame implements Observer {
         setTitle("Sum Fun!");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setResizable(false);
+        setResizable(false);
         buildMasterPanel();
         add(pnlMaster);
         setVisible(true);
