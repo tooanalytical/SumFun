@@ -17,10 +17,10 @@ public class Application {
         for(int r = 0; r < numRows; r++){
             for(int c = 0; c < numColumns; c++){
                 if(r == 0 || c == 0 || r == numRows - 1 || c == numColumns - 1){
-                    tiles[r][c] = new Tile(true);
+                    tiles[r][c] = new Tile(true, r, c);
                 }
                 else{
-                    tiles[r][c] = new Tile(false);
+                    tiles[r][c] = new Tile(false, r, c);
                 }
             }
         }
