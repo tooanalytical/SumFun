@@ -7,9 +7,23 @@ public class Tile extends Observable implements Serializable {
 
     private int value;
     private boolean isEmpty;
+    private int[] coordinates = {0, 0};                             // index 0 contains row coord, 1 contains column
 
     public Tile(boolean isEmpty){
         this.isEmpty = isEmpty;
+        if(isEmpty){
+            value = 0;
+        }
+        else{
+            value = (int) (Math.random() * 10);
+        }
+    }
+
+    // constructor which takes coordinates of tile
+    public Tile(boolean isEmpty, int row, int column){
+        this.isEmpty = isEmpty;
+        coordinates[0] = row;
+        coordinates[1] = column;
         if(isEmpty){
             value = 0;
         }
@@ -46,4 +60,8 @@ public class Tile extends Observable implements Serializable {
         notifyObservers();
     }
 
+    // accessor method for coordinates
+    public int[] getCoordinates(){
+        return coordinates;
+    }
 }

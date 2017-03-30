@@ -38,7 +38,7 @@ public class UntimedBoard extends JFrame implements Observer {
         setTitle("Sum Fun!");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        //setResizable(false);
         buildMasterPanel();
         add(pnlMaster);
         setVisible(true);
@@ -146,7 +146,15 @@ public class UntimedBoard extends JFrame implements Observer {
     // automatically updates view components after model(s) have changed
     public void update(Observable o, Object arg){
         if(o instanceof Tile){
-
+            Tile tile = (Tile) o;
+            int[] coord = tile.getCoordinates();
+            JButton btn = tileButtons[coord[0]][coord[1]];
+            if(tile.isEmpty()){
+                btn.setText("");
+            }
+            else{
+                btn.setText(Integer.toString(tile.getValue()));
+            }
         }
 
         if(o instanceof Queue){

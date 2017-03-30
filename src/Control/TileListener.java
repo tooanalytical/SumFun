@@ -42,7 +42,8 @@ public class TileListener implements ActionListener {
             willRemove=isHit(selectedTile, row, column);
 
             //set the button to the queue value (will update the displayed value on board)
-            btn.setText(""+value);
+            //btn.setText(""+value);
+            tiles[row][column].setValue(value);
 
             //if the placement will remove tiles, remove them
             if(willRemove>0){
