@@ -7,6 +7,7 @@ public class MovesLeft extends Observable implements Serializable {
 
     private int movesLeft;
 
+    //determines # of moves left
     public MovesLeft(int movesLeft){
         if(movesLeft >= 0){
             this.movesLeft = movesLeft;
