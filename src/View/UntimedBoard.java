@@ -158,7 +158,7 @@ public class UntimedBoard extends JFrame implements Observer {
         }
 
         if(o instanceof MovesLeft){
-
+            lblMovesLeft.setText(Integer.toString(MovesLeft.getMovesLeft()));
         }
     }
 }
