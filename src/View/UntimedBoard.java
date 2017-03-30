@@ -159,6 +159,11 @@ public class UntimedBoard extends JFrame implements Observer {
 
         if(o instanceof Queue){
 
+            int[] newQueue = Queue.getQueue();
+
+            for(int i = 0; i < newQueue.length; i++){
+                queueLabels[i].setText(Integer.toString(newQueue[i]));
+            }
         }
 
         if(o instanceof Score){

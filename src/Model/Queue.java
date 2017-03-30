@@ -5,8 +5,8 @@ import java.util.Observable;
 
 public class Queue extends Observable implements Serializable {
 
-    private int[] queue;
-    private int position;
+    private static int[] queue;
+    private static int position;
 
     public Queue(){
         queue = new int[5];
@@ -32,7 +32,7 @@ public class Queue extends Observable implements Serializable {
     }
 
     // returns a copy of the existing queue
-    public int[] getQueue(){
+    public static int[] getQueue(){
         int[] copy = new int[5];
         int temp = position;
         int count = 0;
@@ -66,11 +66,15 @@ public class Queue extends Observable implements Serializable {
 
         setChanged();
         notifyObservers();
+
     }
 
     public int getTop(){
+
         return queue[position];
+
     }
 
 
 }
+
