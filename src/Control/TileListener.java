@@ -72,7 +72,7 @@ public class TileListener implements ActionListener {
         return points;
 
     }
-
+        //attempt 2 to commit
     private void removeTiles(Tile selectedTile, int row, int column) {
         int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
 
