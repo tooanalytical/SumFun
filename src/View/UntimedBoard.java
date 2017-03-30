@@ -154,7 +154,7 @@ public class UntimedBoard extends JFrame implements Observer {
         }
 
         if(o instanceof Score){
-
+            lblScore.setText(Integer.toString(Score.getScore()));
         }
 
         if(o instanceof MovesLeft){
