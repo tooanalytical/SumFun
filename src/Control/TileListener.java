@@ -40,7 +40,6 @@ public class TileListener implements ActionListener {
             //if the button is empty, we need to see if the tile is empty
             int willRemove;
             willRemove=isHit(selectedTile, row, column, value);
-
             //set the button to the queue value (will update the displayed value on board)
             //btn.setText(""+value);
             tiles[row][column].setValue(value);
@@ -48,10 +47,10 @@ public class TileListener implements ActionListener {
             //if the placement will remove tiles, remove them
             if(willRemove>0){
 
-
+                if(willRemove>=3){
                 addPoints+=calculateScore(willRemove);
                 score.updateScore(addPoints);
-
+                }
                 //set the tile to the queue value
                 removeTiles(row, column);
 
