@@ -4,7 +4,7 @@ import View.*;
 public class Application {
 
     public static void main(String[] args){
-//THis is a test from Nailey
+
         int numRows = 9;
         int numColumns = 9;
 
