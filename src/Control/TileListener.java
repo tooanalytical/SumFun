@@ -79,7 +79,7 @@ public class TileListener implements ActionListener {
            tiles[nextRow][column].clear();
         }
 
-        if (prevRow>0 && (!tiles[prevRow][column].isEmpty())){
+        if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
             tiles[prevRow][column].clear();
         }
 
@@ -87,19 +87,19 @@ public class TileListener implements ActionListener {
             tiles[row][nextColumn].clear();
         }
 
-        if (prevColumn>0 && (!tiles[row][prevColumn].isEmpty())){
+        if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
             tiles[row][prevColumn].clear();
         }
 
-        if ((nextRow<9 && prevColumn>0) && (!tiles[nextRow][prevColumn].isEmpty())){
+        if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
             tiles[nextRow][prevColumn].clear();
         }
 
-        if ((prevRow>0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
+        if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
             tiles[prevRow][nextColumn].clear();
         }
 
-        if ((prevRow>0 && prevColumn>0) && (!tiles[prevRow][prevColumn].isEmpty())){
+        if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
             tiles[prevRow][prevColumn].clear();
         }
 
@@ -141,7 +141,7 @@ public class TileListener implements ActionListener {
            neighborCount++;
        }
 
-       if (prevRow>0 && (!tiles[prevRow][column].isEmpty())){
+       if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
            sum+= tiles[prevRow][column].getValue();
            neighborCount++;
        }
@@ -151,22 +151,22 @@ public class TileListener implements ActionListener {
            neighborCount++;
        }
 
-       if (prevColumn>0 && (!tiles[row][prevColumn].isEmpty())){
+       if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
            sum+= tiles[row][prevColumn].getValue();
            neighborCount++;
        }
 
-       if ((nextRow<9 && prevColumn>0) && (!tiles[nextRow][prevColumn].isEmpty())){
+       if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
            sum+= tiles[nextRow][prevColumn].getValue();
            neighborCount++;
        }
 
-       if ((prevRow>0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
+       if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
            sum+= tiles[prevRow][nextColumn].getValue();
            neighborCount++;
        }
 
-       if ((prevRow>0 && prevColumn>0) && (!tiles[prevRow][prevColumn].isEmpty())){
+       if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
            sum+= tiles[prevRow][prevColumn].getValue();
            neighborCount++;
        }
