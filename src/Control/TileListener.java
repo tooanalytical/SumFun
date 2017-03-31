@@ -39,7 +39,7 @@ public class TileListener implements ActionListener {
 
             //if the button is empty, we need to see if the tile is empty
             int willRemove;
-            willRemove=isHit(selectedTile, row, column);
+            willRemove=isHit(selectedTile, row, column, value);
 
             //set the button to the queue value (will update the displayed value on board)
             //btn.setText(""+value);
@@ -53,7 +53,7 @@ public class TileListener implements ActionListener {
                 score.updateScore(addPoints);
 
                 //set the tile to the queue value
-                removeTiles(selectedTile, row, column);
+                removeTiles(row, column);
 
             }
 
@@ -74,7 +74,7 @@ public class TileListener implements ActionListener {
 
     }
         //attempt 2 to commit
-    private void removeTiles(Tile selectedTile, int row, int column) {
+    private void removeTiles(int row, int column) {
         int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
 
         if(nextRow<9 && (!tiles[nextRow][column].isEmpty())){
@@ -108,12 +108,12 @@ public class TileListener implements ActionListener {
         if ((nextRow<9 && nextColumn<9) && (!tiles[nextRow][nextColumn].isEmpty())){
             tiles[nextRow][nextColumn].clear();
         }
+        tiles[row][column].clear();
     }
 
 
     // determines if move results in eliminated tiles/is a hit
-    private int isHit(Tile selectedTile, int row, int column){
-        //boolean flag = false;
+    private int isHit(Tile selectedTile, int row, int column, int value){
 
         // determines if selectedTile is hit
         // updates flag
@@ -183,7 +183,7 @@ public class TileListener implements ActionListener {
 
            int mod=sum%10;
 
-           if (selectedTile.getValue()==mod){
+           if (value==mod){
                removeTiles=neighborCount;
            }
         }
