@@ -5,7 +5,7 @@ import java.util.Observable;
 
 public class Score extends Observable implements Serializable {
 
-    private static int score;
+    private int score;
 
     public Score(){
         score = 0;
@@ -20,7 +20,7 @@ public class Score extends Observable implements Serializable {
     }
 
     // accessor method for score
-    public static int getScore(){
+    public int getScore(){
         return score;
     }
 }

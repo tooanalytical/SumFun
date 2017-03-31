@@ -159,7 +159,7 @@ public class UntimedBoard extends JFrame implements Observer {
 
         if(o instanceof Queue){
 
-            int[] newQueue = Queue.getQueue();
+            int[] newQueue = queue.getQueue();
 
             for(int i = 0; i < newQueue.length; i++){
                 queueLabels[i].setText(Integer.toString(newQueue[i]));
@@ -167,11 +167,11 @@ public class UntimedBoard extends JFrame implements Observer {
         }
 
         if(o instanceof Score){
-            lblScore.setText(Integer.toString(Score.getScore()));
+            lblScore.setText(Integer.toString(score.getScore()));
         }
 
         if(o instanceof MovesLeft){
-            lblMovesLeft.setText(Integer.toString(MovesLeft.getMovesLeft()));
+            lblMovesLeft.setText(Integer.toString(movesLeft.getMovesLeft()));
         }
     }
 }

@@ -5,7 +5,7 @@ import java.util.Observable;
 
 public class MovesLeft extends Observable implements Serializable {
 
-    private static int movesLeft;
+    private int movesLeft;
 
     //determines # of moves left
     public MovesLeft(int movesLeft){
@@ -26,7 +26,7 @@ public class MovesLeft extends Observable implements Serializable {
     }
 
     // accessor method for movesLeft
-    public static int getMovesLeft(){
+    public int getMovesLeft(){
         return movesLeft;
     }
 
