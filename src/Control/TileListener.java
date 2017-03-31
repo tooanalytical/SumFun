@@ -29,8 +29,9 @@ public class TileListener implements ActionListener {
 
         // checks if the button is empty and if they still have moves left
         if(btn.getText().equals("") && movesLeft.getMovesLeft() > 0){
+
             // checks if move is hit
-            // only update model(s) which changed; view should be updated automatically
+            // only update model(s) which are changed; view should be updated automatically
 
             //get the value at the top of the queue
             int value=queue.getTop();
@@ -39,16 +40,18 @@ public class TileListener implements ActionListener {
             //if the button is empty, we need to see if the tile is empty
             int willRemove;
             willRemove=isHit(row, column, value);
-            //set the button to the queue value (will update the displayed value on board)
-            //btn.setText(""+value);
+
+            //set the tile to the queue value (will update the displayed value on board)
             tiles[row][column].setValue(value);
 
             //if the placement will remove tiles, remove them
             if(willRemove>0){
 
                 if(willRemove>=3){
-                addPoints+=calculateScore(willRemove);
-                score.updateScore(addPoints);
+
+                    //if more than 3 tiles are involved, add points to score
+                    addPoints+=calculateScore(willRemove);
+                    score.updateScore(addPoints);
                 }
                 //set the tile to the queue value
                 removeTiles(row, column);
@@ -65,44 +68,61 @@ public class TileListener implements ActionListener {
     private int calculateScore(int willRemove) {
         int points=0;
 
-        //since willRemove is only the count of the neighbors, this works
+        //willRemove is greater than 2 and does not include placed tile
         points+=10 * (willRemove);
 
         return points;
 
     }
-        //attempt 2 to commit
+
+    //clear neighbors tiles if placed tile will remove tile
     private void removeTiles(int row, int column) {
         int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
 
+        /*
+            top left corner: check right, bottom right, bottom neighbors
+            top right corner: check left bottom left, bottom neighbors
+            bottom right corner: check left, top left, top neighbors
+            bottom left corner: check top, top right, right neighbors
+         */
+
+        //bottom neighbor
         if(nextRow<9 && (!tiles[nextRow][column].isEmpty())){
-           tiles[nextRow][column].clear();
+            tiles[nextRow][column].clear();
         }
 
+        //top neighbor
         if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
             tiles[prevRow][column].clear();
         }
 
+        //right neighbor
         if (nextColumn<9 && (!tiles[row][nextColumn].isEmpty())){
             tiles[row][nextColumn].clear();
         }
 
+        //left neighbor
         if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
             tiles[row][prevColumn].clear();
         }
 
+
+        //bottom left neighbor
         if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
             tiles[nextRow][prevColumn].clear();
         }
 
+        //top right neighbor
         if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
             tiles[prevRow][nextColumn].clear();
         }
 
+        //top left neighbor
         if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
             tiles[prevRow][prevColumn].clear();
         }
 
+        //bottom right neighbor
         if ((nextRow<9 && nextColumn<9) && (!tiles[nextRow][nextColumn].isEmpty())){
             tiles[nextRow][nextColumn].clear();
         }
@@ -124,68 +144,72 @@ public class TileListener implements ActionListener {
 
 
        /*
-        arrayTile[i+1][j] exists (right neighbor)
-        arrayTile[i-1][j] exists (left neighbor)
-        arraytile[i][j+1] exists (bottom neighbor)
-        arrayTile[i][j-1] exists (top neighbor)
-        arrayTile[i-1][j-1] exists (top left neighbor)
-        arrayTile[i+1][j-1] exists (top right neighbor)
-        arrayTile[i-1][j+1] exists (bottom left neighbor)
-        arrayTile[i+1][j+1] exists (bottom right neighbor)*/
+            top left corner: check right, bottom right, bottom neighbors
+            top right corner: check left bottom left, bottom neighbors
+            bottom right corner: check left, top left, top neighbors
+            bottom left corner: check top, top right, right neighbors
+         */
 
-       int sum=0, neighborCount=0;
-       int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
+        int sum=0, neighborCount=0;
+        int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
 
-       if(nextRow<9 && (!tiles[nextRow][column].isEmpty())){
-           sum+= tiles[nextRow][column].getValue();
-           neighborCount++;
-       }
+        //bottom neighbor
+        if(nextRow<9 && (!tiles[nextRow][column].isEmpty())){
+            sum+= tiles[nextRow][column].getValue();
+            neighborCount++;
+        }
 
-       if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
-           sum+= tiles[prevRow][column].getValue();
-           neighborCount++;
-       }
+        //top neighbor
+        if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
+            sum+= tiles[prevRow][column].getValue();
+            neighborCount++;
+        }
 
-       if (nextColumn<9 && (!tiles[row][nextColumn].isEmpty())){
-           sum+= tiles[row][nextColumn].getValue();
-           neighborCount++;
-       }
+        //right neighbor
+        if (nextColumn<9 && (!tiles[row][nextColumn].isEmpty())){
+            sum+= tiles[row][nextColumn].getValue();
+            neighborCount++;
+        }
 
-       if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
-           sum+= tiles[row][prevColumn].getValue();
-           neighborCount++;
-       }
+        //left neighbor
+        if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
+            sum+= tiles[row][prevColumn].getValue();
+            neighborCount++;
+        }
 
-       if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
-           sum+= tiles[nextRow][prevColumn].getValue();
-           neighborCount++;
-       }
+        //bottom left neighbor
+        if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
+            sum+= tiles[nextRow][prevColumn].getValue();
+            neighborCount++;
+        }
 
-       if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
-           sum+= tiles[prevRow][nextColumn].getValue();
-           neighborCount++;
-       }
+        //top right neighbor
+        if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
+            sum+= tiles[prevRow][nextColumn].getValue();
+            neighborCount++;
+        }
 
-       if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
-           sum+= tiles[prevRow][prevColumn].getValue();
-           neighborCount++;
-       }
+        //top left neighbor
+        if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
+            sum+= tiles[prevRow][prevColumn].getValue();
+            neighborCount++;
+        }
 
-       if ((nextRow<9 && nextColumn<9) && (!tiles[nextRow][nextColumn].isEmpty())){
-           sum+= tiles[nextRow][nextColumn].getValue();
-           neighborCount++;
-       }
+        //bottom right neighbor
+        if ((nextRow<9 && nextColumn<9) && (!tiles[nextRow][nextColumn].isEmpty())){
+            sum+= tiles[nextRow][nextColumn].getValue();
+            neighborCount++;
+        }
 
-       int mod=sum%10;
+        //perform mod calculation
+        int mod=sum%10;
 
-       if (value==mod){
-           removeTiles=neighborCount;
-       }
+        //if the mod value equals the value of the placed tile, remove tiles
+        if (value==mod){
+            removeTiles=neighborCount;
+        }
 
 
         return removeTiles;
     }
-
-
-
 }

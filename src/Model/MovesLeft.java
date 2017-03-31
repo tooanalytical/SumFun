@@ -19,6 +19,8 @@ public class MovesLeft extends Observable implements Serializable {
 
     // mutator method for movesLeft
     public void updateMovesLeft(){
+
+        // each time a tile is placed, decrease number of moves left
         movesLeft--;
 
         setChanged();

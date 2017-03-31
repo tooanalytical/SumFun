@@ -25,6 +25,7 @@ public class UntimedBoard extends JFrame implements Observer {
     private Score score;
     private MovesLeft movesLeft;
 
+    //constructor
     public UntimedBoard(int numRows, int numColumns, Tile[][] tiles, Queue queue, Score score, MovesLeft movesLeft){
         super();
         this.numRows = numRows;
@@ -145,6 +146,7 @@ public class UntimedBoard extends JFrame implements Observer {
 
     // automatically updates view components after model(s) have changed
     public void update(Observable o, Object arg){
+        // updates text of corresponding JButton to value contained in tile object
         if(o instanceof Tile){
             Tile tile = (Tile) o;
             int[] coord = tile.getCoordinates();
@@ -157,6 +159,7 @@ public class UntimedBoard extends JFrame implements Observer {
             }
         }
 
+        // updates JLabels representing queue w/ corresponding values of queue object
         if(o instanceof Queue){
 
             int[] newQueue = queue.getQueue();
@@ -166,10 +169,12 @@ public class UntimedBoard extends JFrame implements Observer {
             }
         }
 
+        // updates JLabel containing score w/ corresponding value in score object
         if(o instanceof Score){
             lblScore.setText(Integer.toString(score.getScore()));
         }
 
+        // updates JLabel containing moves left w/ corresponding value in movesLeft object
         if(o instanceof MovesLeft){
             lblMovesLeft.setText(Integer.toString(movesLeft.getMovesLeft()));
         }
