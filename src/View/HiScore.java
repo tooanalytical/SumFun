@@ -1,4 +1,5 @@
 package View;
 
-public class HiScore {
+public abstract class HiScore {
+
 }

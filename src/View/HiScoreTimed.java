@@ -1,4 +1,5 @@
 package View;
 
-public class HiScoreTimed {
+public class HiScoreTimed extends HiScore {
+
 }
