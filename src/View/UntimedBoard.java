@@ -20,20 +20,14 @@ public class UntimedBoard extends JFrame implements Observer {
     private JLabel[] queueLabels;
     private JLabel lblScore, lblMovesLeft;
 
-    private Tile[][] tiles;
-    private Queue queue;
-    private Score score;
-    private MovesLeft movesLeft;
+    private Game game;
 
     //constructor
-    public UntimedBoard(int numRows, int numColumns, Tile[][] tiles, Queue queue, Score score, MovesLeft movesLeft){
+    public UntimedBoard(int numRows, int numColumns, Game game){
         super();
         this.numRows = numRows;
         this.numColumns = numColumns;
-        this.tiles = tiles;
-        this.queue = queue;
-        this.score = score;
-        this.movesLeft = movesLeft;
+        this.game = game;
         addObservers();
 
         setTitle("Sum Fun!");
@@ -46,14 +40,14 @@ public class UntimedBoard extends JFrame implements Observer {
     }
 
     private void addObservers(){
-        for(Tile[] row : tiles){
+        for(Tile[] row : game.tiles){
             for(Tile tile : row){
                 tile.addObserver(this);
             }
         }
-        queue.addObserver(this);
-        score.addObserver(this);
-        movesLeft.addObserver(this);
+        game.queue.addObserver(this);
+        game.score.addObserver(this);
+        game.movesLeft.addObserver(this);
     }
 
     private void buildMasterPanel(){
@@ -83,12 +77,12 @@ public class UntimedBoard extends JFrame implements Observer {
                 btn.setOpaque(true);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileListener(tiles, queue, score, movesLeft));
-                if(tiles[r][c].isEmpty()){
+                btn.addActionListener(new TileListener(game));
+                if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 }
                 else{
-                    btn.setText(Integer.toString(tiles[r][c].getValue()));
+                    btn.setText(Integer.toString(game.tiles[r][c].getValue()));
                 }
 
                 pnlGame.add(btn);
@@ -101,9 +95,9 @@ public class UntimedBoard extends JFrame implements Observer {
         pnlInfo = new JPanel();
         pnlInfo.setLayout(new GridLayout(1, 2));
         queueLabels = new JLabel[5];
-        lblScore = new JLabel(Integer.toString(score.getScore()), SwingConstants.CENTER);
+        lblScore = new JLabel(Integer.toString(game.score.getScore()), SwingConstants.CENTER);
         lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
-        lblMovesLeft = new JLabel(Integer.toString(movesLeft.getMovesLeft()), SwingConstants.CENTER);
+        lblMovesLeft = new JLabel(Integer.toString(game.movesLeft.getMovesLeft()), SwingConstants.CENTER);
         lblMovesLeft.setFont(new Font("Arial", Font.PLAIN, 20));
 
         // creates queue panel & adds panel to info panel
@@ -113,7 +107,7 @@ public class UntimedBoard extends JFrame implements Observer {
         JLabel lblQueue = new JLabel("QUEUE:", SwingConstants.CENTER);
         lblQueue.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlQueue.add(lblQueue);
-        int[] temp = queue.getQueue();
+        int[] temp = game.queue.getQueue();
         for(int i = 0; i < 5; i++){
             queueLabels[i] = new JLabel(Integer.toString(temp[i]), SwingConstants.CENTER);
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
@@ -162,7 +156,7 @@ public class UntimedBoard extends JFrame implements Observer {
         // updates JLabels representing queue w/ corresponding values of queue object
         if(o instanceof Queue){
 
-            int[] newQueue = queue.getQueue();
+            int[] newQueue = game.queue.getQueue();
 
             for(int i = 0; i < newQueue.length; i++){
                 queueLabels[i].setText(Integer.toString(newQueue[i]));
@@ -171,12 +165,12 @@ public class UntimedBoard extends JFrame implements Observer {
 
         // updates JLabel containing score w/ corresponding value in score object
         if(o instanceof Score){
-            lblScore.setText(Integer.toString(score.getScore()));
+            lblScore.setText(Integer.toString(game.score.getScore()));
         }
 
         // updates JLabel containing moves left w/ corresponding value in movesLeft object
         if(o instanceof MovesLeft){
-            lblMovesLeft.setText(Integer.toString(movesLeft.getMovesLeft()));
+            lblMovesLeft.setText(Integer.toString(game.movesLeft.getMovesLeft()));
         }
     }
 }

@@ -9,16 +9,10 @@ import Model.*;
 // need method for determining neighbors
 public class TileListener implements ActionListener {
 
-    private Tile[][] tiles;
-    private Queue queue;
-    private Score score;
-    private MovesLeft movesLeft;
+    private Game game;
 
-    public TileListener(Tile[][] tiles, Queue queue, Score score, MovesLeft movesLeft){
-        this.tiles = tiles;
-        this.queue = queue;
-        this.score = score;
-        this.movesLeft = movesLeft;
+    public TileListener(Game game){
+        this.game = game;
     }
 
     public void actionPerformed(ActionEvent e){
@@ -28,13 +22,13 @@ public class TileListener implements ActionListener {
         int column = (int) btn.getClientProperty("col");
 
         // checks if the button is empty and if they still have moves left
-        if(btn.getText().equals("") && movesLeft.getMovesLeft() > 0){
+        if(btn.getText().equals("") && game.movesLeft.getMovesLeft() > 0){
 
             // checks if move is hit
             // only update model(s) which are changed; view should be updated automatically
 
             //get the value at the top of the queue
-            int value=queue.getTop();
+            int value=game.queue.getTop();
             int addPoints=0;
 
             //if the button is empty, we need to see if the tile is empty
@@ -42,7 +36,7 @@ public class TileListener implements ActionListener {
             willRemove=isHit(row, column, value);
 
             //set the tile to the queue value (will update the displayed value on board)
-            tiles[row][column].setValue(value);
+            game.tiles[row][column].setValue(value);
 
             //if the placement will remove tiles, remove them
             if(willRemove>0){
@@ -51,15 +45,15 @@ public class TileListener implements ActionListener {
 
                     //if more than 3 tiles are involved, add points to score
                     addPoints+=calculateScore(willRemove);
-                    score.updateScore(addPoints);
+                    game.score.updateScore(addPoints);
                 }
                 //set the tile to the queue value
                 removeTiles(row, column);
 
             }
 
-            queue.incrementQueue();
-            movesLeft.updateMovesLeft();
+            game.queue.incrementQueue();
+            game.movesLeft.updateMovesLeft();
 
 
         }
@@ -87,46 +81,46 @@ public class TileListener implements ActionListener {
          */
 
         //bottom neighbor
-        if(nextRow<9 && (!tiles[nextRow][column].isEmpty())){
-            tiles[nextRow][column].clear();
+        if(nextRow<9 && (!game.tiles[nextRow][column].isEmpty())){
+            game.tiles[nextRow][column].clear();
         }
 
         //top neighbor
-        if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
-            tiles[prevRow][column].clear();
+        if (prevRow>=0 && (!game.tiles[prevRow][column].isEmpty())){
+            game.tiles[prevRow][column].clear();
         }
 
         //right neighbor
-        if (nextColumn<9 && (!tiles[row][nextColumn].isEmpty())){
-            tiles[row][nextColumn].clear();
+        if (nextColumn<9 && (!game.tiles[row][nextColumn].isEmpty())){
+            game.tiles[row][nextColumn].clear();
         }
 
         //left neighbor
-        if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
-            tiles[row][prevColumn].clear();
+        if (prevColumn>=0 && (!game.tiles[row][prevColumn].isEmpty())){
+            game.tiles[row][prevColumn].clear();
         }
 
 
         //bottom left neighbor
-        if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
-            tiles[nextRow][prevColumn].clear();
+        if ((nextRow<9 && prevColumn>=0) && (!game.tiles[nextRow][prevColumn].isEmpty())){
+            game.tiles[nextRow][prevColumn].clear();
         }
 
         //top right neighbor
-        if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
-            tiles[prevRow][nextColumn].clear();
+        if ((prevRow>=0 && nextColumn<9) && (!game.tiles[prevRow][nextColumn].isEmpty())){
+            game.tiles[prevRow][nextColumn].clear();
         }
 
         //top left neighbor
-        if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
-            tiles[prevRow][prevColumn].clear();
+        if ((prevRow>=0 && prevColumn>=0) && (!game.tiles[prevRow][prevColumn].isEmpty())){
+            game.tiles[prevRow][prevColumn].clear();
         }
 
         //bottom right neighbor
-        if ((nextRow<9 && nextColumn<9) && (!tiles[nextRow][nextColumn].isEmpty())){
-            tiles[nextRow][nextColumn].clear();
+        if ((nextRow<9 && nextColumn<9) && (!game.tiles[nextRow][nextColumn].isEmpty())){
+            game.tiles[nextRow][nextColumn].clear();
         }
-        tiles[row][column].clear();
+        game.tiles[row][column].clear();
     }
 
 
@@ -154,50 +148,50 @@ public class TileListener implements ActionListener {
         int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
 
         //bottom neighbor
-        if(nextRow<9 && (!tiles[nextRow][column].isEmpty())){
-            sum+= tiles[nextRow][column].getValue();
+        if(nextRow<9 && (!game.tiles[nextRow][column].isEmpty())){
+            sum+= game.tiles[nextRow][column].getValue();
             neighborCount++;
         }
 
         //top neighbor
-        if (prevRow>=0 && (!tiles[prevRow][column].isEmpty())){
-            sum+= tiles[prevRow][column].getValue();
+        if (prevRow>=0 && (!game.tiles[prevRow][column].isEmpty())){
+            sum+= game.tiles[prevRow][column].getValue();
             neighborCount++;
         }
 
         //right neighbor
-        if (nextColumn<9 && (!tiles[row][nextColumn].isEmpty())){
-            sum+= tiles[row][nextColumn].getValue();
+        if (nextColumn<9 && (!game.tiles[row][nextColumn].isEmpty())){
+            sum+= game.tiles[row][nextColumn].getValue();
             neighborCount++;
         }
 
         //left neighbor
-        if (prevColumn>=0 && (!tiles[row][prevColumn].isEmpty())){
-            sum+= tiles[row][prevColumn].getValue();
+        if (prevColumn>=0 && (!game.tiles[row][prevColumn].isEmpty())){
+            sum+= game.tiles[row][prevColumn].getValue();
             neighborCount++;
         }
 
         //bottom left neighbor
-        if ((nextRow<9 && prevColumn>=0) && (!tiles[nextRow][prevColumn].isEmpty())){
-            sum+= tiles[nextRow][prevColumn].getValue();
+        if ((nextRow<9 && prevColumn>=0) && (!game.tiles[nextRow][prevColumn].isEmpty())){
+            sum+= game.tiles[nextRow][prevColumn].getValue();
             neighborCount++;
         }
 
         //top right neighbor
-        if ((prevRow>=0 && nextColumn<9) && (!tiles[prevRow][nextColumn].isEmpty())){
-            sum+= tiles[prevRow][nextColumn].getValue();
+        if ((prevRow>=0 && nextColumn<9) && (!game.tiles[prevRow][nextColumn].isEmpty())){
+            sum+= game.tiles[prevRow][nextColumn].getValue();
             neighborCount++;
         }
 
         //top left neighbor
-        if ((prevRow>=0 && prevColumn>=0) && (!tiles[prevRow][prevColumn].isEmpty())){
-            sum+= tiles[prevRow][prevColumn].getValue();
+        if ((prevRow>=0 && prevColumn>=0) && (!game.tiles[prevRow][prevColumn].isEmpty())){
+            sum+= game.tiles[prevRow][prevColumn].getValue();
             neighborCount++;
         }
 
         //bottom right neighbor
-        if ((nextRow<9 && nextColumn<9) && (!tiles[nextRow][nextColumn].isEmpty())){
-            sum+= tiles[nextRow][nextColumn].getValue();
+        if ((nextRow<9 && nextColumn<9) && (!game.tiles[nextRow][nextColumn].isEmpty())){
+            sum+= game.tiles[nextRow][nextColumn].getValue();
             neighborCount++;
         }
 
