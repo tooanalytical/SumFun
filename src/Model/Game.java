@@ -9,8 +9,15 @@ public class Game {
     public Score score;
     public MovesLeft movesLeft;
 
+    private int numRows;
+    private int numColumns;
+
     // constructor
     public Game(int numRows, int numColumns){
+        // instantiates numRows & numColumns
+        this.numRows = numRows;
+        this.numColumns = numColumns;
+
         // instantiates models
         tiles = new Tile[numRows][numColumns];
         queue = new Queue();
@@ -28,5 +35,15 @@ public class Game {
                 }
             }
         }
+    }
+
+    // accessor method for numRows
+    public int getNumRows(){
+        return numRows;
+    }
+
+    // accessor method for numColumns
+    public int getNumColumns(){
+        return numColumns;
     }
 }

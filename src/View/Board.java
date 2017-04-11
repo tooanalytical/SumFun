@@ -7,11 +7,13 @@ import javax.swing.*;
 import Model.*;
 import Control.*;
 
-public abstract class Board extends JFrame implements Observer{
+// creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
+public abstract class Board implements Observer{
 
-    private final int WINDOW_WIDTH = 1200;
-    private final int WINDOW_HEIGHT = 800;
     private final int numRows, numColumns;
+
+    // reference to main JFrame
+    private Application app;
 
     // important components contained in master panel
     private JPanel pnlMaster, pnlGame, pnlInfo, pnlQueue, pnlControlInfo, pnlGameData, pnlScore, pnlDuration, pnlButtons;
@@ -23,32 +25,20 @@ public abstract class Board extends JFrame implements Observer{
 
     protected Game game;
 
-    public Board(int numRows, int numColumns, Game game){
-        super();
-        this.numRows = numRows;
-        this.numColumns = numColumns;
+    public Board(Game game){
+        this.numRows = game.getNumRows();
+        this.numColumns = game.getNumColumns();
         this.game = game;
         addObservers();
 
-        setTitle("Sum Fun!");
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
         buildMasterPanel();
-        add(pnlMaster);
-        setVisible(true);
     }
 
-    private void addObservers(){
-        for(Tile[] row : game.tiles){
-            for(Tile tile : row){
-                tile.addObserver(this);
-            }
-        }
-        game.queue.addObserver(this);
-        game.score.addObserver(this);
-        game.movesLeft.addObserver(this);
+    public JPanel retrieveMasterPanel(){
+        return pnlMaster;
     }
+
+    public abstract void addObservers();
 
     private void buildMasterPanel(){
         buildGamePanel();
@@ -196,18 +186,18 @@ public abstract class Board extends JFrame implements Observer{
         btnNewGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnNewGame.setContentAreaFilled(false);
         btnNewGame.setOpaque(true);
-        // add action listener here
+        btnNewGame.addActionListener(new MenuListener(game));
         pnlNewGame.add(btnNewGame);
         pnlButtons.add(pnlNewGame);
 
         // instantiates exit game button and adds to panel
         JPanel pnlExitGame = new JPanel();
         btnExitGame = new JButton();
-        btnExitGame.setText("Exit Game");
+        btnExitGame.setText("Exit");
         btnExitGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExitGame.setContentAreaFilled(false);
         btnExitGame.setOpaque(true);
-        // add action listener here
+        btnExitGame.addActionListener(new MenuListener(game));
         pnlExitGame.add(btnExitGame);
         pnlButtons.add(pnlExitGame);
     }
