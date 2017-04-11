@@ -7,21 +7,21 @@ import javax.swing.*;
 import Model.*;
 import Control.*;
 
-// need to clean up class & make it more modular
-// need to separate untimed components (MovesLeft) from rest of code
-// need to create abstract method which creates either 1) movesLeft implementation or 2) timer implementation
 public abstract class Board extends JFrame implements Observer{
 
     private final int WINDOW_WIDTH = 1200;
     private final int WINDOW_HEIGHT = 800;
     private final int numRows, numColumns;
 
-    private JPanel pnlMaster, pnlGame, pnlInfo;
+    // important components contained in master panel
+    private JPanel pnlMaster, pnlGame, pnlInfo, pnlQueue, pnlControlInfo, pnlGameData, pnlScore, pnlDuration, pnlButtons;
     private JButton[][] tileButtons;
+    private JButton btnNewGame, btnExitGame;
     private JLabel[] queueLabels;
-    private JLabel lblScore, lblMovesLeft;
+    private JLabel lblScore;
+    protected JLabel lblDurationDesc, lblDuration;
 
-    private Game game;
+    protected Game game;
 
     public Board(int numRows, int numColumns, Game game){
         super();
@@ -61,6 +61,7 @@ public abstract class Board extends JFrame implements Observer{
         pnlMaster.add(pnlInfo);
     }
 
+    // helper method used to build game panel
     private void buildGamePanel(){
         pnlGame = new JPanel();
         pnlGame.setLayout(new GridLayout(numRows, numColumns));
@@ -90,52 +91,125 @@ public abstract class Board extends JFrame implements Observer{
         }
     }
 
-    // this method needs cleaned up
+    // helper method used to build info panel
     private void buildInfoPanel(){
         pnlInfo = new JPanel();
         pnlInfo.setLayout(new GridLayout(1, 2));
-        queueLabels = new JLabel[5];
-        lblScore = new JLabel(Integer.toString(game.score.getScore()), SwingConstants.CENTER);
-        lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
-        lblMovesLeft = new JLabel(Integer.toString(game.movesLeft.getMovesLeft()), SwingConstants.CENTER);
-        lblMovesLeft.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        // creates queue panel & adds panel to info panel
-        // instantiates array of queue labels & adds queue labels to queue panel
-        JPanel pnlQueue = new JPanel();
+        buildQueuePanel();
+        buildControlInfoPanel();
+
+        pnlInfo.add(pnlQueue);
+        pnlInfo.add(pnlControlInfo);
+    }
+
+    // helper method used to build queue panel
+    private void buildQueuePanel(){
+        pnlQueue = new JPanel();
         pnlQueue.setLayout(new GridLayout(6, 1));
+
+        // adds title label to panel
         JLabel lblQueue = new JLabel("QUEUE:", SwingConstants.CENTER);
         lblQueue.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlQueue.add(lblQueue);
+
+        // instantiates array of queue labels & adds to panel
+        queueLabels = new JLabel[5];
         int[] temp = game.queue.getQueue();
         for(int i = 0; i < 5; i++){
             queueLabels[i] = new JLabel(Integer.toString(temp[i]), SwingConstants.CENTER);
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
             pnlQueue.add(queueLabels[i]);
         }
-        pnlInfo.add(pnlQueue);
+    }
 
-        // creates scoremoves panel & adds panel to info panel
-        // creates score panel & moves panel & adds both panels to scoremoves panel
-        JPanel pnlScoreMoves = new JPanel();
-        pnlScoreMoves.setLayout(new GridLayout(2, 1));
-        JPanel pnlScore = new JPanel();
+    // helper method used to build control info panel
+    private void buildControlInfoPanel(){
+        pnlControlInfo = new JPanel();
+        pnlControlInfo.setLayout(new GridLayout(2, 1));
+
+        buildGameDataPanel();
+        buildButtonsPanel();
+
+        pnlControlInfo.add(pnlGameData);
+        pnlControlInfo.add(pnlButtons);
+    }
+
+    // helper method used to build game data panel
+    private void buildGameDataPanel(){
+        pnlGameData = new JPanel();
+        pnlGameData.setLayout(new GridLayout(2, 1));
+
+        buildScorePanel();
+        buildDurationPanel();
+
+        pnlGameData.add(pnlScore);
+        pnlGameData.add(pnlDuration);
+    }
+
+    // helper method used to build score panel
+    private void buildScorePanel(){
+        pnlScore = new JPanel();
         pnlScore.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
+        // creates title label and adds to panel
         JLabel lblScoreDesc = new JLabel("SCORE: ", SwingConstants.CENTER);
         lblScoreDesc.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(lblScoreDesc, gbc);
-        pnlScore.add(lblScore, gbc);
-        pnlScoreMoves.add(pnlScore);
-        JPanel pnlMoves = new JPanel();
-        pnlMoves.setLayout(new GridBagLayout());
-        JLabel lblMovesDesc = new JLabel("MOVES LEFT: ", SwingConstants.CENTER);
-        lblMovesDesc.setFont(new Font("Arial", Font.PLAIN, 20));
-        pnlMoves.add(lblMovesDesc, gbc);
-        pnlMoves.add(lblMovesLeft, gbc);
-        pnlScoreMoves.add(pnlMoves);
-        pnlInfo.add(pnlScoreMoves);
 
+        // instantiates score label and adds to panel
+        lblScore = new JLabel(Integer.toString(game.score.getScore()), SwingConstants.CENTER);
+        lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlScore.add(lblScore, gbc);
+    }
+
+    // helper method used to build duration panel
+    private void buildDurationPanel(){
+        pnlDuration = new JPanel();
+        pnlDuration.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // instantiates title label and adds to panel
+        lblDurationDesc = new JLabel("", SwingConstants.CENTER);
+        lblDurationDesc.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlDuration.add(lblDurationDesc);
+
+        // instantiates duration label and adds to panel
+        lblDuration = new JLabel("", SwingConstants.CENTER);
+        lblDuration.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlDuration.add(lblDuration);
+    }
+
+    // abstract method used to update duration panel components to be used w/ the UntimedBoard or TimedBoard
+    public abstract void updateDurationPanel();
+
+    // helper method used to build buttons panel
+    private void buildButtonsPanel(){
+        pnlButtons = new JPanel();
+        pnlButtons.setLayout(new GridLayout(2, 1));
+
+        // instantiates new game button and adds to panel
+        JPanel pnlNewGame = new JPanel();
+        btnNewGame = new JButton();
+        btnNewGame.setText("New Game");
+        btnNewGame.setFont(new Font("Arial", Font.PLAIN, 20));
+        btnNewGame.setContentAreaFilled(false);
+        btnNewGame.setOpaque(true);
+        // add action listener here
+        pnlNewGame.add(btnNewGame);
+        pnlButtons.add(pnlNewGame);
+
+        // instantiates exit game button and adds to panel
+        JPanel pnlExitGame = new JPanel();
+        btnExitGame = new JButton();
+        btnExitGame.setText("Exit Game");
+        btnExitGame.setFont(new Font("Arial", Font.PLAIN, 20));
+        btnExitGame.setContentAreaFilled(false);
+        btnExitGame.setOpaque(true);
+        // add action listener here
+        pnlExitGame.add(btnExitGame);
+        pnlButtons.add(pnlExitGame);
     }
 
     // automatically updates view components after model(s) have changed
@@ -170,8 +244,15 @@ public abstract class Board extends JFrame implements Observer{
 
         // updates JLabel containing moves left w/ corresponding value in movesLeft object
         if(o instanceof MovesLeft){
-            lblMovesLeft.setText(Integer.toString(game.movesLeft.getMovesLeft()));
+            lblDuration.setText(Integer.toString(game.movesLeft.getMovesLeft()));
         }
+
+        /*
+        // updates JLabel containing timer w/ corresponding value in timer object
+        if(o instanceof Timer){
+            lblDuration.setText("uses method from timer object to populate label");
+        }
+        */
     }
 
 }
