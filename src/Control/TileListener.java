@@ -3,6 +3,8 @@ package Control;
 import javax.swing.*;
 import java.awt.event.*;
 import Model.*;
+import View.*;
+
 
 // actionPerformed & isHit methods need finished
 // need method for determining neighbors
@@ -28,26 +30,61 @@ public class TileListener implements ActionListener {
 
             //get the value at the top of the queue
             int value=game.queue.getTop();
-            int addPoints=0;
+            int addPoints=0,sum=0, nonEmptyNeighbors=0;
 
             //if the button is empty, we need to see if the tile is empty
-            int willRemove;
-            willRemove=isHit(row, column, value);
+            int addToSum=0;
+            for (int i=row-1;i<=row+1;i++){
+                for (int j=column-1;j<=column+1;j++){
+                    if(i>=0 && j>=0){
+                        if(i<9 && j<9){
+                            System.out.println("Value at: i= "+i+" j="+j);
+                            //if(!game.tiles[i][j].isEmpty()){
+                                //we cannot count the tile placed
+                                if(i!=row || j!=column) {
+                                    //add the value of the tile (even if it's zero) to the sum
+                                    System.out.print("value: "+game.tiles[i][j].getValue() );
+                                    addToSum+=game.tiles[i][j].getValue();
+                                    if(!game.tiles[i][j].isEmpty()){ nonEmptyNeighbors++;}
+                                }
+                            //}
+                        }
+                    }
+                }
 
+            }
+            sum=addToSum;
+            System.out.println("sum: "+sum);
             //set the tile to the queue value (will update the displayed value on board)
             game.tiles[row][column].setValue(value);
+            int yayWeGotOne=game.tiles[row][column].compare(sum);
+
+
+
+
 
             //if the placement will remove tiles, remove them
-            if(willRemove>0){
-
-                if(willRemove>=3){
+            if(yayWeGotOne==1){
+                System.out.println("Number of Neighbors contributing to sum: "+nonEmptyNeighbors);
+                if(nonEmptyNeighbors>=3){
 
                     //if more than 3 tiles are involved, add points to score
-                    addPoints+=calculateScore(willRemove);
+                    addPoints+=calculateScore(nonEmptyNeighbors);
                     game.score.updateScore(addPoints);
                 }
-                //set the tile to the queue value
-                removeTiles(row, column);
+                for (int i=row-1;i<=row+1;i++) {
+                    for (int j = column - 1; j <= column + 1; j++) {
+                        if (i >= 0 && j >= 0) {
+                            if (i < 9 && j < 9) {
+                                if (!game.tiles[i][j].isEmpty()) {
+                                    game.tiles[i][j].clear();
+                                }
+                            }
+                        }
+                    }
+
+                }
+
 
             }
 
@@ -68,141 +105,8 @@ public class TileListener implements ActionListener {
 
     }
 
-    //clear neighbors tiles if placed tile will remove tile
-    private void removeTiles(int row, int column) {
-        int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
-
-        /*
-            top left corner: check right, bottom right, bottom neighbors
-            top right corner: check left bottom left, bottom neighbors
-            bottom right corner: check left, top left, top neighbors
-            bottom left corner: check top, top right, right neighbors
-         */
-
-        //bottom neighbor
-        if(nextRow<9 && (!game.tiles[nextRow][column].isEmpty())){
-            game.tiles[nextRow][column].clear();
-        }
-
-        //top neighbor
-        if (prevRow>=0 && (!game.tiles[prevRow][column].isEmpty())){
-            game.tiles[prevRow][column].clear();
-        }
-
-        //right neighbor
-        if (nextColumn<9 && (!game.tiles[row][nextColumn].isEmpty())){
-            game.tiles[row][nextColumn].clear();
-        }
-
-        //left neighbor
-        if (prevColumn>=0 && (!game.tiles[row][prevColumn].isEmpty())){
-            game.tiles[row][prevColumn].clear();
-        }
 
 
-        //bottom left neighbor
-        if ((nextRow<9 && prevColumn>=0) && (!game.tiles[nextRow][prevColumn].isEmpty())){
-            game.tiles[nextRow][prevColumn].clear();
-        }
-
-        //top right neighbor
-        if ((prevRow>=0 && nextColumn<9) && (!game.tiles[prevRow][nextColumn].isEmpty())){
-            game.tiles[prevRow][nextColumn].clear();
-        }
-
-        //top left neighbor
-        if ((prevRow>=0 && prevColumn>=0) && (!game.tiles[prevRow][prevColumn].isEmpty())){
-            game.tiles[prevRow][prevColumn].clear();
-        }
-
-        //bottom right neighbor
-        if ((nextRow<9 && nextColumn<9) && (!game.tiles[nextRow][nextColumn].isEmpty())){
-            game.tiles[nextRow][nextColumn].clear();
-        }
-        game.tiles[row][column].clear();
-    }
 
 
-    // determines if move results in eliminated tiles/is a hit
-    private int isHit(int row, int column, int value){
-
-        // determines if selectedTile is hit
-        // updates flag
-
-        int removeTiles=0;
-
-        //check how many neighbors it has
-
-        //find the location of the selectedTile in the array
-
-
-       /*
-            top left corner: check right, bottom right, bottom neighbors
-            top right corner: check left bottom left, bottom neighbors
-            bottom right corner: check left, top left, top neighbors
-            bottom left corner: check top, top right, right neighbors
-         */
-
-        int sum=0, neighborCount=0;
-        int prevRow=row-1, nextRow=row+1, prevColumn=column-1, nextColumn=column+1;
-
-        //bottom neighbor
-        if(nextRow<9 && (!game.tiles[nextRow][column].isEmpty())){
-            sum+= game.tiles[nextRow][column].getValue();
-            neighborCount++;
-        }
-
-        //top neighbor
-        if (prevRow>=0 && (!game.tiles[prevRow][column].isEmpty())){
-            sum+= game.tiles[prevRow][column].getValue();
-            neighborCount++;
-        }
-
-        //right neighbor
-        if (nextColumn<9 && (!game.tiles[row][nextColumn].isEmpty())){
-            sum+= game.tiles[row][nextColumn].getValue();
-            neighborCount++;
-        }
-
-        //left neighbor
-        if (prevColumn>=0 && (!game.tiles[row][prevColumn].isEmpty())){
-            sum+= game.tiles[row][prevColumn].getValue();
-            neighborCount++;
-        }
-
-        //bottom left neighbor
-        if ((nextRow<9 && prevColumn>=0) && (!game.tiles[nextRow][prevColumn].isEmpty())){
-            sum+= game.tiles[nextRow][prevColumn].getValue();
-            neighborCount++;
-        }
-
-        //top right neighbor
-        if ((prevRow>=0 && nextColumn<9) && (!game.tiles[prevRow][nextColumn].isEmpty())){
-            sum+= game.tiles[prevRow][nextColumn].getValue();
-            neighborCount++;
-        }
-
-        //top left neighbor
-        if ((prevRow>=0 && prevColumn>=0) && (!game.tiles[prevRow][prevColumn].isEmpty())){
-            sum+= game.tiles[prevRow][prevColumn].getValue();
-            neighborCount++;
-        }
-
-        //bottom right neighbor
-        if ((nextRow<9 && nextColumn<9) && (!game.tiles[nextRow][nextColumn].isEmpty())){
-            sum+= game.tiles[nextRow][nextColumn].getValue();
-            neighborCount++;
-        }
-
-        //perform mod calculation
-        int mod=sum%10;
-
-        //if the mod value equals the value of the placed tile, remove tiles
-        if (value==mod){
-            removeTiles=neighborCount;
-        }
-
-
-        return removeTiles;
-    }
 }
