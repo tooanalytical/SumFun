@@ -96,12 +96,19 @@ public abstract class Board implements Observer{
     // helper method used to build queue panel
     private void buildQueuePanel(){
         pnlQueue = new JPanel();
-        pnlQueue.setLayout(new GridLayout(6, 1));
+        pnlQueue.setLayout(new GridLayout(7, 1));
 
         // adds title label to panel
         JLabel lblQueue = new JLabel("QUEUE:", SwingConstants.CENTER);
         lblQueue.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlQueue.add(lblQueue);
+
+        JButton refreshQueue = new JButton("Refresh Queue");
+        refreshQueue.addActionListener(actionEvent -> {
+            game.queue.newQueue();
+            refreshQueue.setEnabled(false);
+            refreshQueue.setText("No Remaining Queue Refreshes");
+        });
 
         // instantiates array of queue labels & adds to panel
         queueLabels = new JLabel[5];
@@ -111,6 +118,7 @@ public abstract class Board implements Observer{
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
             pnlQueue.add(queueLabels[i]);
         }
+        pnlQueue.add(refreshQueue);
     }
 
     // helper method used to build control info panel
