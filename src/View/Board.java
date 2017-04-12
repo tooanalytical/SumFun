@@ -103,6 +103,7 @@ public abstract class Board implements Observer{
         lblQueue.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlQueue.add(lblQueue);
 
+        //Creates button to refresh queue 1 time
         JButton refreshQueue = new JButton("Refresh Queue");
         refreshQueue.addActionListener(actionEvent -> {
             game.queue.newQueue();
