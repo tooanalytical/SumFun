@@ -7,6 +7,8 @@ public class TimedBoard extends Board {
 
     public TimedBoard(Game game){
         super(game);
+
+        updateDurationPanel();
     }
 
     public void addObservers(){
@@ -22,7 +24,7 @@ public class TimedBoard extends Board {
 
     public void updateDurationPanel(){
         lblDurationDesc.setText("TIME LEFT: ");
-        lblDuration.setText("use timer class method to get time left");
+        lblDuration.setText("5:00");
     }
 
 }

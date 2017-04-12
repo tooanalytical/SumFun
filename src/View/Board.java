@@ -104,11 +104,14 @@ public abstract class Board implements Observer{
         pnlQueue.add(lblQueue);
 
         //Creates button to refresh queue 1 time
-        JButton refreshQueue = new JButton("Refresh Queue");
-        refreshQueue.addActionListener(actionEvent -> {
+        JButton btnRefreshQueue = new JButton("Refresh Queue");
+        btnRefreshQueue.setFont(new Font("Arial", Font.PLAIN, 20));
+        btnRefreshQueue.setContentAreaFilled(false);
+        btnRefreshQueue.setOpaque(true);
+        btnRefreshQueue.addActionListener(actionEvent -> {
             game.queue.newQueue();
-            refreshQueue.setEnabled(false);
-            refreshQueue.setText("No Remaining Queue Refreshes");
+            btnRefreshQueue.setEnabled(false);
+            btnRefreshQueue.setText("No Remaining Refreshes");
         });
 
         // instantiates array of queue labels & adds to panel
@@ -119,7 +122,7 @@ public abstract class Board implements Observer{
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
             pnlQueue.add(queueLabels[i]);
         }
-        pnlQueue.add(refreshQueue);
+        pnlQueue.add(btnRefreshQueue);
     }
 
     // helper method used to build control info panel
