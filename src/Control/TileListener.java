@@ -64,7 +64,7 @@ public class TileListener implements ActionListener {
 
 
             //if the placement will remove tiles, remove them
-            if(yayWeGotOne==1){
+            if(yayWeGotOne==1 && nonEmptyNeighbors>0){
                 System.out.println("Number of Neighbors contributing to sum: "+nonEmptyNeighbors);
                 if(nonEmptyNeighbors>=3){
 
