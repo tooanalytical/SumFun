@@ -23,7 +23,7 @@ public class TileListener implements ActionListener {
         int column = (int) btn.getClientProperty("col");
 
         // checks if the button is empty and if they still have moves left
-        if(btn.getText().equals("") && game.movesLeft.getMovesLeft() > 0){
+        if((btn.getText().equals("") && (game.movesLeft.getMovesLeft() > 0) || !game.gameTimer.getTimeRemaining().equals("0:00")) ){
 
             // checks if move is hit
             // only update model(s) which are changed; view should be updated automatically

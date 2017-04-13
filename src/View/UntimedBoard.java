@@ -7,6 +7,7 @@ public class UntimedBoard extends Board {
 
     public UntimedBoard(Game game){
         super(game);
+        game.gameTimer.notTimedGame();
         updateDurationPanel();
     }
 

@@ -11,7 +11,7 @@ public class GameTimer extends Observable {
         startTime = 300;
     }
     public void updateTimeLeft() {
-        if(startTime >= 0) {
+        if(startTime > 0) {
             startTime--;
             int minutes = startTime / 60;
             int sec = startTime % 60;
@@ -27,6 +27,11 @@ public class GameTimer extends Observable {
 
     public String getTimeRemaining() {
         return timeRemaining;
+    }
+
+    public void notTimedGame(){
+        timeRemaining = "0:00";
+
     }
 }
 
