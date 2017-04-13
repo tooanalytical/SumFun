@@ -8,6 +8,7 @@ public class Game {
     public Queue queue;
     public Score score;
     public MovesLeft movesLeft;
+    public GameTimer gameTimer;
 
     private int numRows;
     private int numColumns;
@@ -23,6 +24,7 @@ public class Game {
         queue = new Queue();
         score = new Score();
         movesLeft = new MovesLeft(NUM_MOVES_LEFT);
+        gameTimer = new GameTimer();
 
         // instantiates two-dimensional tiles array
         for(int r = 0; r < numRows; r++){

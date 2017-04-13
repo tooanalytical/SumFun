@@ -251,12 +251,10 @@ public abstract class Board implements Observer{
             lblDuration.setText(Integer.toString(game.movesLeft.getMovesLeft()));
         }
 
-        /*
         // updates JLabel containing timer w/ corresponding value in timer object
-        if(o instanceof Timer){
-            lblDuration.setText("uses method from timer object to populate label");
+        if(o instanceof GameTimer){
+            lblDuration.setText(game.gameTimer.getTimeRemaining());
         }
-        */
     }
 
 }
