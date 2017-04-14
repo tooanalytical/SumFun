@@ -40,11 +40,12 @@ public class MenuListener implements ActionListener {
 
         if(btn.getText() == "Timed"){
             // code for instantiating timed game panel
+            Game game = new Game(this.game.getNumRows(), this.game.getNumColumns());
             TimedBoard timedBoard = new TimedBoard(game);
             app.updateMasterPanel(timedBoard.retrieveMasterPanel());
         }
 
-        if(btn.getText() == "Back"){
+        if(btn.getText() == "Main Menu"){
             // code for instantiating start panel
             Menu menu = new Menu(Menu.START_MENU, game);
             app.updateMasterPanel(menu.retrieveMasterPanel());

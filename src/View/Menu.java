@@ -115,7 +115,7 @@ public class Menu {
         pnlBack.setLayout(new GridBagLayout());
         JButton btnBack = new JButton();
         btnBack.setPreferredSize(d);
-        btnBack.setText("Back");
+        btnBack.setText("Main Menu");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
         btnBack.setContentAreaFilled(false);
         btnBack.setOpaque(true);
