@@ -1,5 +1,6 @@
 package Model;
 
+import javax.swing.*;
 import java.util.Observable;
 
 
@@ -9,6 +10,11 @@ public class GameTimer extends Observable {
 
     public GameTimer(){
         startTime = 300;
+    }
+
+    public GameTimer(Timer timer){
+        startTime = 300;
+        stopTimer(timer);
     }
     public void updateTimeLeft() {
         if(startTime > 0) {
@@ -32,6 +38,9 @@ public class GameTimer extends Observable {
     public void notTimedGame(){
         timeRemaining = "0:00";
 
+    }
+    public void stopTimer(Timer timer){
+        timer.stop();
     }
 }
 

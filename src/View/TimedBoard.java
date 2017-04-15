@@ -7,7 +7,8 @@ import javax.swing.*;
 // creates TimedBoard JPanel
 public class TimedBoard extends Board {
 
-    private GameTimer gameTimer = new GameTimer();
+    private Timer timer = new Timer(1000, e ->   game.gameTimer.updateTimeLeft());
+    private GameTimer gameTimer = new GameTimer(timer);
 
     public TimedBoard(Game game){
         super(game);
@@ -29,7 +30,6 @@ public class TimedBoard extends Board {
     public void updateDurationPanel() {
         lblDurationDesc.setText("TIME LEFT: ");
         lblDuration.setText(gameTimer.getTimeRemaining());
-        Timer timer = new Timer(1000, e ->   game.gameTimer.updateTimeLeft());
         timer.start();
     }
 
