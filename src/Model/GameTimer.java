@@ -5,16 +5,13 @@ import java.util.Observable;
 
 
 public class GameTimer extends Observable {
-    String timeRemaining = "5:00";
+    private String timeRemaining = "5:00";
     private int startTime;
+    private Timer timer = new Timer(1000, e ->   updateTimeLeft());
 
     public GameTimer(){
         startTime = 300;
-    }
-
-    public GameTimer(Timer timer){
-        startTime = 300;
-        stopTimer(timer);
+        stopTimer();
     }
     public void updateTimeLeft() {
         if(startTime > 0) {
@@ -39,8 +36,12 @@ public class GameTimer extends Observable {
         timeRemaining = "0:00";
 
     }
-    public void stopTimer(Timer timer){
+    public void stopTimer(){
         timer.stop();
+    }
+
+    public void startTimer(){
+        timer.start();
     }
 }
 
