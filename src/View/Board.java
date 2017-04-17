@@ -1,6 +1,6 @@
 package View;
 
-import Control.TileListener;
+import Control.TileController;
 import Model.Game;
 import Model.GameTimer;
 import Model.HiScore;
@@ -90,7 +90,7 @@ public abstract class Board implements Observer{
                 btn.setOpaque(true);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileListener(game));
+                btn.addActionListener(new TileController(game));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 } else {
