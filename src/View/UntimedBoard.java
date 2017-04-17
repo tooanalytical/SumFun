@@ -5,8 +5,8 @@ import Model.*;
 // creates UntimedBoard JPanel
 public class UntimedBoard extends Board {
 
-    public UntimedBoard(Game game){
-        super(game);
+    public UntimedBoard(Game game, HiScore score){
+        super(game, score);
         game.gameTimer.notTimedGame();
         updateDurationPanel();
     }

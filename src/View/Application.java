@@ -46,11 +46,17 @@ public class Application extends JFrame {
         // instantiates game model
         Game game = new Game(numRows, numColumns);
 
+        HiScore score = new HiScore();
+        score.loadScores();
+
         // creates new menu panel & passes to app jframe
-        Menu menu = new Menu(Menu.START_MENU, game);
+        Menu menu = new Menu(Menu.START_MENU, game, score);
 
         // creates new Application
         new Application(menu.retrieveMasterPanel());
+
+
+
     }
 
 }

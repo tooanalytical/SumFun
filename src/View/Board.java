@@ -24,11 +24,13 @@ public abstract class Board implements Observer{
     protected JLabel lblDurationDesc, lblDuration;
 
     protected Game game;
+    protected HiScore score;
 
-    public Board(Game game){
+    public Board(Game game, HiScore score){
         this.numRows = game.getNumRows();
         this.numColumns = game.getNumColumns();
         this.game = game;
+        this.score = score;
         addObservers();
 
         buildMasterPanel();
@@ -200,7 +202,7 @@ public abstract class Board implements Observer{
         btnNewGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnNewGame.setContentAreaFilled(false);
         btnNewGame.setOpaque(true);
-        btnNewGame.addActionListener(new MenuListener(game));
+        btnNewGame.addActionListener(new MenuListener(game, score));
         pnlNewGame.add(btnNewGame);
         pnlButtons.add(pnlNewGame);
 
@@ -211,7 +213,7 @@ public abstract class Board implements Observer{
         btnExitGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExitGame.setContentAreaFilled(false);
         btnExitGame.setOpaque(true);
-        btnExitGame.addActionListener(new MenuListener(game));
+        btnExitGame.addActionListener(new MenuListener(game, score));
         pnlExitGame.add(btnExitGame);
         pnlButtons.add(pnlExitGame);
     }

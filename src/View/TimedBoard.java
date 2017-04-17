@@ -7,8 +7,10 @@ import javax.swing.*;
 // creates TimedBoard JPanel
 public class TimedBoard extends Board {
 
-    public TimedBoard(Game game){
-        super(game);
+    private GameTimer gameTimer = new GameTimer();
+
+    public TimedBoard(Game game, HiScore score){
+        super(game, score);
         game.movesLeft.notUntimedGame();
         updateDurationPanel();
     }
@@ -21,13 +23,14 @@ public class TimedBoard extends Board {
         }
         game.queue.addObserver(this);
         game.score.addObserver(this);
-        game.gameTimer.addObserver(this);
+       game.gameTimer.addObserver(this);
     }
 
     public void updateDurationPanel() {
         lblDurationDesc.setText("TIME LEFT: ");
-        lblDuration.setText(game.gameTimer.getTimeRemaining());
-        game.gameTimer.startTimer();
+        lblDuration.setText(gameTimer.getTimeRemaining());
+        Timer timer = new Timer(1000, e ->   game.gameTimer.updateTimeLeft());
+        timer.start();
     }
 
 }
