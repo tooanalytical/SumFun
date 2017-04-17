@@ -1,13 +1,11 @@
 package View;
 
-import Model.Game;
-import Model.HiScore;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import Model.*;
+import javax.swing.*;
+import java.awt.*;
 
 // builds the main JFrame which contains a single panel representing the window
-// also contains the main method, which creates model and initial view
+// also contains the main method, which creates the game model and initial view (application)
 public class Application extends JFrame {
 
     private final int WINDOW_WIDTH = 1200;
@@ -20,7 +18,7 @@ public class Application extends JFrame {
         pnlMaster = initialPanel;
         setTitle("Sum Fun!");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         add(pnlMaster);
 

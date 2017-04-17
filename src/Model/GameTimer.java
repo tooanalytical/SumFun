@@ -1,18 +1,21 @@
 package Model;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
-import javax.swing.Timer;
+
 
 public class GameTimer extends Observable {
     private String timeRemaining = "5:00";
     private int startTime;
-    private Timer timer = new Timer(1000, e ->   updateTimeLeft());
+    private Timer timer = new Timer(1000, e -> GameTimer.this.updateTimeLeft());
 
     public GameTimer(){
         startTime = 300;
         stopTimer();
     }
-    private void updateTimeLeft() {
+    public void updateTimeLeft() {
         if(startTime > 0) {
             startTime--;
             int minutes = startTime / 60;
@@ -35,8 +38,7 @@ public class GameTimer extends Observable {
         timeRemaining = "0:00";
 
     }
-
-    private void stopTimer(){
+    public void stopTimer(){
         timer.stop();
     }
 

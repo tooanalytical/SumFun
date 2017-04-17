@@ -78,6 +78,7 @@ public abstract class Board implements Observer{
         pnlGame = new JPanel();
         pnlGame.setLayout(new GridLayout(numRows, numColumns));
         tileButtons = new JButton[numRows][numColumns];
+        pnlGame.setBackground(new Color(182,196,236));
 
         // instantiates two-dimensional array of tile buttons & adds tile buttons to panel
         for(int r = 0; r < numRows; r++){
@@ -85,9 +86,10 @@ public abstract class Board implements Observer{
                 tileButtons[r][c] = new JButton();
                 JButton btn = tileButtons[r][c];
 
-                btn.setFont(new Font("Arial", Font.PLAIN, 24));
+                btn.setFont(new Font("Arial", Font.BOLD, 24));
+               // btn.setForeground(Color.lightGray);
                 btn.setContentAreaFilled(false);
-                btn.setOpaque(true);
+                btn.setOpaque(false);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
                 btn.addActionListener(new TileController(game));
