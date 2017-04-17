@@ -18,6 +18,7 @@ public class TileListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e){
         JButton btn = (JButton) e.getSource();
+        Application app = (Application) btn.getRootPane().getParent();
         //gets the row and column the button resides in
         int row = (int) btn.getClientProperty("row");
         int column = (int) btn.getClientProperty("col");
@@ -58,10 +59,6 @@ public class TileListener implements ActionListener {
             //set the tile to the queue value (will update the displayed value on board)
             game.tiles[row][column].setValue(value);
             int yayWeGotOne=game.tiles[row][column].compare(sum);
-
-
-
-
 
             //if the placement will remove tiles, remove them
             if(yayWeGotOne==1 && nonEmptyNeighbors>0){

@@ -46,6 +46,7 @@ public class MenuListener implements ActionListener {
 
         if(btn.getText().equals("Timed")){
             // code for instantiating timed game panel
+            Game game = new Game(this.game.getNumRows(), this.game.getNumColumns());
             TimedBoard timedBoard = new TimedBoard(game, score);
             app.updateMasterPanel(timedBoard.retrieveMasterPanel());
         }

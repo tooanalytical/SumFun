@@ -23,14 +23,13 @@ public class TimedBoard extends Board {
         }
         game.queue.addObserver(this);
         game.score.addObserver(this);
-       game.gameTimer.addObserver(this);
+        game.gameTimer.addObserver(this);
     }
 
     public void updateDurationPanel() {
         lblDurationDesc.setText("TIME LEFT: ");
         lblDuration.setText(gameTimer.getTimeRemaining());
-        Timer timer = new Timer(1000, e ->   game.gameTimer.updateTimeLeft());
-        timer.start();
+        game.gameTimer.startTimer();
     }
 
 }
