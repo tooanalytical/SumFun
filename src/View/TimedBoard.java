@@ -1,8 +1,9 @@
 package View;
 
-import Model.*;
-
-import javax.swing.*;
+import Model.Game;
+import Model.GameTimer;
+import Model.HiScore;
+import Model.Tile;
 
 // creates TimedBoard JPanel
 public class TimedBoard extends Board {

@@ -31,8 +31,7 @@ public class Game {
             for(int c = 0; c < numColumns; c++){
                 if(r == 0 || c == 0 || r == numRows - 1 || c == numColumns - 1){
                     tiles[r][c] = new Tile(true, r, c);
-                }
-                else{
+                } else {
                     tiles[r][c] = new Tile(false, r, c);
                 }
             }

@@ -1,27 +1,47 @@
 package View;
 
+import Control.TileListener;
+import Model.Game;
+import Model.GameTimer;
+import Model.HiScore;
+import Model.MovesLeft;
+import Model.Queue;
+import Model.Score;
+import Model.Tile;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.*;
-import javax.swing.*;
-import Model.*;
-import Control.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 // creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
 public abstract class Board implements Observer{
 
-    private final int numRows, numColumns;
-
-    // reference to main JFrame
-    private Application app;
+    private final int numRows;
+    private final int numColumns;
 
     // important components contained in master panel
-    private JPanel pnlMaster, pnlGame, pnlInfo, pnlQueue, pnlControlInfo, pnlGameData, pnlScore, pnlDuration, pnlButtons;
+    private JPanel pnlMaster;
+    private JPanel pnlGame;
+    private JPanel pnlInfo;
+    private JPanel pnlQueue;
+    private JPanel pnlControlInfo;
+    private JPanel pnlGameData;
+    private JPanel pnlScore;
+    private JPanel pnlDuration;
+    private JPanel pnlButtons;
     private JButton[][] tileButtons;
-    private JButton btnNewGame, btnExitGame;
+    private JButton btnNewGame;
+    private JButton btnExitGame;
     private JLabel[] queueLabels;
     private JLabel lblScore;
-    protected JLabel lblDurationDesc, lblDuration;
+    protected JLabel lblDurationDesc;
+    protected JLabel lblDuration;
 
     protected Game game;
     protected HiScore score;
@@ -73,8 +93,7 @@ public abstract class Board implements Observer{
                 btn.addActionListener(new TileListener(game));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
-                }
-                else{
+                } else {
                     btn.setText(Integer.toString(game.tiles[r][c].getValue()));
                 }
 
@@ -202,7 +221,12 @@ public abstract class Board implements Observer{
         btnNewGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnNewGame.setContentAreaFilled(false);
         btnNewGame.setOpaque(true);
-        btnNewGame.addActionListener(new MenuListener(game, score));
+        btnNewGame.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            Menu menu = new Menu(Menu.GAME_TYPE_MENU, game, score);
+            app.updateMasterPanel(menu.retrieveMasterPanel());
+        });
         pnlNewGame.add(btnNewGame);
         pnlButtons.add(pnlNewGame);
 
@@ -213,7 +237,9 @@ public abstract class Board implements Observer{
         btnExitGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExitGame.setContentAreaFilled(false);
         btnExitGame.setOpaque(true);
-        btnExitGame.addActionListener(new MenuListener(game, score));
+        btnExitGame.addActionListener(e -> {
+            System.exit(0);
+        });
         pnlExitGame.add(btnExitGame);
         pnlButtons.add(pnlExitGame);
     }
@@ -227,8 +253,7 @@ public abstract class Board implements Observer{
             JButton btn = tileButtons[coord[0]][coord[1]];
             if(tile.isEmpty()){
                 btn.setText("");
-            }
-            else{
+            } else {
                 btn.setText(Integer.toString(tile.getValue()));
             }
         }

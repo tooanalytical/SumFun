@@ -11,8 +11,7 @@ public class MovesLeft extends Observable implements Serializable {
     public MovesLeft(int movesLeft){
         if(movesLeft >= 0){
             this.movesLeft = movesLeft;
-        }
-        else{
+        } else {
             this.movesLeft = 50;
         }
     }

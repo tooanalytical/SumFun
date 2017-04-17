@@ -1,14 +1,17 @@
 package View;
 
-import javax.swing.*;
-import java.awt.*;
+import Model.Game;
+import Model.HiScore;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import Model.*;
-import Control.*;
-
-// ability to create two different menu JPanels
-// one contains the start panel, which is the first panel the user sees
-// the other contains the game type panel, which allows the user to select which game type they want to play
+// ability to create three different JPanels
+// start panel, game type panel, and hiscores
 public class Menu {
 
     public static final int START_MENU = 1;
@@ -68,7 +71,12 @@ public class Menu {
         btnStart.setFont(new Font("Arial", Font.PLAIN, 20));
         btnStart.setContentAreaFilled(false);
         btnStart.setOpaque(true);
-        btnStart.addActionListener(new MenuListener(game, score));
+        btnStart.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            Menu menu = new Menu(Menu.GAME_TYPE_MENU, game, score);
+            app.updateMasterPanel(menu.retrieveMasterPanel());
+        });
         pnlStart.add(btnStart);
         pnlMaster.add(pnlStart);
 
@@ -81,7 +89,12 @@ public class Menu {
         btnHiScores.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHiScores.setContentAreaFilled(false);
         btnHiScores.setOpaque(true);
-        btnHiScores.addActionListener(new MenuListener(game, score));
+        btnHiScores.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            Menu menu = new Menu(Menu.HI_SCORE_MENU, game, score);
+            app.updateMasterPanel(menu.retrieveMasterPanel());
+        });
         pnlHiScores.add(btnHiScores);
         pnlMaster.add(pnlHiScores);
 
@@ -94,7 +107,9 @@ public class Menu {
         btnExit.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExit.setContentAreaFilled(false);
         btnExit.setOpaque(true);
-        btnExit.addActionListener(new MenuListener(game, score));
+        btnExit.addActionListener(e -> {
+            System.exit(0);
+        });
         pnlExit.add(btnExit);
         pnlMaster.add(pnlExit);
     }
@@ -109,7 +124,12 @@ public class Menu {
         btnUntimed.setFont(new Font("Arial", Font.PLAIN, 20));
         btnUntimed.setContentAreaFilled(false);
         btnUntimed.setOpaque(true);
-        btnUntimed.addActionListener(new MenuListener(game, score));
+        btnUntimed.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            UntimedBoard untimedBoard = new UntimedBoard(game, score);
+            app.updateMasterPanel(untimedBoard.retrieveMasterPanel());
+        });
         pnlUntimed.add(btnUntimed);
         pnlMaster.add(pnlUntimed);
 
@@ -122,7 +142,12 @@ public class Menu {
         btnTimed.setFont(new Font("Arial", Font.PLAIN, 20));
         btnTimed.setContentAreaFilled(false);
         btnTimed.setOpaque(true);
-        btnTimed.addActionListener(new MenuListener(game, score));
+        btnTimed.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            TimedBoard timedBoard = new TimedBoard(game, score);
+            app.updateMasterPanel(timedBoard.retrieveMasterPanel());
+        });
         pnlTimed.add(btnTimed);
         pnlMaster.add(pnlTimed);
 
@@ -135,7 +160,12 @@ public class Menu {
         btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
         btnBack.setContentAreaFilled(false);
         btnBack.setOpaque(true);
-        btnBack.addActionListener(new MenuListener(game, score));
+        btnBack.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            Menu menu = new Menu(Menu.START_MENU, game, score);
+            app.updateMasterPanel(menu.retrieveMasterPanel());
+        });
         pnlBack.add(btnBack);
         pnlMaster.add(pnlBack);
     }
@@ -228,11 +258,16 @@ public class Menu {
         pnlBack.setLayout(new GridBagLayout());
         JButton btnBack = new JButton();
         btnBack.setPreferredSize(d);
-        btnBack.setText("Back");
+        btnBack.setText("Main Menu");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
         btnBack.setContentAreaFilled(false);
         btnBack.setOpaque(true);
-        btnBack.addActionListener(new MenuListener(game, score));
+        btnBack.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            Application app = (Application) btn.getRootPane().getParent();
+            Menu menu = new Menu(Menu.START_MENU, game, score);
+            app.updateMasterPanel(menu.retrieveMasterPanel());
+        });
         pnlBack.add(btnBack);
         pnlMaster.add(pnlBack);
     }

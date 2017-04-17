@@ -1,8 +1,11 @@
 package Model;
 
-import View.Menu;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class HiScore {
 
@@ -34,16 +37,12 @@ public class HiScore {
             }
 
             bufferedReader.close();
-        }
-        catch(FileNotFoundException ex) {
+        } catch(FileNotFoundException ex) {
             System.out.println(
-                    "Unable to open file '" +
-                            fileName + "'");
-        }
-        catch(IOException ex) {
+                    "Unable to open file '" + fileName + "'");
+        } catch(IOException ex) {
             System.out.println(
-                    "Error reading file '"
-                            + fileName + "'");
+                    "Error reading file '" + fileName + "'");
         }
     }
 
@@ -86,11 +85,9 @@ public class HiScore {
             }
 
             bufferedWriter.close();
-        }
-        catch(IOException ex) {
+        } catch(IOException ex) {
             System.out.println(
-                    "Error writing to file '"
-                            + fileName + "'");
+                    "Error writing to file '" + fileName + "'");
         }
     }
 
