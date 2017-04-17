@@ -50,7 +50,7 @@ public class MenuListener implements ActionListener {
             app.updateMasterPanel(timedBoard.retrieveMasterPanel());
         }
 
-        if(btn.getText().equals("Back")){
+        if(btn.getText().equals("Main Menu")){
             // code for instantiating start panel
             Menu menu = new Menu(Menu.START_MENU, game, score);
             app.updateMasterPanel(menu.retrieveMasterPanel());
