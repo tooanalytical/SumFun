@@ -127,6 +127,7 @@ public class Menu {
         btnUntimed.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
+            Game game = new Game(this.game.getNumRows(), this.game.getNumColumns());
             UntimedBoard untimedBoard = new UntimedBoard(game, score);
             app.updateMasterPanel(untimedBoard.retrieveMasterPanel());
         });
@@ -145,6 +146,7 @@ public class Menu {
         btnTimed.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
+            Game game = new Game(this.game.getNumRows(), this.game.getNumColumns());
             TimedBoard timedBoard = new TimedBoard(game, score);
             app.updateMasterPanel(timedBoard.retrieveMasterPanel());
         });

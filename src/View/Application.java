@@ -1,5 +1,6 @@
 package View;
 
+import Control.TileController;
 import Model.Game;
 import Model.HiScore;
 import javax.swing.JFrame;
@@ -48,6 +49,7 @@ public class Application extends JFrame {
 
         // instantiates game model
         Game game = new Game(numRows, numColumns);
+        //TileController controller = new TileController(game);
 
         HiScore score = new HiScore();
         score.loadScores();
