@@ -12,7 +12,7 @@ import javax.swing.WindowConstants;
 public class Application extends JFrame {
 
     private final int WINDOW_WIDTH = 1200;
-    private final int WINDOW_HEIGHT = 800;
+    private final int WINDOW_HEIGHT = 700;
 
     private JPanel pnlMaster;
 

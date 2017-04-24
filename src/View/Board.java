@@ -59,16 +59,38 @@ public abstract class Board implements Observer{
         buildInfoPanel();
 
         pnlMaster = new JPanel();
-        pnlMaster.setLayout(new GridLayout(1, 2));
+        pnlMaster.setLayout(new GridBagLayout());
 
-        pnlMaster.add(pnlGame);
-        pnlMaster.add(pnlInfo);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        gbc.weightx = 0.5;
+        gbc.weighty = 0.5;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 5;
+        gbc.gridheight = 5;
+        //gbc.ipadx = 300;
+        //gbc.ipady = 300;
+        pnlMaster.add(pnlGame, gbc);
+
+        gbc.anchor = GridBagConstraints.EAST;
+        //gbc.fill = GridBagConstraints.NONE;
+        //gbc.weightx = 0.0;
+        //gbc.weighty = 0.0;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 3;
+        gbc.gridx = 6;
+        gbc.gridy = 1;
+        pnlMaster.add(pnlInfo, gbc);
     }
 
     // helper method used to build game panel
     private void buildGamePanel(){
         pnlGame = new JPanel();
         pnlGame.setLayout(new GridLayout(game.NUM_ROWS, game.NUM_COLUMNS));
+        //pnlGame.setPreferredSize(new Dimension(700, 700));
         tileButtons = new JButton[game.NUM_ROWS][game.NUM_COLUMNS];
 
         // instantiates two-dimensional array of tile buttons & adds tile buttons to panel
@@ -77,9 +99,11 @@ public abstract class Board implements Observer{
                 tileButtons[r][c] = new JButton();
                 JButton btn = tileButtons[r][c];
 
-                btn.setFont(new Font("Arial", Font.PLAIN, 24));
+                btn.setFont(new Font("Arial", Font.BOLD, 24));
                 btn.setContentAreaFilled(false);
                 btn.setOpaque(true);
+                btn.setBackground(Color.BLACK);
+                btn.setFocusPainted(false);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
                 btn.addActionListener(new TileController(game, tileButtons));
@@ -87,6 +111,7 @@ public abstract class Board implements Observer{
                     btn.setText("");
                 } else {
                     btn.setText(Integer.toString(game.tiles[r][c].getValue()));
+                    setColor(btn, game.tiles[r][c].getValue());
                 }
 
                 pnlGame.add(btn);
@@ -125,7 +150,6 @@ public abstract class Board implements Observer{
         btnRefreshQueue.addActionListener(actionEvent -> {
             game.queue.newQueue();
             btnRefreshQueue.setEnabled(false);
-            btnRefreshQueue.setText("No Remaining Refreshes");
         });
         pnlRefresh.add(btnRefreshQueue);
 
@@ -261,6 +285,33 @@ public abstract class Board implements Observer{
         pnlButtons.add(pnlExitGame);
     }
 
+    // private helper method
+    // sets text color of JButton depending on value of corresponding tile
+    private void setColor(JButton btn, int value){
+        switch(value){
+            case 0: btn.setForeground(new Color(200, 200, 200));
+                    break;
+            case 1: btn.setForeground(new Color(255, 0, 0));
+                    break;
+            case 2: btn.setForeground(new Color(255, 120, 0));
+                    break;
+            case 3: btn.setForeground(new Color(255, 255, 0));
+                    break;
+            case 4: btn.setForeground(new Color(0, 130, 0));
+                    break;
+            case 5: btn.setForeground(new Color(0, 255, 0));
+                    break;
+            case 6: btn.setForeground(new Color(0, 0, 255));
+                    break;
+            case 7: btn.setForeground(new Color(0, 255, 255));
+                    break;
+            case 8: btn.setForeground(new Color(255, 50, 150));
+                    break;
+            case 9: btn.setForeground(new Color(150, 0, 150));
+                    break;
+        }
+    }
+
     // automatically updates view components after model(s) have changed
     public void update(Observable o, Object arg){
         // updates text of corresponding JButton to value contained in tile object
@@ -272,6 +323,7 @@ public abstract class Board implements Observer{
                 btn.setText("");
             } else {
                 btn.setText(Integer.toString(tile.getValue()));
+                setColor(btn, tile.getValue());
             }
         }
 
@@ -314,7 +366,7 @@ public abstract class Board implements Observer{
             // resets background colors of JButtons
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){
-                    tileButtons[r][c].setBackground(null);
+                    tileButtons[r][c].setBackground(Color.BLACK);
                 }
             }
         }
