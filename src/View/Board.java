@@ -8,22 +8,19 @@ import Model.MovesLeft;
 import Model.Queue;
 import Model.Score;
 import Model.Tile;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 // creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
 public abstract class Board implements Observer{
 
     private final int numRows;
     private final int numColumns;
+    private int numHints = 3;
 
     // important components contained in master panel
     private JPanel pnlMaster;
@@ -36,8 +33,6 @@ public abstract class Board implements Observer{
     private JPanel pnlDuration;
     private JPanel pnlButtons;
     private JButton[][] tileButtons;
-    private JButton btnNewGame;
-    private JButton btnExitGame;
     private JLabel[] queueLabels;
     private JLabel lblScore;
     protected JLabel lblDurationDesc;
@@ -90,7 +85,7 @@ public abstract class Board implements Observer{
                 btn.setOpaque(true);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileController(game));
+                btn.addActionListener(new TileController(game, tileButtons));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 } else {
@@ -212,11 +207,41 @@ public abstract class Board implements Observer{
     // helper method used to build buttons panel
     private void buildButtonsPanel(){
         pnlButtons = new JPanel();
-        pnlButtons.setLayout(new GridLayout(2, 1));
+        pnlButtons.setLayout(new GridLayout(3, 1));
+
+        // instantiates hint button and adds to panel
+        JPanel pnlHint = new JPanel();
+        JButton btnHint = new JButton();
+        btnHint.setText("Hint");
+        btnHint.setFont(new Font("Arial", Font.PLAIN, 20));
+        btnHint.setContentAreaFilled(false);
+        btnHint.setOpaque(true);
+        btnHint.addActionListener(e -> {
+            JButton btn = (JButton) e.getSource();
+            ArrayList<int[]> hints = game.getHints();
+            if(hints.size() == 0){
+                JOptionPane.showMessageDialog(null, "Cannot clear any tiles!", "", JOptionPane.ERROR_MESSAGE);
+            } else {
+                for(int[] hint : hints){
+                    System.out.println("test");
+                    int row = hint[0];
+                    int col = hint[1];
+                    tileButtons[row][col].setBackground(Color.CYAN);
+                }
+            }
+
+            // updates hints left; if no hints, button is disabled
+            numHints--;
+            if(numHints <= 0){
+                btn.setEnabled(false);
+            }
+        });
+        pnlHint.add(btnHint);
+        pnlButtons.add(pnlHint);
 
         // instantiates new game button and adds to panel
         JPanel pnlNewGame = new JPanel();
-        btnNewGame = new JButton();
+        JButton btnNewGame = new JButton();
         btnNewGame.setText("New Game");
         btnNewGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnNewGame.setContentAreaFilled(false);
@@ -232,7 +257,7 @@ public abstract class Board implements Observer{
 
         // instantiates exit game button and adds to panel
         JPanel pnlExitGame = new JPanel();
-        btnExitGame = new JButton();
+        JButton btnExitGame = new JButton();
         btnExitGame.setText("Exit");
         btnExitGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExitGame.setContentAreaFilled(false);

@@ -10,9 +10,11 @@ import javax.swing.JButton;
 public class TileController implements ActionListener {
 
     private Game game;
+    private JButton[][] tileButtons;
 
-    public TileController(Game game){
+    public TileController(Game game, JButton[][] tileButtons){
         this.game = game;
+        this.tileButtons = tileButtons;
     }
 
     public void actionPerformed(ActionEvent e){
@@ -27,6 +29,13 @@ public class TileController implements ActionListener {
 
             // updates model w/ hitStatus
             game.updateTiles(hitStatus, row, column);
+
+            // updates view -- all JButtons must have background color reset
+            for(int r = 0; r < 9; r++){
+                for(int c = 0; c < 9; c++){
+                    tileButtons[r][c].setBackground(null);
+                }
+            }
         }
 
         /*

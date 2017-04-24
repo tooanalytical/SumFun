@@ -141,4 +141,33 @@ public class Game {
         queue.incrementQueue();
 
     }
+
+    // returns arraylist which contain coordinates of tiles which may be used as hints
+    // the coords returned only represent hints which return max points
+    public ArrayList<int[]> getHints(){
+        // contains coords with hits that give most points
+        ArrayList<int[]> hints = new ArrayList<>();
+
+        // current most num of neighbors
+        int count = 0;
+
+        // loops through each empty tile and adds coords of max hints to arraylist
+        for(int r = 0; r < 9; r++){
+            for(int c = 0; c < 9; c++){
+                if(tiles[r][c].isEmpty()){
+                    int isHit = isHit(r, c);
+                    int[] coords = {r, c};
+                    if(count == isHit){
+                        hints.add(coords);
+                    } else if(count < isHit) {
+                        hints.clear();
+                        count = isHit;
+                        hints.add(coords);
+                    }
+                }
+            }
+        }
+
+        return hints;
+    }
 }
