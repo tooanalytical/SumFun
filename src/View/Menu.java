@@ -29,10 +29,9 @@ public class Menu {
     private JPanel pnlMaster;
     private Dimension d;
 
-    private Game game;
     private HiScore score;
 
-    public Menu(int menuType, Game game, HiScore score){
+    public Menu(int menuType, HiScore score){
         pnlMaster = new JPanel();
         pnlMaster.setLayout(new GridLayout(3, 1));
         d = new Dimension(WIDTH, HEIGHT);
@@ -41,7 +40,6 @@ public class Menu {
         timedNames = new JLabel[10];
         timedScores = new JLabel[10];
 
-        this.game = game;
         this.score = score;
 
         if(menuType == START_MENU){
@@ -74,7 +72,7 @@ public class Menu {
         btnStart.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.GAME_TYPE_MENU, game, score);
+            Menu menu = new Menu(Menu.GAME_TYPE_MENU, score);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlStart.add(btnStart);
@@ -92,7 +90,7 @@ public class Menu {
         btnHiScores.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.HI_SCORE_MENU, game, score);
+            Menu menu = new Menu(Menu.HI_SCORE_MENU, score);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlHiScores.add(btnHiScores);
@@ -127,7 +125,7 @@ public class Menu {
         btnUntimed.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Game game = new Game(this.game.getNumRows(), this.game.getNumColumns());
+            Game game = new Game(Game.UNTIMED);
             UntimedBoard untimedBoard = new UntimedBoard(game, score);
             app.updateMasterPanel(untimedBoard.retrieveMasterPanel());
         });
@@ -146,7 +144,7 @@ public class Menu {
         btnTimed.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Game game = new Game(this.game.getNumRows(), this.game.getNumColumns());
+            Game game = new Game(Game.TIMED);
             TimedBoard timedBoard = new TimedBoard(game, score);
             app.updateMasterPanel(timedBoard.retrieveMasterPanel());
         });
@@ -165,7 +163,7 @@ public class Menu {
         btnBack.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.START_MENU, game, score);
+            Menu menu = new Menu(Menu.START_MENU, score);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlBack.add(btnBack);
@@ -267,7 +265,7 @@ public class Menu {
         btnBack.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.START_MENU, game, score);
+            Menu menu = new Menu(Menu.START_MENU, score);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlBack.add(btnBack);

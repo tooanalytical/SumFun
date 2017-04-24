@@ -44,18 +44,15 @@ public class Application extends JFrame {
 
     public static void main(String[] args){
 
-        int numRows = 9;
-        int numColumns = 9;
-
         // instantiates game model
-        Game game = new Game(numRows, numColumns);
+        //Game game = new Game(numRows, numColumns);
         //TileController controller = new TileController(game);
 
         HiScore score = new HiScore();
         score.loadScores();
 
         // creates new menu panel & passes to app jframe
-        Menu menu = new Menu(Menu.START_MENU, game, score);
+        Menu menu = new Menu(Menu.START_MENU, score);
 
         // creates new Application
         new Application(menu.retrieveMasterPanel());

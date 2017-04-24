@@ -9,7 +9,6 @@ public class UntimedBoard extends Board {
 
     public UntimedBoard(Game game, HiScore score){
         super(game, score);
-        game.gameTimer.notTimedGame();
         updateDurationPanel();
     }
 

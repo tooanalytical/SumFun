@@ -30,8 +30,4 @@ public class MovesLeft extends Observable implements Serializable {
     public int getMovesLeft(){
         return movesLeft;
     }
-
-    public void notUntimedGame(){
-        movesLeft=0;
-    }
 }
