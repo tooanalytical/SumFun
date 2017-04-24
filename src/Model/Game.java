@@ -6,7 +6,11 @@ import java.util.ArrayList;
 // only movesLeft OR gameTimer should be instantiated depending on game type
 public class Game {
 
+    public final static int NUM_ROWS = 9;
+    public final static int NUM_COLUMNS = 9;
     private final int NUM_MOVES_LEFT = 50;
+    public final static int UNTIMED = 1;
+    public final static int TIMED = 2;
 
     public Tile[][] tiles;
     public Queue queue;
@@ -14,27 +18,25 @@ public class Game {
     public MovesLeft movesLeft;
     public GameTimer gameTimer;
 
-    private int numRows;
-    private int numColumns;
     private boolean isUntimed = true;
 
     // constructor
-    public Game(int numRows, int numColumns){
-        // instantiates numRows & numColumns
-        this.numRows = numRows;
-        this.numColumns = numColumns;
-
+    public Game(int gameType){
         // instantiates models
-        tiles = new Tile[numRows][numColumns];
+        tiles = new Tile[NUM_ROWS][NUM_COLUMNS];
         queue = new Queue();
         score = new Score();
-        movesLeft = new MovesLeft(NUM_MOVES_LEFT);
-        gameTimer = new GameTimer();
+        if(gameType == UNTIMED){
+            movesLeft = new MovesLeft(NUM_MOVES_LEFT);
+        } else if(gameType == TIMED){
+            gameTimer = new GameTimer();
+            isUntimed = false;
+        }
 
         // instantiates two-dimensional tiles array
-        for(int r = 0; r < numRows; r++){
-            for(int c = 0; c < numColumns; c++){
-                if(r == 0 || c == 0 || r == numRows - 1 || c == numColumns - 1){
+        for(int r = 0; r < NUM_ROWS; r++){
+            for(int c = 0; c < NUM_COLUMNS; c++){
+                if(r == 0 || c == 0 || r == NUM_ROWS - 1 || c == NUM_COLUMNS - 1){
                     tiles[r][c] = new Tile(true, r, c);
                 } else {
                     tiles[r][c] = new Tile(false, r, c);
@@ -43,20 +45,11 @@ public class Game {
         }
     }
 
-    // accessor method for numRows
-    public int getNumRows(){
-        return numRows;
-    }
-
-    // accessor method for numColumns
-    public int getNumColumns(){
-        return numColumns;
-    }
-
+    // private helper method, used in updateTiles method
     // checks if sum of tile neighbors modulus 10 is equal to top of queue
     // if placement is a hit, the number of tiles removed is returned
     // if not a hit, -1 is returned
-    public int isHit(int r, int c){
+    private int isHit(int r, int c){
         boolean isHit = false;
         int sum = 0;
         int counter = 0;
@@ -111,7 +104,23 @@ public class Game {
 
     // updates tiles 2-d array depending on hit status
     // if hitStatus == -1, hit is false; else hitStatus == number of tiles removed, and hit is true
-    public void updateTiles(int hitStatus, int r, int c){
+    public void updateTiles(int r, int c){
+        // checks if able to update tiles; if not, returns
+        if(!tiles[r][c].isEmpty()){
+            return;
+        } else {
+            if(isUntimed){
+                if(movesLeft.getMovesLeft() <= 0){
+                    return;
+                }
+            } else {
+                if(gameTimer.getTimeRemaining() == "0:00"){
+                    return;
+                }
+            }
+        }
+
+        int hitStatus = isHit(r, c);
         if(hitStatus == -1){
             // tile at position r,c updated w/ value from top of queue
             tiles[r][c].setValue(queue.getTop());

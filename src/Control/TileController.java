@@ -4,6 +4,7 @@ import Model.Game;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 // actionPerformed & isHit methods need finished
 // need method for determining neighbors
@@ -11,10 +12,12 @@ public class TileController implements ActionListener {
 
     private Game game;
     private JButton[][] tileButtons;
+    private JLabel lblDuration;
 
-    public TileController(Game game, JButton[][] tileButtons){
+    public TileController(Game game, JButton[][] tileButtons, JLabel lblDuration){
         this.game = game;
         this.tileButtons = tileButtons;
+        this.lblDuration = lblDuration;
     }
 
     public void actionPerformed(ActionEvent e){
@@ -22,19 +25,13 @@ public class TileController implements ActionListener {
         int row = (int) btn.getClientProperty("row");
         int column = (int) btn.getClientProperty("col");
 
-        // checks if selected Tile is empty, if moves left, & if time left
-        if(game.tiles[row][column].isEmpty() && (game.movesLeft.getMovesLeft() > 0 || !game.gameTimer.getTimeRemaining().equals("0:00"))){
-            // hitStatus contains -1 if placement is not a hit, or between the number of tiles removed if a hit
-            int hitStatus = game.isHit(row, column);
+        // updates model
+        game.updateTiles(row, column);
 
-            // updates model w/ hitStatus
-            game.updateTiles(hitStatus, row, column);
-
-            // updates view -- all JButtons must have background color reset
-            for(int r = 0; r < 9; r++){
-                for(int c = 0; c < 9; c++){
-                    tileButtons[r][c].setBackground(null);
-                }
+        // updates view -- all JButtons must have background color reset
+        for(int r = 0; r < 9; r++){
+            for(int c = 0; c < 9; c++){
+                tileButtons[r][c].setBackground(null);
             }
         }
 

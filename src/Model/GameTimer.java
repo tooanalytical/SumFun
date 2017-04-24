@@ -31,11 +31,6 @@ public class GameTimer extends Observable {
         return timeRemaining;
     }
 
-    public void notTimedGame(){
-        timeRemaining = "0:00";
-
-    }
-
     private void stopTimer(){
         timer.stop();
     }

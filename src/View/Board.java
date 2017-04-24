@@ -18,8 +18,6 @@ import javax.swing.*;
 // creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
 public abstract class Board implements Observer{
 
-    private final int numRows;
-    private final int numColumns;
     private int numHints = 3;
 
     // important components contained in master panel
@@ -42,8 +40,6 @@ public abstract class Board implements Observer{
     protected HiScore score;
 
     public Board(Game game, HiScore score){
-        this.numRows = game.getNumRows();
-        this.numColumns = game.getNumColumns();
         this.game = game;
         this.score = score;
         addObservers();
@@ -71,12 +67,12 @@ public abstract class Board implements Observer{
     // helper method used to build game panel
     private void buildGamePanel(){
         pnlGame = new JPanel();
-        pnlGame.setLayout(new GridLayout(numRows, numColumns));
-        tileButtons = new JButton[numRows][numColumns];
+        pnlGame.setLayout(new GridLayout(game.NUM_ROWS, game.NUM_COLUMNS));
+        tileButtons = new JButton[game.NUM_ROWS][game.NUM_COLUMNS];
 
         // instantiates two-dimensional array of tile buttons & adds tile buttons to panel
-        for(int r = 0; r < numRows; r++){
-            for(int c = 0; c < numColumns; c++){
+        for(int r = 0; r < game.NUM_ROWS; r++){
+            for(int c = 0; c < game.NUM_COLUMNS; c++){
                 tileButtons[r][c] = new JButton();
                 JButton btn = tileButtons[r][c];
 
@@ -85,7 +81,7 @@ public abstract class Board implements Observer{
                 btn.setOpaque(true);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileController(game, tileButtons));
+                btn.addActionListener(new TileController(game, tileButtons, lblDuration));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 } else {
@@ -249,7 +245,7 @@ public abstract class Board implements Observer{
         btnNewGame.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.GAME_TYPE_MENU, game, score);
+            Menu menu = new Menu(Menu.GAME_TYPE_MENU, score);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlNewGame.add(btnNewGame);

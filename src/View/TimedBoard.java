@@ -12,7 +12,6 @@ public class TimedBoard extends Board {
 
     public TimedBoard(Game game, HiScore score){
         super(game, score);
-        game.movesLeft.notUntimedGame();
         updateDurationPanel();
     }
 
