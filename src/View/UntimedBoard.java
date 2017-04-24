@@ -21,6 +21,7 @@ public class UntimedBoard extends Board {
         game.queue.addObserver(this);
         game.score.addObserver(this);
         game.movesLeft.addObserver(this);
+        game.addObserver(this);
     }
 
     public void updateDurationPanel(){

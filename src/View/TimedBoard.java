@@ -24,6 +24,7 @@ public class TimedBoard extends Board {
         game.queue.addObserver(this);
         game.score.addObserver(this);
         game.gameTimer.addObserver(this);
+        game.addObserver(this);
     }
 
     public void updateDurationPanel() {

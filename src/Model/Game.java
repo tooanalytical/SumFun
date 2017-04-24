@@ -1,16 +1,21 @@
 package Model;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Observable;
 
 // constructor should check which type of game is being created: timed or untimed
 // only movesLeft OR gameTimer should be instantiated depending on game type
-public class Game {
+public class Game extends Observable implements Serializable {
 
     public final static int NUM_ROWS = 9;
     public final static int NUM_COLUMNS = 9;
     private final int NUM_MOVES_LEFT = 50;
     public final static int UNTIMED = 1;
     public final static int TIMED = 2;
+
+    private ArrayList<int[]> hints;
 
     public Tile[][] tiles;
     public Queue queue;
@@ -43,6 +48,9 @@ public class Game {
                 }
             }
         }
+
+        // instantiates hints
+        updateHints();
     }
 
     // private helper method, used in updateTiles method
@@ -149,16 +157,19 @@ public class Game {
         // updates queue
         queue.incrementQueue();
 
+        // updates hints
+        updateHints();
+
     }
 
-    // returns arraylist which contain coordinates of tiles which may be used as hints
-    // the coords returned only represent hints which return max points
-    public ArrayList<int[]> getHints(){
+    // sets hints field
+    // the coords returned only represent hints which return max points (and must have three or more tiles removed)
+    private void updateHints(){
         // contains coords with hits that give most points
         ArrayList<int[]> hints = new ArrayList<>();
 
         // current most num of neighbors
-        int count = 0;
+        int count = 3;
 
         // loops through each empty tile and adds coords of max hints to arraylist
         for(int r = 0; r < 9; r++){
@@ -177,6 +188,14 @@ public class Game {
             }
         }
 
+        this.hints = hints;
+
+        setChanged();
+        notifyObservers(hints.size());
+    }
+
+    // accessor method for hints array list
+    public ArrayList<int[]> getHints(){
         return hints;
     }
 }

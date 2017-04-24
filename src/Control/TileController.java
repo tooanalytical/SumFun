@@ -12,12 +12,10 @@ public class TileController implements ActionListener {
 
     private Game game;
     private JButton[][] tileButtons;
-    private JLabel lblDuration;
 
-    public TileController(Game game, JButton[][] tileButtons, JLabel lblDuration){
+    public TileController(Game game, JButton[][] tileButtons){
         this.game = game;
         this.tileButtons = tileButtons;
-        this.lblDuration = lblDuration;
     }
 
     public void actionPerformed(ActionEvent e){

@@ -21,6 +21,7 @@ public abstract class Board implements Observer{
     private int numHints = 3;
 
     // important components contained in master panel
+    private JButton btnHint;
     private JPanel pnlMaster;
     private JPanel pnlGame;
     private JPanel pnlInfo;
@@ -81,7 +82,7 @@ public abstract class Board implements Observer{
                 btn.setOpaque(true);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileController(game, tileButtons, lblDuration));
+                btn.addActionListener(new TileController(game, tileButtons));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 } else {
@@ -207,7 +208,7 @@ public abstract class Board implements Observer{
 
         // instantiates hint button and adds to panel
         JPanel pnlHint = new JPanel();
-        JButton btnHint = new JButton();
+        btnHint = new JButton();
         btnHint.setText("Hint");
         btnHint.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHint.setContentAreaFilled(false);
@@ -215,15 +216,10 @@ public abstract class Board implements Observer{
         btnHint.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             ArrayList<int[]> hints = game.getHints();
-            if(hints.size() == 0){
-                JOptionPane.showMessageDialog(null, "Cannot clear any tiles!", "", JOptionPane.ERROR_MESSAGE);
-            } else {
-                for(int[] hint : hints){
-                    System.out.println("test");
-                    int row = hint[0];
-                    int col = hint[1];
-                    tileButtons[row][col].setBackground(Color.CYAN);
-                }
+            for(int[] hint : hints){
+                int row = hint[0];
+                int col = hint[1];
+                tileButtons[row][col].setBackground(Color.CYAN);
             }
 
             // updates hints left; if no hints, button is disabled
@@ -302,6 +298,19 @@ public abstract class Board implements Observer{
         // updates JLabel containing timer w/ corresponding value in timer object
         if(o instanceof GameTimer){
             lblDuration.setText(game.gameTimer.getTimeRemaining());
+        }
+
+        // updates hint button
+        // hint button is disabled if arg is < 1; else it is enabled
+        if(o instanceof Game){
+            if((int) arg < 1){
+                btnHint.setEnabled(false);
+            } else {
+                // only re-enables hint button if hints are left
+                if(numHints > 0){
+                    btnHint.setEnabled(true);
+                }
+            }
         }
     }
 
