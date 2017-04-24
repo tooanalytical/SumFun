@@ -311,6 +311,12 @@ public abstract class Board implements Observer{
                     btnHint.setEnabled(true);
                 }
             }
+            // resets background colors of JButtons
+            for(int r = 0; r < 9; r++){
+                for(int c = 0; c < 9; c++){
+                    tileButtons[r][c].setBackground(null);
+                }
+            }
         }
     }
 

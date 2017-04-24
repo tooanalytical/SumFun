@@ -26,13 +26,6 @@ public class TileController implements ActionListener {
         // updates model
         game.updateTiles(row, column);
 
-        // updates view -- all JButtons must have background color reset
-        for(int r = 0; r < 9; r++){
-            for(int c = 0; c < 9; c++){
-                tileButtons[r][c].setBackground(null);
-            }
-        }
-
         /*
         JButton btn = (JButton) e.getSource();
         //gets the row and column the button resides in
