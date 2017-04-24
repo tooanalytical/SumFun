@@ -15,8 +15,7 @@ public class Tile extends Observable implements Serializable {
         this.isEmpty = isEmpty;
         if(isEmpty){
             value = 0;
-        }
-        else{
+        } else {
             value = (int) (Math.random() * 10);
         }
     }
@@ -28,8 +27,7 @@ public class Tile extends Observable implements Serializable {
         coordinates[1] = column;
         if(isEmpty){
             value = 0;
-        }
-        else{
+        } else {
             value = (int) (Math.random() * 10);
         }
     }
