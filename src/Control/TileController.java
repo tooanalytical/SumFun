@@ -17,6 +17,20 @@ public class TileController implements ActionListener {
 
     public void actionPerformed(ActionEvent e){
         JButton btn = (JButton) e.getSource();
+        int row = (int) btn.getClientProperty("row");
+        int column = (int) btn.getClientProperty("col");
+
+        // checks if selected Tile is empty, if moves left, & if time left
+        if(game.tiles[row][column].isEmpty() && (game.movesLeft.getMovesLeft() > 0 || !game.gameTimer.getTimeRemaining().equals("0:00"))){
+            // hitStatus contains -1 if placement is not a hit, or between the number of tiles removed if a hit
+            int hitStatus = game.isHit(row, column);
+
+            // updates model w/ hitStatus
+            game.updateTiles(hitStatus, row, column);
+        }
+
+        /*
+        JButton btn = (JButton) e.getSource();
         //gets the row and column the button resides in
         int row = (int) btn.getClientProperty("row");
         int column = (int) btn.getClientProperty("col");
@@ -91,7 +105,7 @@ public class TileController implements ActionListener {
             game.movesLeft.updateMovesLeft();
 
 
-        }
+        }*/
     }
 
     private int calculateScore(int willRemove) {
