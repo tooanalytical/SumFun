@@ -61,7 +61,7 @@ public class Menu {
     }
 
     private void buildStartMenu(){
-        // instantiates start button and adds to panel
+        // instantiate start button and adds to panel
         JPanel pnlStart = new JPanel();
         pnlStart.setLayout(new GridBagLayout());
         JButton btnStart = new JButton();
