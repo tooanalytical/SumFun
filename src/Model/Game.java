@@ -23,6 +23,7 @@ public class Game extends Observable implements Serializable {
     public GameTimer gameTimer;
 
     private boolean isUntimed = true;
+    public int isMagicTrick=0;
 
     // constructor
     public Game(int gameType){
@@ -196,5 +197,42 @@ public class Game extends Observable implements Serializable {
     // accessor method for hints array list
     public ArrayList<int[]> getHints(){
         return hints;
+    }
+
+    //allows user to use magicTrick
+    public void startMagicTrick(){
+        isMagicTrick++;
+    }
+
+
+
+    public boolean checkForMagicTrick(int row, int column){
+        int magicNumber;
+        //make sure the magic trick has been started and the tile placed on is not empty.
+        if(isMagicTrick==1 && !tiles[row][column].isEmpty()) {
+            magicNumber=tiles[row][column].getValue();
+            System.out.println("MADE IT, magicNumber="+magicNumber);
+            for(int i=0;i<=8;i++){
+                for(int j=0; j<=8;j++){
+                    if (!tiles[i][j].isEmpty() && tiles[i][j].getValue()==magicNumber) {
+                        tiles[i][j].clear();
+                    }
+                }
+            }
+            isMagicTrick=-1;
+            return true;
+            //if they placed the magic trick on an empty tile, give the trick back
+        }
+
+        else{
+            //give the magic trick back
+            isMagicTrick=0;
+
+            System.out.println("Not a magic trick or is empty: "+isMagicTrick);
+            return false;
+            //if the magic trick is not in play, then update the tile as normal. if (isMagicTrick==1 && tiles[row][column].isEmpty())
+        }
+
+
     }
 }

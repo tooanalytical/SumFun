@@ -134,7 +134,7 @@ public abstract class Board implements Observer{
     // helper method used to build queue panel
     private void buildQueuePanel(){
         pnlQueue = new JPanel();
-        pnlQueue.setLayout(new GridLayout(7, 1));
+        pnlQueue.setLayout(new GridLayout(8, 1));
 
         // adds title label to panel
         JLabel lblQueue = new JLabel("QUEUE:", SwingConstants.CENTER);
@@ -153,6 +153,9 @@ public abstract class Board implements Observer{
         });
         pnlRefresh.add(btnRefreshQueue);
 
+
+
+
         // instantiates array of queue labels & adds to panel
         queueLabels = new JLabel[5];
         int[] temp = game.queue.getQueue();
@@ -162,6 +165,36 @@ public abstract class Board implements Observer{
             pnlQueue.add(queueLabels[i]);
         }
         pnlQueue.add(pnlRefresh);
+
+        /*Creates button to remove 1 number from the board entirely*/
+        //Creates button to refresh queue 1 time
+        JPanel pnlRemove = new JPanel();
+        JButton btnRemoveNumber = new JButton("Magic Trick");
+        btnRemoveNumber.setFont(new Font("Arial", Font.PLAIN, 20));
+        btnRemoveNumber.setContentAreaFilled(false);
+        btnRemoveNumber.setOpaque(true);
+        System.out.println("Inside Board Class: "+game.isMagicTrick);
+        if(game.isMagicTrick!=-1) {
+            btnRemoveNumber.setEnabled(true);
+            btnRemoveNumber.setText("Magic Trick");
+        }
+        btnRemoveNumber.addActionListener(e -> {
+
+            //if the trick is not -1 then it has not been used and we can load a trick
+            if(game.isMagicTrick!=-1) {
+                game.isMagicTrick = 1;
+
+            }
+
+
+            btnRemoveNumber.setEnabled(false);
+            btnRemoveNumber.setText("No Tricks Left");
+
+        });
+
+        pnlRemove.add(btnRemoveNumber);
+        pnlQueue.add(pnlRemove);
+
     }
 
     // helper method used to build control info panel
@@ -325,6 +358,8 @@ public abstract class Board implements Observer{
                 btn.setText(Integer.toString(tile.getValue()));
                 setColor(btn, tile.getValue());
             }
+
+
         }
 
         // updates JLabels representing queue w/ corresponding values of queue object
