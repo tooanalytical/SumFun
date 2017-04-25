@@ -144,6 +144,9 @@ public abstract class Board implements Observer{
         //Creates button to refresh queue 1 time
         JPanel pnlRefresh = new JPanel();
         JButton btnRefreshQueue = new JButton("Refresh Queue");
+        btnRefreshQueue.setFocusPainted(false);
+        btnRefreshQueue.setBackground(Color.black);
+        btnRefreshQueue.setForeground(new Color(76,150,236));
         btnRefreshQueue.setFont(new Font("Arial", Font.PLAIN, 20));
         btnRefreshQueue.setContentAreaFilled(false);
         btnRefreshQueue.setOpaque(true);
@@ -177,6 +180,9 @@ public abstract class Board implements Observer{
         if(game.isMagicTrick!=-1) {
             btnRemoveNumber.setEnabled(true);
             btnRemoveNumber.setText("Magic Trick");
+            btnRemoveNumber.setFocusPainted(false);
+            btnRemoveNumber.setBackground(Color.black);
+            btnRemoveNumber.setForeground(new Color(76,150,236));
         }
         btnRemoveNumber.addActionListener(e -> {
 
@@ -267,6 +273,9 @@ public abstract class Board implements Observer{
         JPanel pnlHint = new JPanel();
         btnHint = new JButton();
         btnHint.setText("Hint");
+        btnHint.setFocusPainted(false);
+        btnHint.setBackground(Color.black);
+        btnHint.setForeground(new Color(76,150,236));
         btnHint.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHint.setContentAreaFilled(false);
         btnHint.setOpaque(true);
@@ -276,7 +285,7 @@ public abstract class Board implements Observer{
             for(int[] hint : hints){
                 int row = hint[0];
                 int col = hint[1];
-                tileButtons[row][col].setBackground(Color.CYAN);
+                tileButtons[row][col].setBackground(new Color(76,150,236));
             }
 
             // updates hints left; if no hints, button is disabled
@@ -292,6 +301,9 @@ public abstract class Board implements Observer{
         JPanel pnlNewGame = new JPanel();
         JButton btnNewGame = new JButton();
         btnNewGame.setText("New Game");
+        btnNewGame.setFocusPainted(false);
+        btnNewGame.setBackground(Color.black);
+        btnNewGame.setForeground(new Color(76,150,236));
         btnNewGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnNewGame.setContentAreaFilled(false);
         btnNewGame.setOpaque(true);
@@ -308,6 +320,9 @@ public abstract class Board implements Observer{
         JPanel pnlExitGame = new JPanel();
         JButton btnExitGame = new JButton();
         btnExitGame.setText("Exit");
+        btnExitGame.setFocusPainted(false);
+        btnExitGame.setBackground(Color.black);
+        btnExitGame.setForeground(new Color(76,150,236));
         btnExitGame.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExitGame.setContentAreaFilled(false);
         btnExitGame.setOpaque(true);

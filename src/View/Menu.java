@@ -66,7 +66,7 @@ public class Menu {
         //game title
         JPanel pnlGameTitle = new JPanel();
         pnlGameTitle.setLayout(new GridBagLayout());
-        Icon icon = new ImageIcon("SumFunTitle3.gif");
+        Icon icon = new ImageIcon("SumFunTitle2.gif");
         JLabel label = new JLabel(icon);
         pnlGameTitle.add(label);
         pnlMaster.add(pnlGameTitle);
@@ -77,6 +77,9 @@ public class Menu {
         JButton btnStart = new JButton();
         btnStart.setPreferredSize(d);
         btnStart.setText("Start");
+        btnStart.setFocusPainted(false);
+        btnStart.setBackground(Color.black);
+        btnStart.setForeground(new Color(76,150,236));
         btnStart.setFont(new Font("Arial", Font.PLAIN, 20));
         btnStart.setContentAreaFilled(false);
         btnStart.setOpaque(true);
@@ -95,6 +98,9 @@ public class Menu {
         JButton btnHiScores = new JButton();
         btnHiScores.setPreferredSize(d);
         btnHiScores.setText("HiScores");
+        btnHiScores.setFocusPainted(false);
+        btnHiScores.setBackground(Color.black);
+        btnHiScores.setForeground(new Color(76,150,236));
         btnHiScores.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHiScores.setContentAreaFilled(false);
         btnHiScores.setOpaque(true);
@@ -113,6 +119,9 @@ public class Menu {
         JButton btnExit = new JButton();
         btnExit.setPreferredSize(d);
         btnExit.setText("Exit");
+        btnExit.setFocusPainted(false);
+        btnExit.setBackground(Color.black);
+        btnExit.setForeground(new Color(76,150,236));
         btnExit.setFont(new Font("Arial", Font.PLAIN, 20));
         btnExit.setContentAreaFilled(false);
         btnExit.setOpaque(true);
@@ -137,6 +146,9 @@ public class Menu {
         JButton btnUntimed = new JButton();
         btnUntimed.setPreferredSize(d);
         btnUntimed.setText("Untimed");
+        btnUntimed.setFocusPainted(false);
+        btnUntimed.setBackground(Color.black);
+        btnUntimed.setForeground(new Color(76,150,236));
         btnUntimed.setFont(new Font("Arial", Font.PLAIN, 20));
         btnUntimed.setContentAreaFilled(false);
         btnUntimed.setOpaque(true);
@@ -156,6 +168,9 @@ public class Menu {
         JButton btnTimed = new JButton();
         btnTimed.setPreferredSize(d);
         btnTimed.setText("Timed");
+        btnTimed.setFocusPainted(false);
+        btnTimed.setBackground(Color.black);
+        btnTimed.setForeground(new Color(76,150,236));
         btnTimed.setFont(new Font("Arial", Font.PLAIN, 20));
         btnTimed.setContentAreaFilled(false);
         btnTimed.setOpaque(true);
@@ -175,6 +190,9 @@ public class Menu {
         JButton btnBack = new JButton();
         btnBack.setPreferredSize(d);
         btnBack.setText("Main Menu");
+        btnBack.setFocusPainted(false);
+        btnBack.setBackground(Color.black);
+        btnBack.setForeground(new Color(76,150,236));
         btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
         btnBack.setContentAreaFilled(false);
         btnBack.setOpaque(true);
@@ -277,6 +295,9 @@ public class Menu {
         JButton btnBack = new JButton();
         btnBack.setPreferredSize(d);
         btnBack.setText("Main Menu");
+        btnBack.setFocusPainted(false);
+        btnBack.setBackground(Color.black);
+        btnBack.setForeground(new Color(76,150,236));
         btnBack.setFont(new Font("Arial", Font.PLAIN, 20));
         btnBack.setContentAreaFilled(false);
         btnBack.setOpaque(true);
