@@ -91,7 +91,9 @@ public class HiScore {
         }
     }
 
-    public void updateScore() {
+    public void updateHiScore(Game game) {
+
+
 
     }
 
