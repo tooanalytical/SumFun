@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,7 +36,7 @@ public class Menu {
 
     public Menu(int menuType, HiScore score){
         pnlMaster = new JPanel();
-        pnlMaster.setLayout(new GridLayout(3, 1));
+        pnlMaster.setLayout(new GridLayout(4, 1));
         d = new Dimension(WIDTH, HEIGHT);
         untimedNames = new JLabel[10];
         untimedScores = new JLabel[10];
@@ -61,6 +63,13 @@ public class Menu {
     }
 
     private void buildStartMenu(){
+        JPanel pnlGameTitle = new JPanel();
+        pnlGameTitle.setLayout(new GridBagLayout());
+        Icon icon = new ImageIcon("SumFunTitle3.gif");
+        JLabel label = new JLabel(icon);
+        pnlGameTitle.add(label);
+        pnlMaster.add(pnlGameTitle);
+
         // instantiate start button and adds to panel
         JPanel pnlStart = new JPanel();
         pnlStart.setLayout(new GridBagLayout());
@@ -114,6 +123,13 @@ public class Menu {
     }
 
     private void buildGameTypeMenu(){
+        JPanel mode = new JPanel();
+        mode.setLayout(new GridBagLayout());
+        JLabel selectMode = new JLabel();
+        selectMode.setText(" Select Game Mode");
+        selectMode.setFont(new Font("Arial", Font.PLAIN, 40));
+        mode.add(selectMode);
+        pnlMaster.add(mode);
         // instantiates untimed button and adds to panel
         JPanel pnlUntimed = new JPanel();
         pnlUntimed.setLayout(new GridBagLayout());
