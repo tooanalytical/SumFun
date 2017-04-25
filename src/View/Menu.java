@@ -63,6 +63,7 @@ public class Menu {
     }
 
     private void buildStartMenu(){
+        //game title
         JPanel pnlGameTitle = new JPanel();
         pnlGameTitle.setLayout(new GridBagLayout());
         Icon icon = new ImageIcon("SumFunTitle3.gif");
