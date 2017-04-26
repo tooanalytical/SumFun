@@ -39,6 +39,7 @@ public abstract class Board implements Observer{
     private JButton[][] tileButtons;
     private JLabel[] queueLabels;
     private JLabel lblScore;
+    private JLabel ptsEarned;
     protected JLabel lblDurationDesc;
     protected JLabel lblDuration;
 
@@ -231,7 +232,7 @@ public abstract class Board implements Observer{
     // helper method used to build score panel
     private void buildScorePanel(){
         pnlScore = new JPanel();
-        pnlScore.setLayout(new GridBagLayout());
+        pnlScore.setLayout(new GridLayout(2,1));
         GridBagConstraints gbc = new GridBagConstraints();
 
         // creates title label and adds to panel
@@ -243,6 +244,15 @@ public abstract class Board implements Observer{
         lblScore = new JLabel(Integer.toString(game.score.getScore()), SwingConstants.CENTER);
         lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(lblScore, gbc);
+
+        JLabel lblPtsEarned = new JLabel("PTS EARNED: " , SwingConstants.CENTER);
+        lblPtsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlScore.add(lblPtsEarned, gbc);
+
+        ptsEarned = new JLabel(Integer.toString(game.score.getAddition()), SwingConstants.CENTER);
+        ptsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlScore.add(ptsEarned, gbc);
+
     }
 
     // helper method used to build duration panel
@@ -391,6 +401,7 @@ public abstract class Board implements Observer{
         // updates JLabel containing score w/ corresponding value in score object
         if(o instanceof Score){
             lblScore.setText(Integer.toString(game.score.getScore()));
+            ptsEarned.setText(Integer.toString(game.score.getAddition()));
         }
 
         // updates JLabel containing moves left w/ corresponding value in movesLeft object

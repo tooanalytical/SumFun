@@ -151,6 +151,8 @@ public class Game extends Observable implements Serializable {
         // updates score
         if(hitStatus >= 3){
             score.updateScore(hitStatus * 10);
+        }else{
+            score.updateScore(0);
         }
 
         // updates queue
