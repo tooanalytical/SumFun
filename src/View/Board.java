@@ -10,10 +10,15 @@ import Model.Score;
 import Model.Tile;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 // creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
 public abstract class Board implements Observer{
@@ -156,9 +161,6 @@ public abstract class Board implements Observer{
         });
         pnlRefresh.add(btnRefreshQueue);
 
-
-
-
         // instantiates array of queue labels & adds to panel
         queueLabels = new JLabel[5];
         int[] temp = game.queue.getQueue();
@@ -172,33 +174,32 @@ public abstract class Board implements Observer{
         /*Creates button to remove 1 number from the board entirely*/
         //Creates button to refresh queue 1 time
         JPanel pnlRemove = new JPanel();
-        JButton btnRemoveNumber = new JButton("Magic Trick");
+        JButton btnRemoveNumber = new JButton("Remove #");
+        btnRemoveNumber.setBackground(Color.black);
+        btnRemoveNumber.setForeground(new Color(76,150,236));
+        btnRemoveNumber.setFocusPainted(false);
         btnRemoveNumber.setFont(new Font("Arial", Font.PLAIN, 20));
         btnRemoveNumber.setContentAreaFilled(false);
         btnRemoveNumber.setOpaque(true);
-        System.out.println("Inside Board Class: "+game.isMagicTrick);
-        if(game.isMagicTrick!=-1) {
-            btnRemoveNumber.setEnabled(true);
-            btnRemoveNumber.setText("Magic Trick");
-            btnRemoveNumber.setFocusPainted(false);
-            btnRemoveNumber.setBackground(Color.black);
-            btnRemoveNumber.setForeground(new Color(76,150,236));
-        }
-        btnRemoveNumber.addActionListener(e -> {
-
-            //if the trick is not -1 then it has not been used and we can load a trick
-            if(game.isMagicTrick!=-1) {
-                game.isMagicTrick = 1;
-
-            }
-
-
-            btnRemoveNumber.setEnabled(false);
-            btnRemoveNumber.setText("No Tricks Left");
-
-        });
 
         pnlRemove.add(btnRemoveNumber);
+        JTextField numberRemoved = new JTextField(2);
+        numberRemoved.setPreferredSize(new Dimension(10,35));
+        pnlRemove.add(numberRemoved);
+        btnRemoveNumber.addActionListener((ActionEvent actionEvent) -> {
+            int number;
+            try {
+                number = Integer.parseInt(numberRemoved.getText());
+            }catch(Exception e){
+                System.out.println("This is not an integer.");
+                return;
+            }
+            if(number >= 0 && number < 10){
+                game.doMagic(number);
+                btnRemoveNumber.setEnabled(false);
+                numberRemoved.setEditable(false);
+            }
+        });
         pnlQueue.add(pnlRemove);
 
     }

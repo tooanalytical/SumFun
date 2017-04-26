@@ -23,11 +23,8 @@ public class TileController implements ActionListener {
         int row = (int) btn.getClientProperty("row");
         int column = (int) btn.getClientProperty("col");
 
-
-            if(!game.checkForMagicTrick(row, column)) {
-                // updates model
-                game.updateTiles(row, column);
-            }
+        // updates model
+        game.updateTiles(row, column);
 
         /*
         JButton btn = (JButton) e.getSource();
