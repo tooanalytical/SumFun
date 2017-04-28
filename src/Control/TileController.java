@@ -24,88 +24,34 @@ public class TileController implements ActionListener {
         int column = (int) btn.getClientProperty("col");
 
 
-            if(!game.checkForMagicTrick(row, column)) {
-                // updates model
-                game.updateTiles(row, column);
-            }
+        boolean magicTrickStarted=false;
+        if(game.isMagicTrick==1){
+                magicTrickStarted=true;
+        }
 
-        /*
-        JButton btn = (JButton) e.getSource();
-        //gets the row and column the button resides in
-        int row = (int) btn.getClientProperty("row");
-        int column = (int) btn.getClientProperty("col");
+        //Did user click the magic trick?
+        if(magicTrickStarted) {
 
-        // checks if the button is empty and if they still have moves left
-        if(btn.getText().equals("") && ((game.movesLeft.getMovesLeft() > 0) || !game.gameTimer.getTimeRemaining().equals("0:00"))){
+            //determine what tiles should be enabled for clicking when the magic trick is triggered
+            //disable all buttons that are empty when the magic trick is clicked
+            //re-enable the buttons after the magic trick has been completed.
 
-            // checks if move is hit
-            // only update model(s) which are changed; view should be updated automatically
+            //yes they did, now make them work
 
-            //get the value at the top of the queue
-            int value = game.queue.getTop();
-            int addPoints = 0;
-            int sum = 0;
-            int nonEmptyNeighbors = 0;
-
-            //if the button is empty, we need to see if the tile is empty
-            int addToSum = 0;
-            for (int i = row - 1; i <= row + 1; i++){
-                for (int j = column - 1;j <= column + 1; j++){
-                    if(i >= 0 && j >= 0){
-                        if(i < 9 && j < 9){
-                            System.out.println("Value at: i= " + i + " j=" + j);
-                            //if(!game.tiles[i][j].isEmpty()){
-                                //we cannot count the tile placed
-                                if(i != row || j != column) {
-                                    //add the value of the tile (even if it's zero) to the sum
-                                    System.out.print("value: " + game.tiles[i][j].getValue());
-                                    addToSum += game.tiles[i][j].getValue();
-                                    if(!game.tiles[i][j].isEmpty()){
-                                        nonEmptyNeighbors++;
-                                    }
-                                }
-                            //}
-                        }
+                magicTrickStarted=game.checkForMagicTrick(row, column);
+                for(int i=0;i<9;i++){
+                    for(int j=0; j<9;j++){
+                        tileButtons[i][j].addNotify();
                     }
                 }
 
-            }
-            sum = addToSum;
-            System.out.println("sum: " + sum);
-            //set the tile to the queue value (will update the displayed value on board)
-            game.tiles[row][column].setValue(value);
-            int yayWeGotOne = game.tiles[row][column].compare(sum);
+        }else{
+            // updates model
+            game.updateTiles(row, column);
 
-            //if the placement will remove tiles, remove them
-            if(yayWeGotOne == 1 && nonEmptyNeighbors > 0){
-                System.out.println("Number of Neighbors contributing to sum: " + nonEmptyNeighbors);
-                if(nonEmptyNeighbors >= 3){
-
-                    //if more than 3 tiles are involved, add points to score
-                    addPoints += calculateScore(nonEmptyNeighbors);
-                    game.score.updateScore(addPoints);
-                }
-                for (int i = row - 1; i <= row + 1; i++) {
-                    for (int j = column - 1; j <= column + 1; j++) {
-                        if (i >= 0 && j >= 0) {
-                            if (i < 9 && j < 9) {
-                                if (!game.tiles[i][j].isEmpty()) {
-                                    game.tiles[i][j].clear();
-                                }
-                            }
-                        }
-                    }
-
-                }
+        }
 
 
-            }
-
-            game.queue.incrementQueue();
-            game.movesLeft.updateMovesLeft();
-
-
-        }*/
     }
 
     private int calculateScore(int willRemove) {

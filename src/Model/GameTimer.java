@@ -12,6 +12,9 @@ public class GameTimer extends Observable {
         startTime = 300;
         stopTimer();
     }
+
+
+
     private void updateTimeLeft() {
         if(startTime > 0) {
             startTime--;

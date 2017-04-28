@@ -10,6 +10,7 @@ import Model.Score;
 import Model.Tile;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -177,24 +178,30 @@ public abstract class Board implements Observer{
         btnRemoveNumber.setContentAreaFilled(false);
         btnRemoveNumber.setOpaque(true);
         System.out.println("Inside Board Class: "+game.isMagicTrick);
-        if(game.isMagicTrick!=-1) {
-            btnRemoveNumber.setEnabled(true);
-            btnRemoveNumber.setText("Magic Trick");
-            btnRemoveNumber.setFocusPainted(false);
-            btnRemoveNumber.setBackground(Color.black);
-            btnRemoveNumber.setForeground(new Color(76,150,236));
-        }
+
+        btnRemoveNumber.setEnabled(true);
+        btnRemoveNumber.setText("Magic Trick");
+        btnRemoveNumber.setFocusPainted(false);
+        btnRemoveNumber.setBackground(Color.black);
+        btnRemoveNumber.setForeground(new Color(76,150,236));
+
         btnRemoveNumber.addActionListener(e -> {
 
             //if the trick is not -1 then it has not been used and we can load a trick
             if(game.isMagicTrick!=-1) {
                 game.isMagicTrick = 1;
-
+                for (int i=0; i<9; i++){
+                    for(int j=0; j<9; j++){
+                        if(game.tiles[i][j].isEmpty()){
+                            tileButtons[i][j].removeNotify();
+                        }
+                    }
+                }
             }
 
 
             btnRemoveNumber.setEnabled(false);
-            btnRemoveNumber.setText("No Tricks Left");
+            btnRemoveNumber.setText("Magic Trick");
 
         });
 
@@ -279,6 +286,7 @@ public abstract class Board implements Observer{
         btnHint.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHint.setContentAreaFilled(false);
         btnHint.setOpaque(true);
+        btnHint.setMnemonic(KeyEvent.VK_Z);
         btnHint.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             ArrayList<int[]> hints = game.getHints();
@@ -289,7 +297,7 @@ public abstract class Board implements Observer{
             }
 
             // updates hints left; if no hints, button is disabled
-            numHints--;
+            //numHints--;
             if(numHints <= 0){
                 btn.setEnabled(false);
             }
@@ -369,10 +377,14 @@ public abstract class Board implements Observer{
             JButton btn = tileButtons[coord[0]][coord[1]];
             if(tile.isEmpty()){
                 btn.setText("");
+                if(game.isMagicTrick==1){
+                    btn.disable();
+                }
             } else {
                 btn.setText(Integer.toString(tile.getValue()));
                 setColor(btn, tile.getValue());
             }
+
 
 
         }

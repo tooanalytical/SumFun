@@ -21,6 +21,7 @@ public class Game extends Observable implements Serializable {
     public Score score;
     public MovesLeft movesLeft;
     public GameTimer gameTimer;
+    //public delayTimer delayTimer;
 
     private boolean isUntimed = true;
     public int isMagicTrick=0;
@@ -169,7 +170,7 @@ public class Game extends Observable implements Serializable {
         ArrayList<int[]> hints = new ArrayList<>();
 
         // current most num of neighbors
-        int count = 3;
+        int count = /*3*/0;
 
         // loops through each empty tile and adds coords of max hints to arraylist
         for(int r = 0; r < 9; r++){
@@ -217,10 +218,11 @@ public class Game extends Observable implements Serializable {
                     if (!tiles[i][j].isEmpty() && tiles[i][j].getValue()==magicNumber) {
                         tiles[i][j].clear();
                     }
+
                 }
             }
             isMagicTrick=-1;
-            return true;
+            return false;
             //if they placed the magic trick on an empty tile, give the trick back
         }
 
@@ -229,7 +231,7 @@ public class Game extends Observable implements Serializable {
             isMagicTrick=0;
 
             System.out.println("Not a magic trick or is empty: "+isMagicTrick);
-            return false;
+            return true;
             //if the magic trick is not in play, then update the tile as normal. if (isMagicTrick==1 && tiles[row][column].isEmpty())
         }
 
