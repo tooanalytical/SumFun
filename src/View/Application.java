@@ -3,9 +3,8 @@ package View;
 import Control.TileController;
 import Model.Game;
 import Model.HiScore;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+
+import javax.swing.*;
 
 // builds the main JFrame which contains a single panel representing the window
 // also contains the main method, which creates model and initial view
@@ -20,6 +19,8 @@ public class Application extends JFrame {
         super();
         pnlMaster = initialPanel;
         setTitle("Sum Fun!");
+        ImageIcon logo = new ImageIcon("SumFunIcon.png");
+        setIconImage(logo.getImage());
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);

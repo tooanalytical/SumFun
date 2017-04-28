@@ -21,7 +21,6 @@ public class Game extends Observable implements Serializable {
     public Score score;
     public MovesLeft movesLeft;
     public GameTimer gameTimer;
-    //public delayTimer delayTimer;
 
     private boolean isUntimed = true;
     public int isMagicTrick=0;
@@ -153,6 +152,8 @@ public class Game extends Observable implements Serializable {
         // updates score
         if(hitStatus >= 3){
             score.updateScore(hitStatus * 10);
+        }else{
+            score.updateScore(0);
         }
 
         // updates queue
@@ -170,7 +171,7 @@ public class Game extends Observable implements Serializable {
         ArrayList<int[]> hints = new ArrayList<>();
 
         // current most num of neighbors
-        int count = /*3*/0;
+        int count = 3;
 
         // loops through each empty tile and adds coords of max hints to arraylist
         for(int r = 0; r < 9; r++){

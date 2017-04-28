@@ -10,11 +10,15 @@ import Model.Score;
 import Model.Tile;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 // creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
 public abstract class Board implements Observer{
@@ -35,6 +39,7 @@ public abstract class Board implements Observer{
     private JButton[][] tileButtons;
     private JLabel[] queueLabels;
     private JLabel lblScore;
+    private JLabel ptsEarned;
     protected JLabel lblDurationDesc;
     protected JLabel lblDuration;
 
@@ -157,9 +162,6 @@ public abstract class Board implements Observer{
         });
         pnlRefresh.add(btnRefreshQueue);
 
-
-
-
         // instantiates array of queue labels & adds to panel
         queueLabels = new JLabel[5];
         int[] temp = game.queue.getQueue();
@@ -237,7 +239,7 @@ public abstract class Board implements Observer{
     // helper method used to build score panel
     private void buildScorePanel(){
         pnlScore = new JPanel();
-        pnlScore.setLayout(new GridBagLayout());
+        pnlScore.setLayout(new GridLayout(2,1));
         GridBagConstraints gbc = new GridBagConstraints();
 
         // creates title label and adds to panel
@@ -249,6 +251,15 @@ public abstract class Board implements Observer{
         lblScore = new JLabel(Integer.toString(game.score.getScore()), SwingConstants.CENTER);
         lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(lblScore, gbc);
+
+        JLabel lblPtsEarned = new JLabel("PTS EARNED: " , SwingConstants.CENTER);
+        lblPtsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlScore.add(lblPtsEarned, gbc);
+
+        ptsEarned = new JLabel(Integer.toString(game.score.getAddition()), SwingConstants.CENTER);
+        ptsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
+        pnlScore.add(ptsEarned, gbc);
+
     }
 
     // helper method used to build duration panel
@@ -286,7 +297,6 @@ public abstract class Board implements Observer{
         btnHint.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHint.setContentAreaFilled(false);
         btnHint.setOpaque(true);
-        btnHint.setMnemonic(KeyEvent.VK_Z);
         btnHint.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             ArrayList<int[]> hints = game.getHints();
@@ -297,7 +307,7 @@ public abstract class Board implements Observer{
             }
 
             // updates hints left; if no hints, button is disabled
-            //numHints--;
+            numHints--;
             if(numHints <= 0){
                 btn.setEnabled(false);
             }
@@ -402,6 +412,7 @@ public abstract class Board implements Observer{
         // updates JLabel containing score w/ corresponding value in score object
         if(o instanceof Score){
             lblScore.setText(Integer.toString(game.score.getScore()));
+            ptsEarned.setText(Integer.toString(game.score.getAddition()));
         }
 
         // updates JLabel containing moves left w/ corresponding value in movesLeft object
