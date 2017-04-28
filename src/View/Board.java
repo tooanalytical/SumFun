@@ -258,7 +258,7 @@ public abstract class Board implements Observer{
         lblPtsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(lblPtsEarned, gbc);
 
-        ptsEarned = new JLabel(Integer.toString(game.score.getAddition()), SwingConstants.CENTER);
+        ptsEarned = new JLabel("+" + Integer.toString(game.score.getAddition()), SwingConstants.CENTER);
         ptsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(ptsEarned, gbc);
 
@@ -414,7 +414,7 @@ public abstract class Board implements Observer{
         // updates JLabel containing score w/ corresponding value in score object
         if(o instanceof Score){
             lblScore.setText(Integer.toString(game.score.getScore()));
-            ptsEarned.setText(Integer.toString(game.score.getAddition()));
+            ptsEarned.setText("+" + Integer.toString(game.score.getAddition()));
         }
 
         // updates JLabel containing moves left w/ corresponding value in movesLeft object

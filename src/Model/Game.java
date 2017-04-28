@@ -1,5 +1,8 @@
 package Model;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -134,14 +137,20 @@ public class Game extends Observable implements Serializable {
             tiles[r][c].setValue(queue.getTop());
         } else {
             // gets valid neighbors
+            tiles[r][c].setValue(queue.getTop());
             ArrayList<int[]> validNeighbors = getNeighbors(r, c);
-            for(int[] valid : validNeighbors){
-                int row = valid[0];
-                int col = valid[1];
+            Timer timer = new Timer(500, null);
+            timer.addActionListener(actionEvent -> {
+                tiles[r][c].clear();
+                for (int[] valid : validNeighbors) {
+                    int row = valid[0];
+                    int col = valid[1];
+                    tiles[row][col].clear();
 
-                // clears valid neighbors (updates model)
-                tiles[row][col].clear();
-            }
+                }
+                timer.stop();
+            });
+             timer.start();
         }
 
         // updates moves left
