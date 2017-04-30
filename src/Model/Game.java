@@ -237,6 +237,7 @@ public class Game extends Observable implements Serializable {
         isMagicTrick++;
     }*/
 
+    //plays an audio clip when points are scored.
     public void playSound(){
         String coinSound = "coinSound.wav";
         try {
