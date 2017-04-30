@@ -1,14 +1,16 @@
 package Model;
 
 import java.util.Observable;
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class GameTimer extends Observable {
     private String timeRemaining = "5:00";
     private int startTime;
-    private Timer timer = new Timer(1000, e ->   updateTimeLeft());
+    private Timer timer = new Timer(1000, e -> updateTimeLeft());
+    private boolean gameOver;
 
     public GameTimer(){
+        gameOver = false;
         startTime = 300;
         stopTimer();
     }
@@ -25,8 +27,12 @@ public class GameTimer extends Observable {
                 seconds = "0".concat(seconds);
             }
             timeRemaining = minutes + ":" + seconds;
+            if("0:00".equals(timeRemaining)){
+                gameOver = true;
+                stopTimer();
+            }
             setChanged();
-            notifyObservers();
+            notifyObservers(gameOver);
         }
     }
 

@@ -58,12 +58,15 @@ public class TileController implements ActionListener {
             // updates model & checks if game is over
             if(game.updateTiles(row, column)) {
                 if (game.gameOver) {
+                    game.playLosingSound();
                     JOptionPane.showMessageDialog(null, "You lose! Better luck next time!", "Sum Fun Message", JOptionPane.ERROR_MESSAGE);
                 } else {
                     if (game.isUntimed) {
+                        game.playWinningSound();
                         new HighScoresView(game.highScores, Integer.toString(game.score.getScore()), "", LocalDateTime.now());
                     } else {
                         game.gameTimer.stopTimer();
+                        game.playWinningSound();
                         new HighScoresView(game.highScores, Integer.toString(game.score.getScore()), game.gameTimer.getTimeElapsed(), LocalDateTime.now());
                     }
                 }

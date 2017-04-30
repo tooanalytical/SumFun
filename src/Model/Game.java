@@ -207,38 +207,38 @@ public class Game extends Observable implements Serializable {
         }
     }
 
-    public boolean checkForMagicTrick(int row, int column){
+    public boolean checkForMagicTrick(int row, int column) {
         int magicNumber;
         //make sure the magic trick has been started and the tile placed on is not empty.
-        if(isMagicTrick==1 && !tiles[row][column].isEmpty()) {
-            magicNumber=tiles[row][column].getValue();
-            System.out.println("MADE IT, magicNumber="+magicNumber);
-            for(int i=0;i<=8;i++){
-                for(int j=0; j<=8;j++){
-                    if (!tiles[i][j].isEmpty() && tiles[i][j].getValue()==magicNumber) {
+        if (isMagicTrick == 1 && !tiles[row][column].isEmpty()) {
+            magicNumber = tiles[row][column].getValue();
+            System.out.println("MADE IT, magicNumber=" + magicNumber);
+            for (int i = 0; i <= 8; i++) {
+                for (int j = 0; j <= 8; j++) {
+                    if (!tiles[i][j].isEmpty() && tiles[i][j].getValue() == magicNumber) {
                         tiles[i][j].clear();
                     }
 
                 }
             }
-            isMagicTrick=-1;
+            isMagicTrick = -1;
             return false;
             //if they placed the magic trick on an empty tile, give the trick back
         } else {
             //give the magic trick back
-            isMagicTrick=0;
+            isMagicTrick = 0;
 
-            System.out.println("Not a magic trick or is empty: "+isMagicTrick);
+            System.out.println("Not a magic trick or is empty: " + isMagicTrick);
             return true;
             //if the magic trick is not in play, then update the tile as normal. if (isMagicTrick==1 && tiles[row][column].isEmpty())
         }
     }
 
-    // sets global hintCoords field
-    // returns ArrayList containing coordinates of all possible hints which allow user to score the most points
-    // ignores hints which don't allow user to score points (2 or less)
+    //sets global hintCoords field
+    //return ArrayList containing coordinates of all possible hints which allow user to score the most points
+    //ignores hints which don't allow user to score points (2 or less)
     public ArrayList<int[]> getHints(boolean notify){
-        // contains coordinates of each hint
+        //contains coordinates of each hint
         ArrayList<int[]> hintCoords = new ArrayList<>();
 
         // contains value of current max number of tiles removed
@@ -272,5 +272,33 @@ public class Game extends Observable implements Serializable {
             notifyObservers(hintCoords.isEmpty());
         }
         return hintCoords;
+    }
+
+    public void playLosingSound(){
+        String loseSound = "LosingGameSound.wav";
+        try {
+            InputStream in = new FileInputStream(loseSound);
+            // create an audiostream from the inputstream
+            AudioStream audioStream = new AudioStream(in);
+
+            // play the audio clip with the audioplayer class
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playWinningSound(){
+        String winSound = "WinningGameSound.wav";
+        try {
+            InputStream in = new FileInputStream(winSound);
+            // create an audiostream from the inputstream
+            AudioStream audioStream = new AudioStream(in);
+
+            // play the audio clip with the audioplayer class
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

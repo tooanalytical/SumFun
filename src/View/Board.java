@@ -424,6 +424,11 @@ public abstract class Board implements Observer{
         // updates JLabel containing timer w/ corresponding value in timer object
         if(o instanceof GameTimer){
             lblDuration.setText(game.gameTimer.getTimeRemaining());
+            if((boolean) arg){
+                game.playLosingSound();
+                JOptionPane.showMessageDialog(null, "You lose! Better luck next time!", "Sum Fun Message", JOptionPane.ERROR_MESSAGE);
+                btnNewGame.doClick();
+            }
         }
 
         // updates hint button
