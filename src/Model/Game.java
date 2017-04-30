@@ -1,8 +1,6 @@
 package Model;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -17,19 +15,23 @@ public class Game extends Observable implements Serializable {
     public final static int UNTIMED = 1;
     public final static int TIMED = 2;
 
-    private ArrayList<int[]> hints;
+    private int numEmptyTiles;
 
     public Tile[][] tiles;
     public Queue queue;
     public Score score;
     public MovesLeft movesLeft;
     public GameTimer gameTimer;
+    public HighScoresModel highScores;
 
-    private boolean isUntimed = true;
+    public boolean gameOver = false;
+    public boolean isUntimed = true;
     public int isMagicTrick=0;
 
     // constructor
     public Game(int gameType){
+        numEmptyTiles = 32;
+
         // instantiates models
         tiles = new Tile[NUM_ROWS][NUM_COLUMNS];
         queue = new Queue();
@@ -40,6 +42,7 @@ public class Game extends Observable implements Serializable {
             gameTimer = new GameTimer();
             isUntimed = false;
         }
+        highScores = new HighScoresModel();
 
         // instantiates two-dimensional tiles array
         for(int r = 0; r < NUM_ROWS; r++){
@@ -51,9 +54,6 @@ public class Game extends Observable implements Serializable {
                 }
             }
         }
-
-        // instantiates hints
-        updateHints();
     }
 
     // private helper method, used in updateTiles method
@@ -115,18 +115,19 @@ public class Game extends Observable implements Serializable {
 
     // updates tiles 2-d array depending on hit status
     // if hitStatus == -1, hit is false; else hitStatus == number of tiles removed, and hit is true
-    public void updateTiles(int r, int c){
+    // returns true if game is over, false if not
+    public boolean updateTiles(int r, int c){
         // checks if able to update tiles; if not, returns
         if(!tiles[r][c].isEmpty()){
-            return;
+            return false;
         } else {
             if(isUntimed){
                 if(movesLeft.getMovesLeft() <= 0){
-                    return;
+                    return false;
                 }
             } else {
                 if(gameTimer.getTimeRemaining() == "0:00"){
-                    return;
+                    return false;
                 }
             }
         }
@@ -135,22 +136,25 @@ public class Game extends Observable implements Serializable {
         if(hitStatus == -1){
             // tile at position r,c updated w/ value from top of queue
             tiles[r][c].setValue(queue.getTop());
+            numEmptyTiles--;
         } else {
             // gets valid neighbors
             tiles[r][c].setValue(queue.getTop());
             ArrayList<int[]> validNeighbors = getNeighbors(r, c);
-            Timer timer = new Timer(500, null);
+            Timer timer = new Timer(200, null);
             timer.addActionListener(actionEvent -> {
                 tiles[r][c].clear();
                 for (int[] valid : validNeighbors) {
                     int row = valid[0];
                     int col = valid[1];
-                    tiles[row][col].clear();
 
+                    // clears neighbors & updates model
+                    tiles[row][col].clear();
                 }
                 timer.stop();
             });
-             timer.start();
+            timer.start();
+            numEmptyTiles += hitStatus;
         }
 
         // updates moves left
@@ -168,20 +172,30 @@ public class Game extends Observable implements Serializable {
         // updates queue
         queue.incrementQueue();
 
-        // updates hints
-        updateHints();
+        // checks if game is won or lost
+        if(numEmptyTiles == 0){
+            // game is lost
+            gameOver = true;
+            return true;
+        } else if(numEmptyTiles == 81){
+            // game is won
+            return true;
+        }
+
+        return false;
 
     }
 
     // sets hints field
     // the coords returned only represent hints which return max points (and must have three or more tiles removed)
-    private void updateHints(){
+    /*
+    public void updateHints(){
         // contains coords with hits that give most points
         ArrayList<int[]> hints = new ArrayList<>();
 
         // current most num of neighbors
         int count = 3;
-
+        //int count = 0;
         // loops through each empty tile and adds coords of max hints to arraylist
         for(int r = 0; r < 9; r++){
             for(int c = 0; c < 9; c++){
@@ -204,18 +218,7 @@ public class Game extends Observable implements Serializable {
         setChanged();
         notifyObservers(hints.size());
     }
-
-    // accessor method for hints array list
-    public ArrayList<int[]> getHints(){
-        return hints;
-    }
-
-    //allows user to use magicTrick
-    public void startMagicTrick(){
-        isMagicTrick++;
-    }
-
-
+    */
 
     public boolean checkForMagicTrick(int row, int column){
         int magicNumber;
@@ -234,9 +237,7 @@ public class Game extends Observable implements Serializable {
             isMagicTrick=-1;
             return false;
             //if they placed the magic trick on an empty tile, give the trick back
-        }
-
-        else{
+        } else {
             //give the magic trick back
             isMagicTrick=0;
 

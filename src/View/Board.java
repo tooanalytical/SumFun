@@ -3,7 +3,6 @@ package View;
 import Control.TileController;
 import Model.Game;
 import Model.GameTimer;
-import Model.HiScore;
 import Model.MovesLeft;
 import Model.Queue;
 import Model.Score;
@@ -11,21 +10,16 @@ import Model.Tile;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 //Bailey: I needed a change to commit it.
 
 // creates JPanel, pnlMaster, which represents either UntimedBoard or TimedBoard
 public abstract class Board implements Observer{
-
-    private int numHints = 3;
 
     // important components contained in master panel
     private JButton btnHint;
@@ -44,13 +38,12 @@ public abstract class Board implements Observer{
     private JLabel ptsEarned;
     protected JLabel lblDurationDesc;
     protected JLabel lblDuration;
+    public JButton btnNewGame;
 
     protected Game game;
-    protected HiScore score;
 
-    public Board(Game game, HiScore score){
+    public Board(Game game){
         this.game = game;
-        this.score = score;
         addObservers();
 
         buildMasterPanel();
@@ -114,7 +107,7 @@ public abstract class Board implements Observer{
                 btn.setFocusPainted(false);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileController(game, tileButtons));
+                btn.addActionListener(new TileController(game, tileButtons, this));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 } else {
@@ -168,9 +161,15 @@ public abstract class Board implements Observer{
         queueLabels = new JLabel[5];
         int[] temp = game.queue.getQueue();
         for(int i = 0; i < 5; i++){
+            JPanel pnl = new JPanel();
             queueLabels[i] = new JLabel(Integer.toString(temp[i]), SwingConstants.CENTER);
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
-            pnlQueue.add(queueLabels[i]);
+            queueLabels[i].setPreferredSize(new Dimension(70, 70));
+            queueLabels[i].setOpaque(true);
+            queueLabels[i].setBackground(Color.BLACK);
+            setColor(queueLabels[i], temp[i]);
+            pnl.add(queueLabels[i]);
+            pnlQueue.add(pnl);
         }
         pnlQueue.add(pnlRefresh);
 
@@ -205,7 +204,7 @@ public abstract class Board implements Observer{
 
 
             btnRemoveNumber.setEnabled(false);
-            btnRemoveNumber.setText("Magic Trick");
+            //btnRemoveNumber.setText("Magic Trick");
 
         });
 
@@ -299,27 +298,17 @@ public abstract class Board implements Observer{
         btnHint.setFont(new Font("Arial", Font.PLAIN, 20));
         btnHint.setContentAreaFilled(false);
         btnHint.setOpaque(true);
+        btnHint.setMnemonic(KeyEvent.VK_Z);
         btnHint.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
-            ArrayList<int[]> hints = game.getHints();
-            for(int[] hint : hints){
-                int row = hint[0];
-                int col = hint[1];
-                tileButtons[row][col].setBackground(new Color(76,150,236));
-            }
-
-            // updates hints left; if no hints, button is disabled
-            numHints--;
-            if(numHints <= 0){
-                btn.setEnabled(false);
-            }
+            //tileButtons[row][col].setBackground(new Color(76,150,236));
         });
         pnlHint.add(btnHint);
         pnlButtons.add(pnlHint);
 
         // instantiates new game button and adds to panel
         JPanel pnlNewGame = new JPanel();
-        JButton btnNewGame = new JButton();
+        btnNewGame = new JButton();
         btnNewGame.setText("New Game");
         btnNewGame.setFocusPainted(false);
         btnNewGame.setBackground(Color.black);
@@ -330,7 +319,7 @@ public abstract class Board implements Observer{
         btnNewGame.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.GAME_TYPE_MENU, score);
+            Menu menu = new Menu(Menu.GAME_TYPE_MENU);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlNewGame.add(btnNewGame);
@@ -355,27 +344,27 @@ public abstract class Board implements Observer{
 
     // private helper method
     // sets text color of JButton depending on value of corresponding tile
-    private void setColor(JButton btn, int value){
+    private <T extends JComponent> void setColor(T comp, int value){
         switch(value){
-            case 0: btn.setForeground(new Color(200, 200, 200));
+            case 0: comp.setForeground(new Color(200, 200, 200));
                     break;
-            case 1: btn.setForeground(new Color(255, 0, 0));
+            case 1: comp.setForeground(new Color(255, 0, 0));
                     break;
-            case 2: btn.setForeground(new Color(255, 120, 0));
+            case 2: comp.setForeground(new Color(255, 120, 0));
                     break;
-            case 3: btn.setForeground(new Color(255, 255, 0));
+            case 3: comp.setForeground(new Color(255, 255, 0));
                     break;
-            case 4: btn.setForeground(new Color(0, 130, 0));
+            case 4: comp.setForeground(new Color(0, 130, 0));
                     break;
-            case 5: btn.setForeground(new Color(0, 255, 0));
+            case 5: comp.setForeground(new Color(0, 255, 0));
                     break;
-            case 6: btn.setForeground(new Color(0, 0, 255));
+            case 6: comp.setForeground(new Color(0, 0, 255));
                     break;
-            case 7: btn.setForeground(new Color(0, 255, 255));
+            case 7: comp.setForeground(new Color(0, 255, 255));
                     break;
-            case 8: btn.setForeground(new Color(255, 50, 150));
+            case 8: comp.setForeground(new Color(255, 50, 150));
                     break;
-            case 9: btn.setForeground(new Color(150, 0, 150));
+            case 9: comp.setForeground(new Color(150, 0, 150));
                     break;
         }
     }
@@ -390,15 +379,12 @@ public abstract class Board implements Observer{
             if(tile.isEmpty()){
                 btn.setText("");
                 if(game.isMagicTrick==1){
-                    btn.disable();
+                    btn.setEnabled(false);
                 }
             } else {
                 btn.setText(Integer.toString(tile.getValue()));
                 setColor(btn, tile.getValue());
             }
-
-
-
         }
 
         // updates JLabels representing queue w/ corresponding values of queue object
@@ -408,6 +394,7 @@ public abstract class Board implements Observer{
 
             for(int i = 0; i < newQueue.length; i++){
                 queueLabels[i].setText(Integer.toString(newQueue[i]));
+                setColor(queueLabels[i], newQueue[i]);
             }
         }
 
@@ -430,6 +417,7 @@ public abstract class Board implements Observer{
         // updates hint button
         // hint button is disabled if arg is < 1; else it is enabled
         if(o instanceof Game){
+            /*
             if((int) arg < 1){
                 btnHint.setEnabled(false);
             } else {
@@ -438,6 +426,7 @@ public abstract class Board implements Observer{
                     btnHint.setEnabled(true);
                 }
             }
+            */
             // resets background colors of JButtons
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){

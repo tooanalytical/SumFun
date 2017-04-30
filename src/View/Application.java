@@ -1,8 +1,8 @@
 package View;
 
-import Control.TileController;
-import Model.Game;
+import Model.HighScoresModel;
 import Model.HiScore;
+import View.HighScoresView;
 
 import javax.swing.*;
 
@@ -10,7 +10,7 @@ import javax.swing.*;
 // also contains the main method, which creates model and initial view
 public class Application extends JFrame {
 
-    private final int WINDOW_WIDTH = 1200;
+    private final int WINDOW_WIDTH = 1300;
     private final int WINDOW_HEIGHT = 700;
 
     private JPanel pnlMaster;
@@ -45,15 +45,25 @@ public class Application extends JFrame {
 
     public static void main(String[] args){
 
+        // TESTING HIGHSCORES MODEL
+        /*
+        HighScoresModel hs = new HighScoresModel();
+        for(String[] arr : hs.mostPoints){
+            for(String s : arr){
+                System.out.println(s);
+            }
+        }
+        */
+
+
         // instantiates game model
         //Game game = new Game(numRows, numColumns);
         //TileController controller = new TileController(game);
 
-        HiScore score = new HiScore();
-        score.loadScores();
+        //new HighScoresView(false, false);
 
         // creates new menu panel & passes to app jframe
-        Menu menu = new Menu(Menu.START_MENU, score);
+        Menu menu = new Menu(Menu.START_MENU);
 
         // creates new Application
         new Application(menu.retrieveMasterPanel());

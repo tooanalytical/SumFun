@@ -7,8 +7,8 @@ import Model.Tile;
 // creates UntimedBoard JPanel
 public class UntimedBoard extends Board {
 
-    public UntimedBoard(Game game, HiScore score){
-        super(game, score);
+    public UntimedBoard(Game game){
+        super(game);
         updateDurationPanel();
     }
 

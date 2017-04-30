@@ -10,8 +10,8 @@ public class TimedBoard extends Board {
 
     private GameTimer gameTimer = new GameTimer();
 
-    public TimedBoard(Game game, HiScore score){
-        super(game, score);
+    public TimedBoard(Game game){
+        super(game);
         updateDurationPanel();
     }
 

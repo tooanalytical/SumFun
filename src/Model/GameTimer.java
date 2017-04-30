@@ -34,7 +34,27 @@ public class GameTimer extends Observable {
         return timeRemaining;
     }
 
-    private void stopTimer(){
+    public String getTimeElapsed(){
+        String m = "" + timeRemaining.charAt(0);
+        String s = timeRemaining.substring(2);
+        int min = Integer.parseInt(m);
+        int sec = Integer.parseInt(s);
+
+        String mins = Integer.toString(4 - min);
+        String secs;
+        if(sec > 50){
+            secs = "0" + Integer.toString(60 - sec);
+        } else if(sec > 0){
+            secs = Integer.toString(60 - sec);
+        } else {
+            mins = Integer.toString(4 - (min - 1));
+            secs = "00";
+        }
+
+        return mins + ":" + secs;
+    }
+
+    public void stopTimer(){
         timer.stop();
     }
 

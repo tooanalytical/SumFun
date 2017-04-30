@@ -2,11 +2,14 @@ package View;
 
 import Model.Game;
 import Model.HiScore;
+import Model.HighScoresModel;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.time.LocalDateTime;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +22,6 @@ public class Menu {
 
     public static final int START_MENU = 1;
     public static final int GAME_TYPE_MENU = 2;
-    public static final int HI_SCORE_MENU = 3;
 
     private static final int HEIGHT = 100;
     private static final int WIDTH = 300;
@@ -32,9 +34,7 @@ public class Menu {
     private JPanel pnlMaster;
     private Dimension d;
 
-    private HiScore score;
-
-    public Menu(int menuType, HiScore score){
+    public Menu(int menuType){
         pnlMaster = new JPanel();
         pnlMaster.setLayout(new GridLayout(4, 1));
         d = new Dimension(WIDTH, HEIGHT);
@@ -42,8 +42,6 @@ public class Menu {
         untimedScores = new JLabel[10];
         timedNames = new JLabel[10];
         timedScores = new JLabel[10];
-
-        this.score = score;
 
         if(menuType == START_MENU){
             buildStartMenu();
@@ -53,9 +51,11 @@ public class Menu {
             buildGameTypeMenu();
         }
 
+        /*
         if(menuType == HI_SCORE_MENU){
             buildHiScoreMenu();
         }
+        */
     }
 
     public JPanel retrieveMasterPanel(){
@@ -86,7 +86,7 @@ public class Menu {
         btnStart.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.GAME_TYPE_MENU, score);
+            Menu menu = new Menu(Menu.GAME_TYPE_MENU);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlStart.add(btnStart);
@@ -105,10 +105,8 @@ public class Menu {
         btnHiScores.setContentAreaFilled(false);
         btnHiScores.setOpaque(true);
         btnHiScores.addActionListener(e -> {
-            JButton btn = (JButton) e.getSource();
-            Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.HI_SCORE_MENU, score);
-            app.updateMasterPanel(menu.retrieveMasterPanel());
+            HighScoresModel highScores = new HighScoresModel();
+            new HighScoresView(highScores, "", "", LocalDateTime.now());
         });
         pnlHiScores.add(btnHiScores);
         pnlMaster.add(pnlHiScores);
@@ -156,7 +154,7 @@ public class Menu {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
             Game game = new Game(Game.UNTIMED);
-            UntimedBoard untimedBoard = new UntimedBoard(game, score);
+            UntimedBoard untimedBoard = new UntimedBoard(game);
             app.updateMasterPanel(untimedBoard.retrieveMasterPanel());
         });
         pnlUntimed.add(btnUntimed);
@@ -178,7 +176,7 @@ public class Menu {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
             Game game = new Game(Game.TIMED);
-            TimedBoard timedBoard = new TimedBoard(game, score);
+            TimedBoard timedBoard = new TimedBoard(game);
             app.updateMasterPanel(timedBoard.retrieveMasterPanel());
         });
         pnlTimed.add(btnTimed);
@@ -199,13 +197,14 @@ public class Menu {
         btnBack.addActionListener(e -> {
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
-            Menu menu = new Menu(Menu.START_MENU, score);
+            Menu menu = new Menu(Menu.START_MENU);
             app.updateMasterPanel(menu.retrieveMasterPanel());
         });
         pnlBack.add(btnBack);
         pnlMaster.add(pnlBack);
     }
 
+    /*
     private void buildHiScoreMenu() {
 
         //instantiates hi scores for both untimed and timed games
@@ -310,5 +309,6 @@ public class Menu {
         pnlBack.add(btnBack);
         pnlMaster.add(pnlBack);
     }
+    */
 
 }
