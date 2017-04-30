@@ -16,7 +16,7 @@ public class Game extends Observable implements Serializable {
 
     public final static int NUM_ROWS = 9;
     public final static int NUM_COLUMNS = 9;
-    private final int NUM_MOVES_LEFT = 50;
+    private final int NUM_MOVES_LEFT = 5;
     public final static int UNTIMED = 1;
     public final static int TIMED = 2;
 
@@ -128,12 +128,10 @@ public class Game extends Observable implements Serializable {
             return false;
         } else {
             if(isUntimed){
+                movesLeft.updateMovesLeft();
                 if(movesLeft.getMovesLeft() <= 0){
-                    return false;
-                }
-            } else {
-                if(gameTimer.getTimeRemaining() == "0:00"){
-                    return false;
+                    gameOver = true;
+                    return true;
                 }
             }
         }
@@ -163,9 +161,9 @@ public class Game extends Observable implements Serializable {
         }
 
         // updates moves left
-        if(isUntimed){
+        /*if(isUntimed){
             movesLeft.updateMovesLeft();
-        }
+        }*/
 
         // updates score
         if(hitStatus >= 3){
