@@ -42,6 +42,7 @@ public abstract class Board implements Observer{
 
     protected Game game;
 
+
     public Board(Game game){
         this.game = game;
         addObservers();
@@ -196,7 +197,7 @@ public abstract class Board implements Observer{
                 for (int i=0; i<9; i++){
                     for(int j=0; j<9; j++){
                         if(game.tiles[i][j].isEmpty()){
-                            tileButtons[i][j].removeNotify();
+                            tileButtons[i][j].setEnabled(false);
                         }
                     }
                 }
@@ -204,7 +205,7 @@ public abstract class Board implements Observer{
 
 
             btnRemoveNumber.setEnabled(false);
-            //btnRemoveNumber.setText("Magic Trick");
+            btnRemoveNumber.setText("Magic Trick");
 
         });
 
@@ -385,6 +386,9 @@ public abstract class Board implements Observer{
                 btn.setText(Integer.toString(tile.getValue()));
                 setColor(btn, tile.getValue());
             }
+
+
+
         }
 
         // updates JLabels representing queue w/ corresponding values of queue object

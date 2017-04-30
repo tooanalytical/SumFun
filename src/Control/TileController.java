@@ -44,12 +44,13 @@ public class TileController implements ActionListener {
 
             //yes they did, now make them work
 
-            game.checkForMagicTrick(row, column);
-            for(int i=0;i<9;i++){
-                for(int j=0; j<9;j++){
-                    tileButtons[i][j].addNotify();
-                }
-            }
+                magicTrickStarted=game.checkForMagicTrick(row, column);
+               if(magicTrickStarted==false){
+                for(int i=0;i<9;i++){
+                    for(int j=0; j<9;j++){
+                        tileButtons[i][j].setEnabled(true);
+                    }
+                }}
 
         } else {
             // updates model & checks if game is over
