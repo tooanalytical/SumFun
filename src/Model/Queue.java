@@ -63,8 +63,7 @@ public class Queue extends Observable implements Serializable {
 
         if(position >= 4){
             position = 0;
-        }
-        else{
+        } else{
             position++;
         }
 

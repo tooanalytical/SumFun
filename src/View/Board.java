@@ -9,7 +9,6 @@ import Model.Score;
 import Model.Tile;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -299,9 +298,22 @@ public abstract class Board implements Observer{
         btnHint.setContentAreaFilled(false);
         btnHint.setOpaque(true);
         btnHint.setMnemonic(KeyEvent.VK_Z);
+        // fixes error where hint button wasn't disabled when no initial hints when starting game
+        if(game.getHints(false).isEmpty()){
+            btnHint.setEnabled(false);
+        }
         btnHint.addActionListener(e -> {
-            JButton btn = (JButton) e.getSource();
-            //tileButtons[row][col].setBackground(new Color(76,150,236));
+            // updates numHints left
+            game.numHintsLeft -= 1;
+
+            ArrayList<int[]> cors = game.getHints(true);
+            // for every hint, changes background color
+            for(int[] coords : cors){
+                int r = coords[0];
+                int c = coords[1];
+
+                tileButtons[r][c].setBackground(new Color(76, 150, 236));
+            }
         });
         pnlHint.add(btnHint);
         pnlButtons.add(pnlHint);
@@ -385,9 +397,6 @@ public abstract class Board implements Observer{
                 btn.setText(Integer.toString(tile.getValue()));
                 setColor(btn, tile.getValue());
             }
-
-
-
         }
 
         // updates JLabels representing queue w/ corresponding values of queue object
@@ -420,16 +429,18 @@ public abstract class Board implements Observer{
         // updates hint button
         // hint button is disabled if arg is < 1; else it is enabled
         if(o instanceof Game){
-            /*
-            if((int) arg < 1){
+
+            if((boolean) arg){
                 btnHint.setEnabled(false);
             } else {
-                // only re-enables hint button if hints are left
-                if(numHints > 0){
+                // enables buttons if still hints left
+                if(game.numHintsLeft > 0){
                     btnHint.setEnabled(true);
+                } else {
+                    btnHint.setEnabled(false);
                 }
             }
-            */
+
             // resets background colors of JButtons
             for(int r = 0; r < 9; r++){
                 for(int c = 0; c < 9; c++){
@@ -437,6 +448,7 @@ public abstract class Board implements Observer{
                 }
             }
         }
+
     }
 
 }

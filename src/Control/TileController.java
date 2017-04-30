@@ -5,9 +5,11 @@ import View.Application;
 import View.Board;
 import View.HighScoresView;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.swing.*;
 
 // actionPerformed & isHit methods need finished
@@ -67,6 +69,9 @@ public class TileController implements ActionListener {
                 }
                 board.btnNewGame.doClick();
             }
+
+            // disables hint button if no hints
+            game.getHints(true);
         }
 
     }

@@ -4,8 +4,6 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -34,6 +32,7 @@ public class Game extends Observable implements Serializable {
     public boolean gameOver = false;
     public boolean isUntimed = true;
     public int isMagicTrick=0;
+    public int numHintsLeft = 3000;
 
     // constructor
     public Game(int gameType){
@@ -63,7 +62,7 @@ public class Game extends Observable implements Serializable {
         }
     }
 
-    // private helper method, used in updateTiles method
+    // private helper method, used in updateTiles method and getHints method
     // checks if sum of tile neighbors modulus 10 is equal to top of queue
     // if placement is a hit, the number of tiles removed is returned
     // if not a hit, -1 is returned
@@ -140,16 +139,15 @@ public class Game extends Observable implements Serializable {
         }
 
         int hitStatus = isHit(r, c);
+        // tile at position r,c updated w/ value from top of queue
+        tiles[r][c].setValue(queue.getTop());
         if(hitStatus == -1){
-            // tile at position r,c updated w/ value from top of queue
-            tiles[r][c].setValue(queue.getTop());
             numEmptyTiles--;
         } else {
             // gets valid neighbors
-            tiles[r][c].setValue(queue.getTop());
             ArrayList<int[]> validNeighbors = getNeighbors(r, c);
-            Timer timer = new Timer(200, null);
-            timer.addActionListener(actionEvent -> {
+            Timer delayTimer = new Timer(200, null);
+            delayTimer.addActionListener(actionEvent -> {
                 tiles[r][c].clear();
                 for (int[] valid : validNeighbors) {
                     int row = valid[0];
@@ -158,9 +156,9 @@ public class Game extends Observable implements Serializable {
                     // clears neighbors & updates model
                     tiles[row][col].clear();
                 }
-                timer.stop();
+                delayTimer.stop();
             });
-            timer.start();
+            delayTimer.start();
             numEmptyTiles += hitStatus;
         }
 
@@ -194,49 +192,6 @@ public class Game extends Observable implements Serializable {
 
     }
 
-    // sets hints field
-    // the coords returned only represent hints which return max points (and must have three or more tiles removed)
-    /*
-    public void updateHints(){
-        // contains coords with hits that give most points
-        ArrayList<int[]> hints = new ArrayList<>();
-
-        // current most num of neighbors
-        int count = 3;
-        //int count = 0;
-        // loops through each empty tile and adds coords of max hints to arraylist
-        for(int r = 0; r < 9; r++){
-            for(int c = 0; c < 9; c++){
-                if(tiles[r][c].isEmpty()){
-                    int isHit = isHit(r, c);
-                    int[] coords = {r, c};
-                    if(count == isHit){
-                        hints.add(coords);
-                    } else if(count < isHit) {
-                        hints.clear();
-                        count = isHit;
-                        hints.add(coords);
-                    }
-                }
-            }
-        }
-
-        this.hints = hints;
-
-        setChanged();
-        notifyObservers(hints.size());
-    }
-
-    // accessor method for hints array list
-    public ArrayList<int[]> getHints(){
-        return hints;
-    }
-
-    //allows user to use magicTrick
-    public void startMagicTrick(){
-        isMagicTrick++;
-    }*/
-
     //plays an audio clip when points are scored.
     public void playSound(){
         String coinSound = "coinSound.wav";
@@ -251,9 +206,6 @@ public class Game extends Observable implements Serializable {
             e.printStackTrace();
         }
     }
-
-
-
 
     public boolean checkForMagicTrick(int row, int column){
         int magicNumber;
@@ -280,7 +232,45 @@ public class Game extends Observable implements Serializable {
             return true;
             //if the magic trick is not in play, then update the tile as normal. if (isMagicTrick==1 && tiles[row][column].isEmpty())
         }
+    }
 
+    // sets global hintCoords field
+    // returns ArrayList containing coordinates of all possible hints which allow user to score the most points
+    // ignores hints which don't allow user to score points (2 or less)
+    public ArrayList<int[]> getHints(boolean notify){
+        // contains coordinates of each hint
+        ArrayList<int[]> hintCoords = new ArrayList<>();
 
+        // contains value of current max number of tiles removed
+        // starts at 3 b/c only hints which remove 3 or more tiles should be considered
+        int top = 3;
+
+        // loops through each tile and updates hintCoords as necessary, depending on hit or not
+        for(int r = 0; r < 9; r++){
+            for(int c = 0; c < 9; c++){
+                // continues if tile is not empty
+                if(!tiles[r][c].isEmpty()){
+                    continue;
+                }
+                int hitVal = isHit(r, c);
+                int[] coords = {r, c};
+
+                // if hitVal is greater than top, create new hintCoords and add to it
+                // else if hitVal is greater than top, add coords of hitVal to hintCoords
+                if(hitVal > top){
+                    hintCoords = new ArrayList<>();
+                    hintCoords.add(coords);
+                    top = hitVal;
+                } else if(hitVal == top){
+                    hintCoords.add(coords);
+                }
+            }
+        }
+
+        if(notify){
+            setChanged();
+            notifyObservers(hintCoords.isEmpty());
+        }
+        return hintCoords;
     }
 }

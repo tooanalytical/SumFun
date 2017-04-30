@@ -65,19 +65,4 @@ public class Tile extends Observable implements Serializable {
         return coordinates;
     }
 
-
-
-    public int compare(int sum){
-
-
-
-        //perform mod calculation
-        int mod=sum%10;
-
-        //if the mod value equals the value of the placed tile, remove tiles
-        if (value==mod){
-            return 1;
-        }
-        return 0;
-    }
 }
