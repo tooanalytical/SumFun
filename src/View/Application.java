@@ -1,13 +1,16 @@
 package View;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 // builds the main JFrame which contains a single panel representing the window
 // also contains the main method, which creates model and initial view
 public class Application extends JFrame {
 
-    private final int WINDOW_WIDTH = 1300;
-    private final int WINDOW_HEIGHT = 700;
+    private final int Window_Width = 1300;
+    private final int Window_Height = 700;
 
     private JPanel pnlMaster;
 
@@ -17,7 +20,7 @@ public class Application extends JFrame {
         setTitle("Sum Fun!");
         ImageIcon logo = new ImageIcon("SumFunIcon.png");
         setIconImage(logo.getImage());
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setSize(Window_Width, Window_Height);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         add(pnlMaster);

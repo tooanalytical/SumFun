@@ -1,18 +1,29 @@
 package View;
 
 import Model.HighScoresModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Observer;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+
 
 public class HighScoresView extends JDialog implements Observer {
 
-    private final int WINDOW_WIDTH = 1300;
-    private final int WINDOW_HEIGHT = 700;
+    private final int Window_Width = 1300;
+    private final int Window_Height = 700;
     private HighScoresModel highScores;
     private final String pointsScore;
     private final String timeScore;
@@ -23,7 +34,8 @@ public class HighScoresView extends JDialog implements Observer {
     private JPanel pnlMaster;
     private Color backColor;
 
-    public HighScoresView(HighScoresModel highScores, String pointsScore, String timeScore, LocalDateTime now){
+    public HighScoresView(HighScoresModel highScores, String pointsScore,
+                          String timeScore, LocalDateTime now){
         super();
         this.highScores = highScores;
         this.pHighScore = highScores.checkHighScore("p", pointsScore);
@@ -36,7 +48,7 @@ public class HighScoresView extends JDialog implements Observer {
         setTitle("Sum Fun High Scores");
         ImageIcon logo = new ImageIcon("SumFunIcon.png");
         setIconImage(logo.getImage());
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setSize(Window_Width, Window_Height);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         setModal(true);
@@ -113,7 +125,6 @@ public class HighScoresView extends JDialog implements Observer {
         // row 11 -- edit most points high scores (optional)
         if(newHighScore){
             JPanel pnlNewHighScore = new JPanel();
-            //pnlNewHighScore.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             pnlNewHighScore.setBackground(backColor);
             JLabel lblEnterName = new JLabel("Please enter name:");
             lblEnterName.setFont(new Font("Arial", Font.BOLD, 20));
@@ -132,12 +143,17 @@ public class HighScoresView extends JDialog implements Observer {
             btnEnterName.setBackground(Color.BLACK);
             btnEnterName.setFocusPainted(false);
             btnEnterName.addActionListener(e -> {
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
+                        "MM/dd/yyyy HH:mm");
                 if(type.equals("p")){
-                    highScores.updateHighScores(type, dtf.format(now), txtEnterName.getText().replaceAll(",", ""), pointsScore);
+                    highScores.updateHighScores(type, dtf.format(now),
+                            txtEnterName.getText().replaceAll(",", ""),
+                            pointsScore);
                 }
                 if(type.equals("t")){
-                    highScores.updateHighScores(type, dtf.format(now), txtEnterName.getText().replaceAll(",", ""), timeScore);
+                    highScores.updateHighScores(type, dtf.format(now),
+                            txtEnterName.getText().replaceAll(",", ""),
+                            timeScore);
                 }
                 btnEnterName.setEnabled(false);
             });

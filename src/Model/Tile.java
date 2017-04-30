@@ -7,7 +7,8 @@ public class Tile extends Observable implements Serializable {
 
     private int value;
     private boolean isEmpty;
-    private int[] coordinates = {0, 0};                             // index 0 contains row coord, 1 contains column
+    private int[] coordinates = {0, 0};
+    // index 0 contains row coord, 1 contains column
 
     // first constructor
     public Tile(boolean isEmpty){

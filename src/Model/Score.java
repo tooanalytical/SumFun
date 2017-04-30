@@ -28,5 +28,8 @@ public class Score extends Observable implements Serializable {
     public int getScore(){
         return score;
     }
-    public int getAddition(){ return addition; }
+
+    public int getAddition(){
+        return addition;
+    }
 }

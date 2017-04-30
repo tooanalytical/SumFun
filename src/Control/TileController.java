@@ -5,12 +5,11 @@ import View.Application;
 import View.Board;
 import View.HighScoresView;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 // actionPerformed & isHit methods need finished
 // need method for determining neighbors
@@ -40,8 +39,8 @@ public class TileController implements ActionListener {
         //Did user click the magic trick?
         if(magicTrickStarted) {
 
-            //determine what tiles should be enabled for clicking when the magic trick is triggered
-            //disable all buttons that are empty when the magic trick is clicked
+            //determine what tiles should be enabled for clicking
+            // disable all buttons that are empty when clicked
             //re-enable the buttons after the magic trick has been completed.
 
             //yes they did, now make them work
@@ -52,22 +51,30 @@ public class TileController implements ActionListener {
                     for(int j=0; j<9;j++){
                         tileButtons[i][j].setEnabled(true);
                     }
-                }}
+                }
+               }
 
         } else {
             // updates model & checks if game is over
             if(game.updateTiles(row, column)) {
                 if (game.gameOver) {
                     game.playLosingSound();
-                    JOptionPane.showMessageDialog(null, "You lose! Better luck next time!", "Sum Fun Message", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,
+                            "You lose! Better luck next time!",
+                            "Sum Fun Message", JOptionPane.ERROR_MESSAGE);
                 } else {
                     if (game.isUntimed) {
                         game.playWinningSound();
-                        new HighScoresView(game.highScores, Integer.toString(game.score.getScore()), "", LocalDateTime.now());
+                        new HighScoresView(game.highScores,
+                                Integer.toString(game.score.getScore()),
+                                "", LocalDateTime.now());
                     } else {
                         game.gameTimer.stopTimer();
                         game.playWinningSound();
-                        new HighScoresView(game.highScores, Integer.toString(game.score.getScore()), game.gameTimer.getTimeElapsed(), LocalDateTime.now());
+                        new HighScoresView(game.highScores,
+                                Integer.toString(game.score.getScore()),
+                                game.gameTimer.getTimeElapsed(),
+                                LocalDateTime.now());
                     }
                 }
                 board.btnNewGame.doClick();

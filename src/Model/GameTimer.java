@@ -1,7 +1,7 @@
 package Model;
 
 import java.util.Observable;
-import javax.swing.*;
+import javax.swing.Timer;
 
 public class GameTimer extends Observable {
     private String timeRemaining = "5:00";

@@ -6,7 +6,7 @@ import java.util.Observable;
 public class Queue extends Observable implements Serializable {
 
     private int[] queue;
-    private int position;                                           // represents top of queue
+    private int position; // represents top of queue
 
     //constructor
     public Queue(){

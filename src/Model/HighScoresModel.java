@@ -51,21 +51,22 @@ public class HighScoresModel extends Observable implements Serializable {
     }
 
     // updates file
-    public void updateHighScores(String type, String date, String name, String score){
+    public void updateHighScores(String type, String date,
+                                 String name, String score){
         // updates arraylists
-        String[] newHS = {type, date, name, score};
+        String[] newHs = {type, date, name, score};
         if(type.equals("p")){
             if(mostPoints.isEmpty()){
-                mostPoints.add(newHS);
+                mostPoints.add(newHs);
             } else {
-                mostPoints.add(pIndex, newHS);
+                mostPoints.add(pIndex, newHs);
             }
         }
         if(type.equals("t")){
             if(leastTime.isEmpty()){
-                leastTime.add(newHS);
+                leastTime.add(newHs);
             } else {
-                leastTime.add(tIndex, newHS);
+                leastTime.add(tIndex, newHs);
             }
         }
 
@@ -82,11 +83,13 @@ public class HighScoresModel extends Observable implements Serializable {
             FileWriter writer = new FileWriter(file);
             for(int i = 0; i < pSize; i++){
                 String[] arr = mostPoints.get(i);
-                writer.write(arr[0] + "," + arr[1] + "," + arr[2] + "," + arr[3] + "\n");
+                writer.write(arr[0] + "," + arr[1] + ","
+                        + arr[2] + "," + arr[3] + "\n");
             }
             for(int j = 0; j < tSize; j++){
                 String[] arr = leastTime.get(j);
-                writer.write(arr[0] + "," + arr[1] + "," + arr[2] + "," + arr[3] + "\n");
+                writer.write(arr[0] + "," + arr[1] + ","
+                        + arr[2] + "," + arr[3] + "\n");
             }
 
             writer.flush();
@@ -134,7 +137,7 @@ public class HighScoresModel extends Observable implements Serializable {
     }
 
     // returns false if given score is not a high score, else returns true
-    // sets pIndex and/or tIndex with index of score which given score is greater than if true
+    // sets pIndex/tIndex w/ index of score
     public boolean checkHighScore(String type, String score){
         if(score.equals("")){
             return false;

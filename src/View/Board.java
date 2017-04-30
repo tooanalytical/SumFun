@@ -8,12 +8,22 @@ import Model.Queue;
 import Model.Score;
 import Model.Tile;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 //Bailey: I needed a change to commit it.
 
@@ -96,7 +106,7 @@ public abstract class Board implements Observer{
         //pnlGame.setPreferredSize(new Dimension(700, 700));
         tileButtons = new JButton[game.NUM_ROWS][game.NUM_COLUMNS];
 
-        // instantiates two-dimensional array of tile buttons & adds tile buttons to panel
+        // instantiates 2D array of tile buttons & adds tile buttons to panel
         for(int r = 0; r < game.NUM_ROWS; r++){
             for(int c = 0; c < game.NUM_COLUMNS; c++){
                 tileButtons[r][c] = new JButton();
@@ -109,7 +119,8 @@ public abstract class Board implements Observer{
                 btn.setFocusPainted(false);
                 btn.putClientProperty("row", r);
                 btn.putClientProperty("col", c);
-                btn.addActionListener(new TileController(game, tileButtons, this));
+                btn.addActionListener(new TileController(game,
+                        tileButtons, this));
                 if(game.tiles[r][c].isEmpty()){
                     btn.setText("");
                 } else {
@@ -158,7 +169,6 @@ public abstract class Board implements Observer{
         btnRefreshQueue.setOpaque(true);
         btnRefreshQueue.addActionListener(actionEvent -> {
             game.queue.newQueue();
-            //btnRefreshQueue.setEnabled(false);
         });
         pnlRefresh.add(btnRefreshQueue);
 
@@ -168,7 +178,8 @@ public abstract class Board implements Observer{
         for(int i = 0; i < 5; i++){
             JPanel pnl = new JPanel();
             pnl.setBackground(backColor);
-            queueLabels[i] = new JLabel(Integer.toString(temp[i]), SwingConstants.CENTER);
+            queueLabels[i] = new JLabel(Integer.toString(temp[i]),
+                    SwingConstants.CENTER);
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
             queueLabels[i].setPreferredSize(new Dimension(70, 70));
             queueLabels[i].setOpaque(true);
@@ -195,8 +206,7 @@ public abstract class Board implements Observer{
         btnRemoveNumber.setForeground(new Color(76,150,236));
 
         btnRemoveNumber.addActionListener(e -> {
-
-            //if the trick is not -1 then it has not been used and we can load a trick
+            //if the trick is not -1, it has not been used & we can load a trick
             if(game.isMagicTrick!=-1) {
                 game.isMagicTrick = 1;
                 for (int i=0; i<9; i++){
@@ -258,15 +268,16 @@ public abstract class Board implements Observer{
         pnlScore.add(lblScoreDesc, gbc);
 
         // instantiates score label and adds to panel
-        lblScore = new JLabel(Integer.toString(game.score.getScore()), SwingConstants.CENTER);
+        lblScore = new JLabel(Integer.toString(game.score.getScore()),
+                SwingConstants.CENTER);
         lblScore.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(lblScore, gbc);
-
-        JLabel lblPtsEarned = new JLabel("PTS EARNED: " , SwingConstants.CENTER);
+        JLabel lblPtsEarned = new JLabel("PTS EARNED: " ,
+                SwingConstants.CENTER);
         lblPtsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(lblPtsEarned, gbc);
-
-        ptsEarned = new JLabel("+" + Integer.toString(game.score.getAddition()), SwingConstants.CENTER);
+        ptsEarned = new JLabel("+" + Integer.toString(game.score.getAddition()),
+                SwingConstants.CENTER);
         ptsEarned.setFont(new Font("Arial", Font.PLAIN, 20));
         pnlScore.add(ptsEarned, gbc);
 
@@ -290,7 +301,8 @@ public abstract class Board implements Observer{
         pnlDuration.add(lblDuration);
     }
 
-    // abstract method used to update duration panel components to be used w/ the UntimedBoard or TimedBoard
+    // abstract method used to update duration panel components
+    // to be used w/ the UntimedBoard or TimedBoard
     public abstract void updateDurationPanel();
 
     // helper method used to build buttons panel
@@ -311,7 +323,8 @@ public abstract class Board implements Observer{
         btnHint.setContentAreaFilled(false);
         btnHint.setOpaque(true);
         btnHint.setMnemonic(KeyEvent.VK_Z);
-        // fixes error where hint button wasn't disabled when no initial hints when starting game
+        // fixes error where hint button wasn't disabled
+        // no initial hints when starting game
         if(game.getHints(false).isEmpty()){
             btnHint.setEnabled(false);
         }
@@ -396,12 +409,13 @@ public abstract class Board implements Observer{
                     break;
             case 9: comp.setForeground(new Color(150, 0, 150));
                     break;
+            default: comp.setForeground(Color.white);
         }
     }
 
     // automatically updates view components after model(s) have changed
     public void update(Observable o, Object arg){
-        // updates text of corresponding JButton to value contained in tile object
+        // updates text of JButton to value in tile object
         if(o instanceof Tile){
             Tile tile = (Tile) o;
             int[] coord = tile.getCoordinates();
@@ -417,7 +431,7 @@ public abstract class Board implements Observer{
             }
         }
 
-        // updates JLabels representing queue w/ corresponding values of queue object
+        // updates queue JLabels w/ values of queue object
         if(o instanceof Queue){
 
             int[] newQueue = game.queue.getQueue();
@@ -428,23 +442,26 @@ public abstract class Board implements Observer{
             }
         }
 
-        // updates JLabel containing score w/ corresponding value in score object
+        // updates JLabel containing score w/ value in score object
         if(o instanceof Score){
             lblScore.setText(Integer.toString(game.score.getScore()));
             ptsEarned.setText("+" + Integer.toString(game.score.getAddition()));
         }
 
-        // updates JLabel containing moves left w/ corresponding value in movesLeft object
+        // updates JLabel containing moves left w/ value in movesLeft object
         if(o instanceof MovesLeft){
-            lblDuration.setText(Integer.toString(game.movesLeft.getMovesLeft()));
+            lblDuration.setText(Integer.toString(
+                    game.movesLeft.getMovesLeft()));
         }
 
-        // updates JLabel containing timer w/ corresponding value in timer object
+        // updates JLabel containing timer w/ value in timer object
         if(o instanceof GameTimer){
             lblDuration.setText(game.gameTimer.getTimeRemaining());
             if((boolean) arg){
                 game.playLosingSound();
-                JOptionPane.showMessageDialog(null, "You lose! Better luck next time!", "Sum Fun Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "You lose! Better luck next time!",
+                        "Sum Fun Message", JOptionPane.ERROR_MESSAGE);
                 btnNewGame.doClick();
             }
         }
