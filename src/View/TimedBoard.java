@@ -2,7 +2,6 @@ package View;
 
 import Model.Game;
 import Model.GameTimer;
-import Model.HiScore;
 import Model.Tile;
 
 // creates TimedBoard JPanel

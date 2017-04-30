@@ -38,12 +38,14 @@ public abstract class Board implements Observer{
     protected JLabel lblDurationDesc;
     protected JLabel lblDuration;
     public JButton btnNewGame;
+    private Color backColor;
 
     protected Game game;
 
 
     public Board(Game game){
         this.game = game;
+        backColor = new Color(215, 239, 253);
         addObservers();
 
         buildMasterPanel();
@@ -124,6 +126,7 @@ public abstract class Board implements Observer{
     private void buildInfoPanel(){
         pnlInfo = new JPanel();
         pnlInfo.setLayout(new GridLayout(1, 2));
+        pnlInfo.setBackground(backColor);
 
         buildQueuePanel();
         buildControlInfoPanel();
@@ -136,6 +139,7 @@ public abstract class Board implements Observer{
     private void buildQueuePanel(){
         pnlQueue = new JPanel();
         pnlQueue.setLayout(new GridLayout(8, 1));
+        pnlQueue.setBackground(backColor);
 
         // adds title label to panel
         JLabel lblQueue = new JLabel("QUEUE:", SwingConstants.CENTER);
@@ -144,6 +148,7 @@ public abstract class Board implements Observer{
 
         //Creates button to refresh queue 1 time
         JPanel pnlRefresh = new JPanel();
+        pnlRefresh.setBackground(backColor);
         JButton btnRefreshQueue = new JButton("Refresh Queue");
         btnRefreshQueue.setFocusPainted(false);
         btnRefreshQueue.setBackground(Color.black);
@@ -153,7 +158,7 @@ public abstract class Board implements Observer{
         btnRefreshQueue.setOpaque(true);
         btnRefreshQueue.addActionListener(actionEvent -> {
             game.queue.newQueue();
-            btnRefreshQueue.setEnabled(false);
+            //btnRefreshQueue.setEnabled(false);
         });
         pnlRefresh.add(btnRefreshQueue);
 
@@ -162,6 +167,7 @@ public abstract class Board implements Observer{
         int[] temp = game.queue.getQueue();
         for(int i = 0; i < 5; i++){
             JPanel pnl = new JPanel();
+            pnl.setBackground(backColor);
             queueLabels[i] = new JLabel(Integer.toString(temp[i]), SwingConstants.CENTER);
             queueLabels[i].setFont(new Font("Arial", Font.BOLD, 30));
             queueLabels[i].setPreferredSize(new Dimension(70, 70));
@@ -176,6 +182,7 @@ public abstract class Board implements Observer{
         /*Creates button to remove 1 number from the board entirely*/
         //Creates button to refresh queue 1 time
         JPanel pnlRemove = new JPanel();
+        pnlRemove.setBackground(backColor);
         JButton btnRemoveNumber = new JButton("Magic Trick");
         btnRemoveNumber.setFont(new Font("Arial", Font.PLAIN, 20));
         btnRemoveNumber.setContentAreaFilled(false);
@@ -216,6 +223,7 @@ public abstract class Board implements Observer{
     private void buildControlInfoPanel(){
         pnlControlInfo = new JPanel();
         pnlControlInfo.setLayout(new GridLayout(2, 1));
+        pnlControlInfo.setBackground(backColor);
 
         buildGameDataPanel();
         buildButtonsPanel();
@@ -228,6 +236,7 @@ public abstract class Board implements Observer{
     private void buildGameDataPanel(){
         pnlGameData = new JPanel();
         pnlGameData.setLayout(new GridLayout(2, 1));
+        pnlGameData.setBackground(backColor);
 
         buildScorePanel();
         buildDurationPanel();
@@ -240,6 +249,7 @@ public abstract class Board implements Observer{
     private void buildScorePanel(){
         pnlScore = new JPanel();
         pnlScore.setLayout(new GridLayout(2,1));
+        pnlScore.setBackground(backColor);
         GridBagConstraints gbc = new GridBagConstraints();
 
         // creates title label and adds to panel
@@ -266,6 +276,7 @@ public abstract class Board implements Observer{
     private void buildDurationPanel(){
         pnlDuration = new JPanel();
         pnlDuration.setLayout(new GridBagLayout());
+        pnlDuration.setBackground(backColor);
         GridBagConstraints gbc = new GridBagConstraints();
 
         // instantiates title label and adds to panel
@@ -286,9 +297,11 @@ public abstract class Board implements Observer{
     private void buildButtonsPanel(){
         pnlButtons = new JPanel();
         pnlButtons.setLayout(new GridLayout(3, 1));
+        pnlButtons.setBackground(backColor);
 
         // instantiates hint button and adds to panel
         JPanel pnlHint = new JPanel();
+        pnlHint.setBackground(backColor);
         btnHint = new JButton();
         btnHint.setText("Hint");
         btnHint.setFocusPainted(false);
@@ -320,6 +333,7 @@ public abstract class Board implements Observer{
 
         // instantiates new game button and adds to panel
         JPanel pnlNewGame = new JPanel();
+        pnlNewGame.setBackground(backColor);
         btnNewGame = new JButton();
         btnNewGame.setText("New Game");
         btnNewGame.setFocusPainted(false);
@@ -339,6 +353,7 @@ public abstract class Board implements Observer{
 
         // instantiates exit game button and adds to panel
         JPanel pnlExitGame = new JPanel();
+        pnlExitGame.setBackground(backColor);
         JButton btnExitGame = new JButton();
         btnExitGame.setText("Exit");
         btnExitGame.setFocusPainted(false);

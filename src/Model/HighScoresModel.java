@@ -149,36 +149,28 @@ public class HighScoresModel extends Observable implements Serializable {
                 int highScore = Integer.parseInt(mostPoints.get(i)[3]);
                 if(intScore > highScore){
                     pIndex = i;
-                    System.out.println("it's greater than a previous high score");
                     return true;
                 }
             }
             if(size < 10){
                 pIndex = size;
-                System.out.println("The count of points high scores is less than 10...");
                 return true;
             }
         }
         if(type.equals("t")){
-            System.out.println("checking time high score... score is " + score);
             if(leastTime.isEmpty()){
-                System.out.println("new time high score b/c it's empty!");
                 return true;
             }
             int intScore = convertToSeconds(score);
-            System.out.println("potential time high score in seconds is... " + Integer.toString(intScore));
             int size = leastTime.size();
             for(int i = 0; i < size; i++){
                 int highScore = convertToSeconds(leastTime.get(i)[3]);
-                System.out.println("comparing to... " + Integer.toString(highScore));
                 if(highScore > intScore){
-                    System.out.println("NEW LEAST TIME HIGH SCORE at index " + Integer.toString(i));
                     tIndex = i;
                     return true;
                 }
             }
             if(size < 10){
-                System.out.println("NEW default LEAST TIME HIGH SCORE at index " + Integer.toString(size));
                 tIndex = size;
                 return true;
             }

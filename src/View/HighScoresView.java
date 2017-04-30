@@ -21,6 +21,7 @@ public class HighScoresView extends JDialog implements Observer {
     private LocalDateTime now;
 
     private JPanel pnlMaster;
+    private Color backColor;
 
     public HighScoresView(HighScoresModel highScores, String pointsScore, String timeScore, LocalDateTime now){
         super();
@@ -30,6 +31,7 @@ public class HighScoresView extends JDialog implements Observer {
         this.pointsScore = pointsScore;
         this.timeScore = timeScore;
         this.now = now;
+        this.backColor = new Color(255, 224, 212);
 
         setTitle("Sum Fun High Scores");
         ImageIcon logo = new ImageIcon("SumFunIcon.png");
@@ -59,6 +61,7 @@ public class HighScoresView extends JDialog implements Observer {
     private JPanel createHighScorePanel(String type, boolean newHighScore){
         JPanel pnlHighScore = new JPanel();
         pnlHighScore.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pnlHighScore.setBackground(backColor);
         if(newHighScore){
             pnlHighScore.setLayout(new GridLayout(12, 1));
         } else {
@@ -67,6 +70,7 @@ public class HighScoresView extends JDialog implements Observer {
 
         // row 1 -- title panel
         JPanel pnlTitle = new JPanel();
+        pnlTitle.setBackground(backColor);
         //pnlTitle.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JLabel lblTitle = new JLabel("", SwingConstants.CENTER);
         if(type.equals("p")){
@@ -110,6 +114,7 @@ public class HighScoresView extends JDialog implements Observer {
         if(newHighScore){
             JPanel pnlNewHighScore = new JPanel();
             //pnlNewHighScore.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pnlNewHighScore.setBackground(backColor);
             JLabel lblEnterName = new JLabel("Please enter name:");
             lblEnterName.setFont(new Font("Arial", Font.BOLD, 20));
             lblEnterName.setVerticalAlignment(SwingConstants.CENTER);
@@ -137,14 +142,6 @@ public class HighScoresView extends JDialog implements Observer {
                 btnEnterName.setEnabled(false);
             });
             pnlNewHighScore.add(btnEnterName);
-            /*
-            JLabel lblError = new JLabel();
-            lblError.setFont(new Font("Arial", Font.BOLD, 20));
-            lblError.setVerticalAlignment(SwingConstants.CENTER);
-            lblError.setHorizontalAlignment(SwingConstants.CENTER);
-            lblError.setForeground(Color.RED);
-            pnlNewHighScore.add(lblError);
-            */
             pnlHighScore.add(pnlNewHighScore);
 
         }
@@ -156,6 +153,7 @@ public class HighScoresView extends JDialog implements Observer {
     private JPanel createScorePanel(String date, String name, String score){
         JPanel pnl = new JPanel();
         //pnl.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pnl.setBackground(backColor);
         String[] args = {date, name, score};
 
         for(int i = 0; i < 3; i++) {

@@ -16,7 +16,7 @@ public class Game extends Observable implements Serializable {
 
     public final static int NUM_ROWS = 9;
     public final static int NUM_COLUMNS = 9;
-    private final int NUM_MOVES_LEFT = 5;
+    private final int NUM_MOVES_LEFT = 50;
     public final static int UNTIMED = 1;
     public final static int TIMED = 2;
 
@@ -160,11 +160,6 @@ public class Game extends Observable implements Serializable {
             numEmptyTiles += hitStatus;
         }
 
-        // updates moves left
-        /*if(isUntimed){
-            movesLeft.updateMovesLeft();
-        }*/
-
         // updates score
         if(hitStatus >= 3){
             score.updateScore(hitStatus * 10);
@@ -241,7 +236,7 @@ public class Game extends Observable implements Serializable {
 
         // contains value of current max number of tiles removed
         // starts at 3 b/c only hints which remove 3 or more tiles should be considered
-        int top = 3;
+        int top = 0;
 
         // loops through each tile and updates hintCoords as necessary, depending on hit or not
         for(int r = 0; r < 9; r++){

@@ -2,7 +2,6 @@ package Model;
 
 import java.io.Serializable;
 import java.util.Observable;
-import View.*;
 
 public class Tile extends Observable implements Serializable {
 

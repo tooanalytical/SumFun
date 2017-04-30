@@ -1,7 +1,6 @@
 package View;
 
 import Model.Game;
-import Model.HiScore;
 import Model.Tile;
 
 // creates UntimedBoard JPanel

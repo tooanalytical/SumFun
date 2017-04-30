@@ -1,7 +1,6 @@
 package View;
 
 import Model.Game;
-import Model.HiScore;
 import Model.HighScoresModel;
 
 import java.awt.Color;
@@ -28,11 +27,13 @@ public class Menu {
 
     private JPanel pnlMaster;
     private Dimension d;
+    private Color backColor;
 
     public Menu(int menuType){
         pnlMaster = new JPanel();
         pnlMaster.setLayout(new GridLayout(4, 1));
         d = new Dimension(WIDTH, HEIGHT);
+        backColor = new Color(215, 239, 253);
 
         if(menuType == START_MENU){
             buildStartMenu();
@@ -51,6 +52,7 @@ public class Menu {
         //game title
         JPanel pnlGameTitle = new JPanel();
         pnlGameTitle.setLayout(new GridBagLayout());
+        pnlGameTitle.setBackground(backColor);
         Icon icon = new ImageIcon("SumFunTitle2.gif");
         JLabel label = new JLabel(icon);
         pnlGameTitle.add(label);
@@ -59,6 +61,7 @@ public class Menu {
         // instantiate start button and adds to panel
         JPanel pnlStart = new JPanel();
         pnlStart.setLayout(new GridBagLayout());
+        pnlStart.setBackground(backColor);
         JButton btnStart = new JButton();
         btnStart.setPreferredSize(d);
         btnStart.setText("Start");
@@ -80,9 +83,10 @@ public class Menu {
         // instantiates hiscores button and adds to panel
         JPanel pnlHiScores = new JPanel();
         pnlHiScores.setLayout(new GridBagLayout());
+        pnlHiScores.setBackground(backColor);
         JButton btnHiScores = new JButton();
         btnHiScores.setPreferredSize(d);
-        btnHiScores.setText("HiScores");
+        btnHiScores.setText("High Scores");
         btnHiScores.setFocusPainted(false);
         btnHiScores.setBackground(Color.black);
         btnHiScores.setForeground(new Color(76,150,236));
@@ -99,6 +103,7 @@ public class Menu {
         // instantiates exit button and adds to panel
         JPanel pnlExit = new JPanel();
         pnlExit.setLayout(new GridBagLayout());
+        pnlExit.setBackground(backColor);
         JButton btnExit = new JButton();
         btnExit.setPreferredSize(d);
         btnExit.setText("Exit");
@@ -118,6 +123,7 @@ public class Menu {
     private void buildGameTypeMenu(){
         JPanel mode = new JPanel();
         mode.setLayout(new GridBagLayout());
+        mode.setBackground(backColor);
         JLabel selectMode = new JLabel();
         selectMode.setText(" Select Game Mode");
         selectMode.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -126,6 +132,7 @@ public class Menu {
         // instantiates untimed button and adds to panel
         JPanel pnlUntimed = new JPanel();
         pnlUntimed.setLayout(new GridBagLayout());
+        pnlUntimed.setBackground(backColor);
         JButton btnUntimed = new JButton();
         btnUntimed.setPreferredSize(d);
         btnUntimed.setText("Untimed");
@@ -148,6 +155,7 @@ public class Menu {
         // instantiates timed button and adds to panel
         JPanel pnlTimed = new JPanel();
         pnlTimed.setLayout(new GridBagLayout());
+        pnlTimed.setBackground(backColor);
         JButton btnTimed = new JButton();
         btnTimed.setPreferredSize(d);
         btnTimed.setText("Timed");
@@ -170,6 +178,7 @@ public class Menu {
         // instantiates back button and adds to panel
         JPanel pnlBack = new JPanel();
         pnlBack.setLayout(new GridBagLayout());
+        pnlBack.setBackground(backColor);
         JButton btnBack = new JButton();
         btnBack.setPreferredSize(d);
         btnBack.setText("Main Menu");

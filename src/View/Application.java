@@ -1,9 +1,5 @@
 package View;
 
-import Model.HighScoresModel;
-import Model.HiScore;
-import View.HighScoresView;
-
 import javax.swing.*;
 
 // builds the main JFrame which contains a single panel representing the window
