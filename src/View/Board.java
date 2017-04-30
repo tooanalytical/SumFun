@@ -343,6 +343,9 @@ public abstract class Board implements Observer{
         btnNewGame.setContentAreaFilled(false);
         btnNewGame.setOpaque(true);
         btnNewGame.addActionListener(e -> {
+            if(!game.isUntimed){
+                game.gameTimer.stopTimer();
+            }
             JButton btn = (JButton) e.getSource();
             Application app = (Application) btn.getRootPane().getParent();
             Menu menu = new Menu(Menu.GAME_TYPE_MENU);

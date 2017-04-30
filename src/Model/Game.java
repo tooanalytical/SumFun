@@ -1,5 +1,6 @@
 package Model;
 
+import View.HighScoresView;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -174,6 +176,9 @@ public class Game extends Observable implements Serializable {
         // checks if game is won or lost
         if(numEmptyTiles == 0){
             // game is lost
+            if(!isUntimed){
+                gameTimer.stopTimer();
+            }
             gameOver = true;
             return true;
         } else if(numEmptyTiles == 81){
@@ -210,6 +215,10 @@ public class Game extends Observable implements Serializable {
                 for (int j = 0; j <= 8; j++) {
                     if (!tiles[i][j].isEmpty() && tiles[i][j].getValue() == magicNumber) {
                         tiles[i][j].clear();
+                        numEmptyTiles++;
+                       if(numEmptyTiles == 81){
+                           checkHighscores();
+                       }
                     }
 
                 }
@@ -227,6 +236,16 @@ public class Game extends Observable implements Serializable {
         }
     }
 
+    public void checkHighscores(){
+        if (isUntimed) {
+            playWinningSound();
+            new HighScoresView(highScores, Integer.toString(score.getScore()), "", LocalDateTime.now());
+        } else {
+            gameTimer.stopTimer();
+            playWinningSound();
+            new HighScoresView(highScores, Integer.toString(score.getScore()), gameTimer.getTimeElapsed(), LocalDateTime.now());
+        }
+    }
     //sets global hintCoords field
     //return ArrayList containing coordinates of all possible hints which allow user to score the most points
     //ignores hints which don't allow user to score points (2 or less)
