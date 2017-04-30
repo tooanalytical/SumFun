@@ -1,6 +1,13 @@
 package Model;
 
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -165,6 +172,7 @@ public class Game extends Observable implements Serializable {
         // updates score
         if(hitStatus >= 3){
             score.updateScore(hitStatus * 10);
+            playSound();
         }else{
             score.updateScore(0);
         }
@@ -218,7 +226,33 @@ public class Game extends Observable implements Serializable {
         setChanged();
         notifyObservers(hints.size());
     }
-    */
+
+    // accessor method for hints array list
+    public ArrayList<int[]> getHints(){
+        return hints;
+    }
+
+    //allows user to use magicTrick
+    public void startMagicTrick(){
+        isMagicTrick++;
+    }*/
+
+    public void playSound(){
+        String coinSound = "coinSound.wav";
+        try {
+            InputStream in = new FileInputStream(coinSound);
+            // create an audiostream from the inputstream
+            AudioStream audioStream = new AudioStream(in);
+
+            // play the audio clip with the audioplayer class
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     public boolean checkForMagicTrick(int row, int column){
         int magicNumber;

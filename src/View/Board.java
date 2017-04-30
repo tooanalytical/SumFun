@@ -181,7 +181,6 @@ public abstract class Board implements Observer{
         btnRemoveNumber.setFont(new Font("Arial", Font.PLAIN, 20));
         btnRemoveNumber.setContentAreaFilled(false);
         btnRemoveNumber.setOpaque(true);
-        System.out.println("Inside Board Class: "+game.isMagicTrick);
 
         btnRemoveNumber.setEnabled(true);
         btnRemoveNumber.setText("Magic Trick");
