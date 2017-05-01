@@ -45,14 +45,6 @@ public class Application extends JFrame {
     public static void main(String[] args){
 
         // TESTING HIGHSCORES MODEL
-        /*
-        HighScoresModel hs = new HighScoresModel();
-        for(String[] arr : hs.mostPoints){
-            for(String s : arr){
-                System.out.println(s);
-            }
-        }
-        */
 
 
         // instantiates game model
