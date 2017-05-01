@@ -9,7 +9,9 @@ import static org.junit.Assert.assertEquals;
 
 public class Game_Testing {
 
-
+    ////////////////////////////
+    // START GLASS BOX TESTING//
+    ////////////////////////////
 
     /*Tests for clicking on a non-empty tile*/
     @Test
@@ -261,4 +263,43 @@ public class Game_Testing {
             assertEquals(actualResult, testResult);
         }
     }
+
+    //////////////////////////
+    // END GLASS BOX TESTING//
+    //////////////////////////
+
+
+    ////////////////////////////
+    // START BLACK BOX TESTING//
+    ////////////////////////////
+
+    //This should pass as it is just inside the outer limits of the bounderies
+    @Test
+    public final void testUpdateTilesBlackBoxPass() {
+        //create a new game
+        Game testGame = new Game(1);
+
+        boolean testResult = testGame.updateTiles(8,8);
+        boolean actualResult = false;
+
+        //check result
+        assertEquals(actualResult, testResult);
+
+    }
+
+
+    //This should fail as it is outside the bounderies
+    @Test
+    public final void testUpdateTilesBlackBoxFail() {
+        //create a new game
+        Game testGame = new Game(1);
+
+        boolean testResult = testGame.updateTiles(9,9);
+        boolean actualResult = false;
+
+        //check result
+        assertEquals(actualResult, testResult);
+
+    }
+
 }
