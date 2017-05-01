@@ -54,7 +54,7 @@ public class Game_Testing {
     @Test
     public final void testUntimedEmptyMovesLeft() {
 
-        //create a new game
+        //creates a new game
         Game testGame = new Game(1);
 
         while(testGame.movesLeft.getMovesLeft()>=15) {
