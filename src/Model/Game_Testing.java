@@ -13,7 +13,7 @@ public class Game_Testing {
 
     /*Tests for clicking on a non-empty tile*/
     @Test
-    public final void testTileIsNotEmptyCornerUntimed() {
+    public final void testUntimedNotEmptyTile() {
 
         //create a new game
         Game testGame = new Game(1);
@@ -32,10 +32,34 @@ public class Game_Testing {
 
     /*Tests for clicking on an empty tiles*/
     @Test
-    public final void testTileIsEmptyCornerUntimed() {
+    public final void testTileUntimedEmptyTileWithNoMoves() {
 
         //create a new game
         Game testGame = new Game(1);
+
+        while(testGame.movesLeft.getMovesLeft()>=0) {
+            testGame.movesLeft.updateMovesLeft();
+        }
+
+        //try to update the tile with another tile
+        boolean testResult=testGame.updateTiles(0,0);
+        boolean actualResult=true;
+
+        //check result
+        assertEquals(actualResult, testResult);
+
+
+
+    }
+    @Test
+    public final void testUntimedEmptyMovesLeft() {
+
+        //create a new game
+        Game testGame = new Game(1);
+
+        while(testGame.movesLeft.getMovesLeft()>=15) {
+            testGame.movesLeft.updateMovesLeft();
+        }
 
         //try to update the tile with another tile
         boolean testResult=testGame.updateTiles(0,0);
@@ -43,6 +67,7 @@ public class Game_Testing {
 
         //check result
         assertEquals(actualResult, testResult);
+
 
     }
 
@@ -65,32 +90,32 @@ public class Game_Testing {
 
     }
 
-    /*Tests for clicking on an empty tiles
+    /*Tests for clicking on an empty tiles*/
     @Test
     public final void testTileIsEmptyCornerTimed() {
 
         //create a new game
-        Game testGame = new Game(0);
+        Game testGame = new Game(2);
 
         testGame.isUntimed=false;
         if(testGame.isUntimed==false){
-            GameTimer gameTimer= new GameTimer();
+            //GameTimer gameTimer= new GameTimer();
 
-                System.out.println("OUt");
+                //System.out.println("OUt");
 
                 //try to update the tile with another tile
-                gameTimer.timeRemaining="4:30";
+                testGame.gameTimer.timeRemaining="4:30";
 
                 //****currently says that the timer has a null exception error
-            if(gameTimer.timeRemaining!="0:00") {
+            if(testGame.gameTimer.timeRemaining!="0:00") {
                 boolean testResult = testGame.updateTiles(0, 0);
-                boolean actualResult = true;
+                boolean actualResult = false;
 
                 //check result
                 assertEquals(actualResult, testResult);
             }
         }
-    }*/
+    }
 
 
     @Test
@@ -108,7 +133,7 @@ public class Game_Testing {
         }
         //try to update the tile with another tile
         boolean testResult=testGame.updateTiles(0,0);
-        boolean actualResult=false;
+        boolean actualResult=true;
 
         //
 
@@ -200,5 +225,54 @@ public class Game_Testing {
         int actualResult=3;
 
         assertEquals(actualResult, testResult);
+    }
+
+    @Test
+    public final void testUntimedSetTileValue(){
+        //Creates a Game
+        Game testGame = new Game(1);
+
+        testGame.queue.setTop(6);
+        
+        // must be a untimed game
+        testGame.isUntimed=true;
+
+        //not a hit
+        int testIsHit= testGame.isHit(0,  0);
+
+        if(testIsHit==-1){
+            testGame.tiles[0][0].setValue(6);
+        }
+
+        int testResult=testGame.tiles[0][0].getValue();
+        int actualResult=6;
+
+        assertEquals(actualResult, testResult);
+
+    }
+
+    @Test
+    public final void testUntimedAddNumberOfNeighbors(){
+        //Creates a Game
+        Game testGame = new Game(1);
+
+        testGame.queue.setTop(6);
+
+
+        testGame.tiles[0][1].setValue(1);
+        testGame.tiles[1][0].setValue(2);
+        testGame.tiles[1][1].setValue(3);
+
+
+        // must be a untimed game
+        testGame.isUntimed=true;
+
+        //not a hit
+        int testIsHit= testGame.isHit(0,  0);
+
+        if(testIsHit==-1){
+            testGame.tiles[0][0].setValue(6);
+
+        }
     }
 }
