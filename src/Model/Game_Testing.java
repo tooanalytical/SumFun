@@ -2,6 +2,9 @@ package Model;
 
 import org.junit.Test;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -73,17 +76,79 @@ public class Game_Testing {
 
     /*Tests for clicking on a non-empty tile*/
     @Test
-    public final void testTileIsNotEmptyCornerTimed() {
+    public final void testHitStatusNotNegOne() {
 
         //create a new game
         Game testGame = new Game(0);
 
-        //place a tile to set up the board for test
-        testGame.tiles[0][0].setValue(5);
+        testGame.tiles[0][1].setValue(0);
+        testGame.tiles[1][1].setValue(0);
+
+
+        testGame.queue.setTop(0);
 
         //try to update the tile with another tile
-        boolean testResult=testGame.updateTiles(0,0);
-        boolean actualResult=false;
+        int testResult = testGame.isHit(0,0);
+        int actualResult = 2;
+
+        //check result
+        assertEquals(actualResult, testResult);
+
+    }
+
+    @Test
+    public final void testHitStatusNegOne() {
+
+        //create a new game
+        Game testGame = new Game(0);
+
+        int randomRow = ThreadLocalRandom.current().nextInt(0, 8 + 1);
+        int randomCol = ThreadLocalRandom.current().nextInt(0, 8 + 1);
+
+        testGame.queue.setTop(0);
+
+        //try to update the tile with another tile
+        int testResult = testGame.isHit(randomRow, randomCol);
+        int actualResult = -1;
+
+        //check result
+        assertEquals(actualResult, testResult);
+
+    }
+    @Test
+    public final void testHitStatusGreaterEqualToThree() {
+
+        //create a new game
+        Game testGame = new Game(0);
+
+        testGame.tiles[0][1].setValue(0);
+        testGame.tiles[1][1].setValue(0);
+        testGame.tiles[1][0].setValue(0);
+
+        testGame.queue.setTop(0);
+
+        //try to update the tile with another tile
+        int testResult = testGame.isHit(0,0);
+        int actualResult = 3;
+
+        //check result
+        assertEquals(actualResult, testResult);
+
+    }
+
+    @Test
+    public final void testHitStatusNotGreaterEqualThree() {
+
+        //create a new game
+        Game testGame = new Game(0);
+
+        testGame.tiles[1][1].setValue(0);
+
+        testGame.queue.setTop(0);
+
+        //try to update the tile with another tile
+        int testResult = testGame.isHit(0,0);
+        int actualResult = 1;
 
         //check result
         assertEquals(actualResult, testResult);
@@ -92,7 +157,7 @@ public class Game_Testing {
 
     /*Tests for clicking on an empty tiles*/
     @Test
-    public final void testTileIsEmptyCornerTimed() {
+    public final void testTimedNumEmptyTilesEqualZero() {
 
         //create a new game
         Game testGame = new Game(2);
@@ -108,6 +173,13 @@ public class Game_Testing {
 
                 //****currently says that the timer has a null exception error
             if(testGame.gameTimer.timeRemaining!="0:00") {
+
+                for(int i = 0; i < 9; i++) {
+                    for(int j = 0; j < 9; j++) {
+                        testGame.updateTiles(i,j);
+                    }
+                }
+
                 boolean testResult = testGame.updateTiles(0, 0);
                 boolean actualResult = false;
 
@@ -116,163 +188,78 @@ public class Game_Testing {
             }
         }
     }
-
-
     @Test
-    public final void testNoMoreMovesLeft(){
-        //Create a Game
+    public final void testUntimedNumEmptyTilesEqualZero() {
+
+        //create a new game
         Game testGame = new Game(1);
 
+        testGame.isUntimed=false;
+        if(testGame.isUntimed==true){
+            //GameTimer gameTimer= new GameTimer();
 
-        // must be a untimed game
-        testGame.isUntimed=true;
+            //System.out.println("OUt");
 
-        // zero moves left
-        while(testGame.movesLeft.getMovesLeft()>0) {
-            testGame.movesLeft.updateMovesLeft();
+                for(int i = 0; i < 9; i++) {
+                    for(int j = 0; j < 9; j++) {
+                        testGame.updateTiles(i,j);
+                    }
+                }
+
+                boolean testResult = testGame.updateTiles(0, 0);
+                boolean actualResult = false;
+
+                //check result
+                assertEquals(actualResult, testResult);
+            }
         }
-        //try to update the tile with another tile
-        boolean testResult=testGame.updateTiles(0,0);
-        boolean actualResult=true;
-
-        //
-
-        assertEquals(actualResult, testResult);
-    }
-
     @Test
-    public final void test50MoreMovesLeftCorner(){
-        //Create a Game
+    public final void testUntimedNumEmptyTilesEqualEightyOne() {
+
+        //create a new game
         Game testGame = new Game(1);
 
-        // must be a untimed game
-        testGame.isUntimed=true;
+        testGame.isUntimed=false;
+        if(testGame.isUntimed==true){
+            //GameTimer gameTimer= new GameTimer();
 
-        //try to update the tile with another tile
-        boolean testResult=testGame.updateTiles(0,0);
-        boolean actualResult=false;
+            //System.out.println("OUt");
 
-        assertEquals(actualResult, testResult);
-    }
+            for(int i = 0; i < 9; i++) {
+                for(int j = 0; j < 9; j++) {
+                    testGame.tiles[i][j].clear();
+                }
+            }
 
-    @Test
-    public final void testHitStatusUntimedNeg1Corner(){
-        //Create a Game
-        Game testGame = new Game(1);
+            testGame.tiles[0][0].setValue(3);
 
-        // must be a untimed game
-        testGame.isUntimed=true;
+            testGame.queue.setTop(3);
 
-        //not a hit
-       int testResult= testGame.isHit(0,  0);
-       int actualResult=-1;
+            boolean testResult = testGame.updateTiles(0,1);
+            boolean actualResult = true;
 
-       assertEquals(actualResult, testResult);
-
-    }
-
-    @Test
-    public final void testHitStatusUntimed1Corner1Neighbor(){
-        //Create a Game
-        Game testGame = new Game(1);
-
-        testGame.queue.setTop(6);
-
-
-        //testGame.tiles[0][1].setValue(1);
-        //testGame.tiles[1][0].setValue(2);
-        testGame.tiles[1][1].setValue(6);
-
-        int testQueueValue=testGame.queue.getTop();
-
-
-        System.out.println(testQueueValue+" "+ testGame.tiles[0][1].getValue());
-        System.out.println(testGame.tiles[1][0].getValue()+" "+ testGame.tiles[1][1].getValue());
-
-        // must be a untimed game
-        testGame.isUntimed=true;
-
-        //not a hit
-        int testResult= testGame.isHit(0,  0);
-        int actualResult=1;
-
-        assertEquals(actualResult, testResult);
-    }
-
-    @Test
-    public final void testHitStatusUntimed1Corner3Neighbor(){
-        //Creates a Game
-        Game testGame = new Game(1);
-
-        testGame.queue.setTop(6);
-
-
-        testGame.tiles[0][1].setValue(1);
-        testGame.tiles[1][0].setValue(2);
-        testGame.tiles[1][1].setValue(3);
-
-        int testQueueValue=testGame.queue.getTop();
-
-
-        System.out.println(testQueueValue+" "+ testGame.tiles[0][1].getValue());
-        System.out.println(testGame.tiles[1][0].getValue()+" "+ testGame.tiles[1][1].getValue());
-
-        // must be a untimed game
-        testGame.isUntimed=true;
-
-        //not a hit
-        int testResult= testGame.isHit(0,  0);
-        int actualResult=3;
-
-        assertEquals(actualResult, testResult);
-    }
-
-    @Test
-    public final void testUntimedSetTileValue(){
-        //Creates a Game
-        Game testGame = new Game(1);
-
-        testGame.queue.setTop(6);
-        
-        // must be a untimed game
-        testGame.isUntimed=true;
-
-        //not a hit
-        int testIsHit= testGame.isHit(0,  0);
-
-        if(testIsHit==-1){
-            testGame.tiles[0][0].setValue(6);
+            //check result
+            assertEquals(actualResult, testResult);
         }
-
-        int testResult=testGame.tiles[0][0].getValue();
-        int actualResult=6;
-
-        assertEquals(actualResult, testResult);
-
     }
 
     @Test
-    public final void testUntimedAddNumberOfNeighbors(){
-        //Creates a Game
+    public final void testUntimedNumEmptyTilesNotEqualEightyOne() {
+
+        //create a new game
         Game testGame = new Game(1);
 
-        testGame.queue.setTop(6);
+        testGame.isUntimed=false;
+        if(testGame.isUntimed==true){
+            //GameTimer gameTimer= new GameTimer();
 
+            //System.out.println("OUt");
 
-        testGame.tiles[0][1].setValue(1);
-        testGame.tiles[1][0].setValue(2);
-        testGame.tiles[1][1].setValue(3);
+            boolean testResult = testGame.updateTiles(1,1);
+            boolean actualResult = true;
 
-
-        // must be a untimed game
-        testGame.isUntimed=true;
-
-        //not a hit
-        int testIsHit= testGame.isHit(0,  0);
-
-        if(testIsHit==-1){
-            testGame.tiles[0][0].setValue(6);
-
+            //check result
+            assertEquals(actualResult, testResult);
         }
     }
 }

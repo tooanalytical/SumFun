@@ -23,7 +23,7 @@ public class Game extends Observable implements Serializable {
     public static final int UNTIMED = 1;
     public static final int TIMED = 2;
 
-    private int numEmptyTiles;
+    public int numEmptyTiles;
 
     public Tile[][] tiles;
     public Queue queue;
