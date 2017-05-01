@@ -34,8 +34,9 @@ public class Game extends Observable implements Serializable {
 
     public boolean gameOver = false;
     public boolean isUntimed = true;
+    public boolean end = false;
     public int isMagicTrick=0;
-    public int numHintsLeft = 3000;
+    public int numHintsLeft = 3;
 
     // constructor
     public Game(int gameType){
@@ -253,6 +254,9 @@ public class Game extends Observable implements Serializable {
             new HighScoresView(highScores, Integer.toString(score.getScore()),
                     gameTimer.getTimeElapsed(), LocalDateTime.now());
         }
+        end = true;
+        setChanged();
+        notifyObservers();
     }
 
     //sets global hintCoords field
@@ -266,7 +270,7 @@ public class Game extends Observable implements Serializable {
         // contains value of current max number of tiles removed
         // starts at 3
         // only hints which remove 3 or more tiles should be considered
-        int top = 0;
+        int top = 3;
 
         // loops through each tile and updates hintCoords as necessary
          for(int r = 0; r < 9; r++){

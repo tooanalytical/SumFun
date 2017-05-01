@@ -84,14 +84,9 @@ public abstract class Board implements Observer{
         gbc.gridy = 0;
         gbc.gridwidth = 5;
         gbc.gridheight = 5;
-        //gbc.ipadx = 300;
-        //gbc.ipady = 300;
         pnlMaster.add(pnlGame, gbc);
 
         gbc.anchor = GridBagConstraints.EAST;
-        //gbc.fill = GridBagConstraints.NONE;
-        //gbc.weightx = 0.0;
-        //gbc.weighty = 0.0;
         gbc.gridwidth = 2;
         gbc.gridheight = 3;
         gbc.gridx = 6;
@@ -169,6 +164,9 @@ public abstract class Board implements Observer{
         btnRefreshQueue.setOpaque(true);
         btnRefreshQueue.addActionListener(actionEvent -> {
             game.queue.newQueue();
+            btnRefreshQueue.setEnabled(false);
+            // resets background colors
+            game.getHints(true);
         });
         pnlRefresh.add(btnRefreshQueue);
 
@@ -469,6 +467,12 @@ public abstract class Board implements Observer{
         // updates hint button
         // hint button is disabled if arg is < 1; else it is enabled
         if(o instanceof Game){
+
+            Game game = (Game) o;
+            if(game.end){
+                btnNewGame.doClick();
+                return;
+            }
 
             if((boolean) arg){
                 btnHint.setEnabled(false);

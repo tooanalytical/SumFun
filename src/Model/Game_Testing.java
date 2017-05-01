@@ -7,9 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by bmwhi on 4/30/2017.
- */
 public class Game_Testing {
 
 
@@ -188,6 +185,8 @@ public class Game_Testing {
             }
         }
     }
+
+
     @Test
     public final void testUntimedNumEmptyTilesEqualZero() {
 

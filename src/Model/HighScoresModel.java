@@ -71,22 +71,22 @@ public class HighScoresModel extends Observable implements Serializable {
         }
 
         // updates file
-        int pSize = mostPoints.size();
-        if(pSize > 10){
-            pSize = 10;
+        int psize = mostPoints.size();
+        if(psize > 10){
+            psize = 10;
         }
-        int tSize = leastTime.size();
-        if(tSize > 10){
-            tSize = 10;
+        int tsize = leastTime.size();
+        if(tsize > 10){
+            tsize = 10;
         }
         try{
             FileWriter writer = new FileWriter(file);
-            for(int i = 0; i < pSize; i++){
+            for(int i = 0; i < psize; i++){
                 String[] arr = mostPoints.get(i);
                 writer.write(arr[0] + "," + arr[1] + ","
                         + arr[2] + "," + arr[3] + "\n");
             }
-            for(int j = 0; j < tSize; j++){
+            for(int j = 0; j < tsize; j++){
                 String[] arr = leastTime.get(j);
                 writer.write(arr[0] + "," + arr[1] + ","
                         + arr[2] + "," + arr[3] + "\n");
