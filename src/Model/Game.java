@@ -70,7 +70,7 @@ public class Game extends Observable implements Serializable {
     // checks if sum of tile neighbors modulus 10 is equal to top of queue
     // if placement is a hit, the number of tiles removed is returned
     // if not a hit, -1 is returned
-    private int isHit(int r, int c){
+    public int isHit(int r, int c){
         boolean isHit = false;
         int sum = 0;
         int counter = 0;

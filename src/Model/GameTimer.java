@@ -4,7 +4,7 @@ import java.util.Observable;
 import javax.swing.Timer;
 
 public class GameTimer extends Observable {
-    private String timeRemaining = "5:00";
+    public String timeRemaining = "5:00";
     private int startTime;
     private Timer timer = new Timer(1000, e -> updateTimeLeft());
     private boolean gameOver;

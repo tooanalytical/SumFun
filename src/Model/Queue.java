@@ -78,6 +78,11 @@ public class Queue extends Observable implements Serializable {
 
     }
 
+    public void setTop(int setValue){
+
+        queue[position]=setValue;
+
+    }
 
 }
 
